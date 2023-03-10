@@ -5,15 +5,14 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
-import Sidebar from './global/Sidebar';
 import Dashboard from './pages/dashboard';
 import Layout from './pages/layout';
 import Login from './pages/login';
+import Catagory from './pages/catagory';
 
 function App() {
   return (
     <div className="app">
-      <Sidebar />
       <main className="content">
         <CssBaseline />
         <Routes>
@@ -21,6 +20,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/catagory" element={<Catagory />} />
           </Route>
         </Routes>
       </main>

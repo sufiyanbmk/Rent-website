@@ -5,10 +5,14 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import SearchIcon from '@mui/icons-material/Search';
+import { Menu as MenuIcon } from '@mui/icons-material';
 
-function Navbar() {
+function Navbar({ isSidebarOpen, setIsSidebarOpen }) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
+      <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+        <MenuIcon />
+      </IconButton>
       {/* SEARCH BAR */}
       <Box
         display="flex"

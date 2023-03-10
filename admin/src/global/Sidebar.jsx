@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 // import { ProSidebar } from 'react-pro-sidebar';
@@ -10,11 +11,13 @@ import {
 } from '@mui/material';
 // import { Link } from "react-router-dom";
 // import "react-pro-sidebar/dist/css/styles.css";
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
-import ContactsOutlinedIcon from '@mui/icons-material/ContactsOutlined';
-import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import adminImg from '../assets/images/3135715.png'
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
+import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
+import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 
 function Sidebarr() {
@@ -25,7 +28,7 @@ function Sidebarr() {
     <Box
       sx={{
         '& .pro-sidebar-inner': {
-          background: '#727681',
+          background: '#1F2A40',
         },
         '& .pro-icon-wrapper': {
           backgroundColor: 'transparent !important',
@@ -59,8 +62,8 @@ function Sidebarr() {
                 alignItems="center"
                 ml="15px"
               >
-                <Typography variant="h3" color="#e0e0e0">
-                  ADMINIS
+                <Typography variant="h5" color="#000000">
+                  ADMIN 
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -68,7 +71,6 @@ function Sidebarr() {
               </Box>
             )}
           </MenuItem>
-
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
@@ -76,88 +78,42 @@ function Sidebarr() {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src="../../assets/user.png"
+                  src={adminImg}
                   style={{ cursor: 'pointer', borderRadius: '50%' }}
                 />
               </Box>
               <Box textAlign="center">
                 <Typography
-                  variant="h2"
-                  color="#e0e0e0"
+                  variant="h6"
+                  color="#000000"
                   fontWeight="bold"
                   sx={{ m: '10px 0 0 0' }}
                 >
-                  Ed Roh
+                  Sufiyan sm
                 </Typography>
-                <Typography variant="h5" color="#666666">
-                  VP Fancy Admin
+                <Typography variant="h6" color="#666666">
+                  Rental Website Admin
                 </Typography>
               </Box>
+              <MenuItem icon={<HomeOutlinedIcon />}>Home</MenuItem>
+          <MenuItem icon={<PeopleOutlinedIcon />}>Team</MenuItem>
+          <MenuItem icon={<ContactsOutlinedIcon />}>Contacts</MenuItem>
+          <MenuItem icon={<ReceiptOutlinedIcon />}>Profile</MenuItem>
+          <MenuItem icon={<HelpOutlineOutlinedIcon />}>FAQ</MenuItem>
+          <MenuItem icon={<CalendarTodayOutlinedIcon />}>Calendar</MenuItem>
+         
             </Box>
+
           )}
-
-          <Box paddingLeft={isCollapsed ? undefined : '10%'}>
-            <ListItem
-              title="Dashboard"
-              to="/"
-              icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Typography
-              variant="h6"
-              color="#a3a3a3"
-              sx={{ m: '15px 0 5px 20px' }}
-            >
-              Data
-            </Typography>
-            <ListItem
-              title="Manage Team"
-              to="/team"
-              icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <ListItem
-              title="Contacts Information"
-              to="/contacts"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <ListItem
-              title="Invoices Balances"
-              to="/invoices"
-              icon={<ReceiptOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Typography
-              variant="h6"
-              color="#a3a3a3"
-              sx={{ m: '15px 0 5px 20px' }}
-            >
-              Pages
-            </Typography>
-            <ListItem
-              title="Profile Form"
-              to="/form"
-              icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Typography
-              variant="h6"
-              color="#a3a3a3"
-              sx={{ m: '15px 0 5px 20px' }}
-            >
-              Charts
-            </Typography>
-          </Box>
-        </Menu>
-      </Sidebar>
+            <main>
+        <h1 style={{ color: "white", marginLeft: "5rem" }}>
+          React-Pro-Sidebar
+        </h1>
+      </main>
+          
+          </Menu>
+          </Sidebar>
+      
     </Box>
   );
 }
