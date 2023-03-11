@@ -1,12 +1,60 @@
-import {
-  Box, Typography, TextField, Button, Grid, Stack,
-} from '@mui/material';
-import React from 'react';
-// import cambie from '../../Assets/svg/CAMBIAME.svg';
-// import imgs from '../../Assets/Images/dave-hoefler-GVw2IB_xwII-unsplash.jpg';
-// import './Login.css';
+/* eslint-disable */
+import {Box, Typography, TextField, Button, Grid, Stack,} from '@mui/material';
+import React, { useState } from 'react';
+import Axios from '../../axios/axios.js'
+import { useNavigate } from "react-router-dom";
+import { login } from '../../features/userSlice'
+import { useDispatch } from "react-redux";
 
 function Login() {
+  const navigate = useNavigate()
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+  const [error, setError] = useState()
+  const dispatch = useDispatch()
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    const admin = {
+      email: email,
+      password: password,
+      accessToken: 'hjjhj454454'
+    }
+    Axios.post('/login', { admin }, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    }).then((response) => {
+      console.log(response)
+      dispatch(login(admin))
+      navigate('/dashboard')
+      if(response.status === 401){
+        console.log('ifff')
+        throw new Error
+      }
+    }).catch(() => {
+      console.log(err)
+      setError('incorrect username or password')
+    })
+  }
+  // function redirect(e) {
+  //   e.preventDefault()
+  //   const admin={
+  //     email: email,
+  //     password: password,
+  //     accessToken:'hjjhj454454'
+  //   }
+  //   Axios.post('/adminlogin', { admin }, {
+  //     headers: { "Content-Type": "application/json" },
+  //     withCredentials: true,
+  //   }).then((response) => {
+  //     dispatch(adminlogin(admin)) 
+  //     navigate('/adminhome')
+  //   }).catch(() => {
+  //     setError('incorrect username or password')
+  //   })
+  // }
+
   return (
     <Grid
       minHeight="100vh"
@@ -16,8 +64,6 @@ function Login() {
         justifyContent: 'center',
         alignItems: 'center',
         direction: 'column',
-        backgroundImage: 'linear-gradient(to top, #fff1eb 0%,#ace0f9 100%)',
-        // backgroundImage: url({ imgs }),
       }}
     >
       <Stack
@@ -30,15 +76,43 @@ function Login() {
         p={5}
         className="centerDiv"
       >
-        <Box>
-          {/* <img src={cambie} alt="" /> */}
-        </Box>
         <Box textAlign="center">
-          <form>
+          <form onSubmit={(e) => handleSubmit(e)}>
             <Typography variant="h5" color="initial">
               Login
+            {error?<p style={{color:"red"}}>{error}</p>:null}
             </Typography>
-            <Form />
+            <Grid
+              container
+              direction="column"
+              alignItems="center"
+              justify="center"
+              paddingTop={2}
+            >
+              <TextField
+                variant="outlined"
+                label="username"
+                fullWidth
+                style={{ marginBlock: '1rem' }}
+                name="email"
+                id='email'
+                onChange={(e) => setEmail(e.target.value)}
+
+              />
+              <TextField
+                variant="outlined"
+                label="Password"
+                fullWidth
+                type="password"
+                style={{ marginBlock: '1rem' }}
+                name='password'
+                id='password'
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Button type='submit' size="large" variant="contained" color="primary">
+                Login
+              </Button>
+            </Grid>
           </form>
         </Box>
       </Stack>
@@ -47,32 +121,3 @@ function Login() {
 }
 
 export default Login;
-
-function Form() {
-  return (
-    <Grid
-      container
-      direction="column"
-      alignItems="center"
-      justify="center"
-      paddingTop={2}
-    >
-      <TextField
-        variant="outlined"
-        label="username"
-        fullWidth
-        style={{ marginBlock: '1rem' }}
-      />
-      <TextField
-        variant="outlined"
-        label="Password"
-        fullWidth
-        type="password"
-        style={{ marginBlock: '1rem' }}
-      />
-      <Button size="large" variant="contained" color="primary">
-        Login
-      </Button>
-    </Grid>
-  );
-}
