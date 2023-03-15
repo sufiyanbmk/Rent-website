@@ -54,7 +54,7 @@ function Navbar() {
             </li>
           ))}
           {/* <Button className="bg-blue-600 ml-8"><Link to="/login">RENT FORM</Link></Button> */}
-          <Button className="bg-blue-500 ml-8"><Link to="/login">RENT FORM</Link></Button>
+          <Button className="bg-blue-700 ml-8"><Link to="/login">RENT FORM</Link></Button>
           <Button className="bg-black ml-8"><Link to="/login">LOGIN</Link></Button>
         </ul>
       </div>

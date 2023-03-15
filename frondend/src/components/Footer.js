@@ -162,8 +162,8 @@ function Footer() {
             src={Logo}
             alt="" />
           <AboutText>
-            Yourcar is a Car renting and selling company located in many
-            countries across the world which has high quality cars and top rated
+            Rent is a Product renting  company located in many
+            INDIA  which has high quality Product and top rated
             service.
           </AboutText>
         </AboutContainer>
@@ -213,7 +213,7 @@ function Footer() {
             <RedIcon>
               <FontAwesomeIcon icon={faPhoneAlt} />
             </RedIcon>
-            <SmallText>+91 555-234-8469</SmallText>
+            <SmallText>+91 9526040361 </SmallText>
           </HorizontalContainer>
         </SectionContainer>
         <SectionContainer>
@@ -222,7 +222,7 @@ function Footer() {
             <RedIcon>
               <FontAwesomeIcon icon={faEnvelope} />
             </RedIcon>
-            <SmallText>info@yourcar.com</SmallText>
+            <SmallText>sufiyanbmk@gmail.com</SmallText>
           </HorizontalContainer>
         </SectionContainer>
       </InnerContainer>

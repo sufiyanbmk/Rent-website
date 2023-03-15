@@ -9,14 +9,15 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { remove } from '../features/userSlice';
 
 function Navbar({ isSidebarOpen, setIsSidebarOpen }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   function logout() {
-    if (!window.confirm('Are you sure you want to Logout?')) {
+    if (window.confirm('Are you sure you want to Logout?')) {
       navigate('/login');
-      dispatch(logout());
+      dispatch(remove());
     }
   }
 

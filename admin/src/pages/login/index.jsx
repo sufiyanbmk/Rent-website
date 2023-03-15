@@ -1,7 +1,7 @@
 /* eslint-disable */
 import {Box, Typography, TextField, Button, Grid, Stack,} from '@mui/material';
 import React, { useState } from 'react';
-import Axios from '../../axios/axios.js'
+import axios from '../../axios/axios.js'
 import { useNavigate } from "react-router-dom";
 import { login } from '../../features/userSlice'
 import { useDispatch } from "react-redux";
@@ -21,21 +21,27 @@ function Login() {
       password: password,
       accessToken: 'hjjhj454454'
     }
-    Axios.post('/login', { admin }, {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    }).then((response) => {
-      console.log(response)
-      dispatch(login(admin))
-      navigate('/dashboard')
-      if(response.status === 401){
-        console.log('ifff')
-        throw new Error
-      }
-    }).catch(() => {
-      console.log(err)
-      setError('incorrect username or password')
+
+    axios.post('/login' ,{admin}).then((res)=>{
+        dispatch(login(admin))
+        navigate('/dashboard')
+    }).catch((err)=>{
+      console.log(err);
+      setError(err.response.data.massage)
     })
+    // Axios.post('/login', { admin }, {
+    //   headers: { "Content-Type": "application/json" },
+    //   withCredentials: true,
+    // }).then((response) => {
+    //  
+    //   if(response.status === 401){
+    //     console.log('ifff')
+    //     throw new Error
+    //   }
+    // }).catch((err) => {
+    //   console.log(err)
+    //   setError('incorrect username or password')
+    // })
   }
   // function redirect(e) {
   //   e.preventDefault()
@@ -79,7 +85,7 @@ function Login() {
         <Box textAlign="center">
           <form onSubmit={(e) => handleSubmit(e)}>
             <Typography variant="h5" color="initial">
-              Login
+              Admin Login
             {error?<p style={{color:"red"}}>{error}</p>:null}
             </Typography>
             <Grid
@@ -91,7 +97,7 @@ function Login() {
             >
               <TextField
                 variant="outlined"
-                label="username"
+                label="Username"
                 fullWidth
                 style={{ marginBlock: '1rem' }}
                 name="email"
