@@ -20,7 +20,7 @@ function Selector(props) {
       });
   }, []);
   return (
-    <div className="w-72 font-medium h-80">
+    <div className="md:w-72 font-medium md:h-80">
       <div
         onClick={() => setOpen(!open)}
         className={`bg-white w-full p-2 flex items-center justify-between rounded ${

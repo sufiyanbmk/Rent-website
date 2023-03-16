@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 
-// import MclarenCarImg from "../../../assets/images/mclaren-orange-big.png";
+// import frontImg from '../../assets/images/front page.jpg';
 // import BlobImg from "../../../assets/images/blob.svg";
-import SCREENS from '../../components/responsive';
+import SCREENS from '../../components/Responsive';
 // import { Button } from "../../components/button";
 
 const TopSectionContainer = styled.div`
@@ -113,7 +113,7 @@ const StandaloneCar = styled.div`
   position: absolute;
   img {
     width: auto;
-    height: 100%;
+    height: 70%;
     max-width: fit-content;
   }
   @media (min-width: ${SCREENS.sm}) {
@@ -145,10 +145,10 @@ function TopSection() {
   return (
     <TopSectionContainer>
       <LeftContainer>
-        <Slogan>Rent The Best Qulity Car&#39;s With Us</Slogan>
+        <Slogan>Rent The Best Qulity Product&#39;s With Us</Slogan>
         <Description>
-          Always choose the best car from our local stores or order it remotely
-          at the best price for you and get the best quality cars for as long as
+          Always choose the best Product from our local stores or order it remotely
+          at the best price for you and get the best quality product for as long as
           you like
         </Description>
         {/* <ButtonsContainer>
@@ -161,7 +161,7 @@ function TopSection() {
         {/* <img src={BlobImg} /> */}
         {/* </BlobContainer> */}
         <StandaloneCar>
-          {/* <img src={MclarenCarImg} /> */}
+          {/* <img src={frontImg} alt="" /> */}
         </StandaloneCar>
       </RightContainer>
     </TopSectionContainer>
