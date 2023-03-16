@@ -9,6 +9,7 @@ import Dashboard from './pages/dashboard';
 import Layout from './pages/layout';
 import Login from './pages/login';
 import Catagory from './pages/catagory';
+import Product from './pages/products';
 import Adminauth from './auth/adminauth';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/products" element={<Product />} />
               <Route path="/catagory" element={<Catagory />} />
             </Route>
           </Route>

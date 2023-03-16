@@ -1,3 +1,5 @@
+import Product from "./../models/productSchema.js";
+
 const admin={email:'admin@gmail.com',password:'123'}
 
 export function adminLogin(req, res) {
@@ -13,3 +15,13 @@ export function adminLogin(req, res) {
     res.status(200).json({ success:true,massage: 'successfully logedIn' });
   }
 }
+
+export const getProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+  
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
