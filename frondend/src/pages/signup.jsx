@@ -32,14 +32,14 @@ export default function Signup() {
         headers:{
           'content-type':'application/json'
         },
-        body: JSON.stringify(credential)
+        body: JSON.stringify(values)
       })
       const result = await res.json()
-
       if(!res.ok) alert(res.message);
       dispatch({type: "REGISTER_SUCCESS"})
       navigate('/login');
     }catch(err) {
+      console.log(err)
       alert(err.message)
     }
   }
@@ -49,7 +49,7 @@ export default function Signup() {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 h-screen w-full">
       <div className="hidden sm:block">
         <img className="w-full h-full object-cover" src={signupImg} alt="" />
       </div>

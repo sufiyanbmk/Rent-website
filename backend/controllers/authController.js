@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 //user registration
 export const register = async (req, res) => {
+  console.log('hiiiii')
   console.log(req.body)
   try {
     //hashing password
@@ -31,7 +32,6 @@ export const register = async (req, res) => {
 
 //user login
 export const login = async (req, res) => {
-  console.log(req.body)
   const email = req.body.email;
   try {
     const user = await User.findOne({ email });
@@ -59,7 +59,6 @@ export const login = async (req, res) => {
       process.env.JWT_SECRET_KEY,
       { expiresIn: "15d" }
     );
-
     //set tokens to browser cookies and send response to the user
     res
       .cookie("accessToken", token, {

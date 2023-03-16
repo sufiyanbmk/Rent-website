@@ -42,7 +42,6 @@ export default function Login() {
     } catch (err) {
       dispatch({type:'LOGIN_FAILED', payload: err.message})
     }
-  }else{
   }
   }
   const [googleValue,setGoogleValue]= useState('')
@@ -60,7 +59,7 @@ export default function Login() {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 h-screen w-full">
       <div className="hidden sm:block">
         <img className="w-full h-full object-cover" src={loginImg} alt="" />
       </div>
