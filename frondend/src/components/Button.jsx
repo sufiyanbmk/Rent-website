@@ -15,7 +15,7 @@ export default function Button({
           processing && "opacity-25"
         } ` + className
       }
-      disabled={processing}
+      // disabled={processing}
     >
       {children}
     </button>

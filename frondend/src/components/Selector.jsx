@@ -16,7 +16,7 @@ function Selector(props) {
     .then((res) => res.json())
     .then((data) => {
       {type==="country"?setCountries(data):setCountries(data.states)}
-      {settext(type==='country'?"select Catagory":"Select Location")}
+      {settext(type==='country'?"Select Catagory":"Select Location")}
       });
   }, []);
   return (
