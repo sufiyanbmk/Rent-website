@@ -11,6 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Header from "../../component/Headers";
+import { Link } from 'react-router-dom'
 // import { useGetProductsQuery } from "state/api";
 
 const Product = ({
@@ -88,7 +89,8 @@ const Products = () => {
   return (
     <Box m="1.5rem 2.5rem">
       <Header title="PRODUCTS" subtitle="See your list of products." />
-      {data || !isLoading ? (
+      <Button variant="contained" color="success"><Link to="/add-product">ADD PRODUCT</Link></Button>
+      {/* {data=null || !isLoading ? ( */}
         <Box
           mt="20px"
           display="grid"
@@ -100,7 +102,7 @@ const Products = () => {
             "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
           }}
         >
-          {data.map(
+          {/* {data.map(
             ({
               _id,
               name,
@@ -123,11 +125,11 @@ const Products = () => {
                 stat={stat}
               />
             )
-          )}
+          )} */}
         </Box>
       ) : (
         <>Loading...</>
-      )}
+      // )}
     </Box>
   );
 };
