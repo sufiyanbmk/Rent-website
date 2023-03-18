@@ -104,7 +104,7 @@ function Navbar() {
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
-                      <button className="bg-black ml-8" onClick={logout}>LOGOUT</button>
+                      <button className="bg-black  text-white w-48 p-2" onClick={logout}>LOGOUT</button>
                     )}
                   </Menu.Item>
 

@@ -1,4 +1,4 @@
-import { adminLogin, getProducts, addProducts, addCatagory, getCatagory} from '../controllers/adminController.js';
+import { adminLogin, getProducts, addProducts, addCatagory, getCatagory, getUsers, blockUser} from '../controllers/adminController.js';
 import express from "express";
 
 const router = express.Router()
@@ -16,5 +16,11 @@ router.post('/addProducts',addProducts)
 router.get('/catagory', getCatagory)
 
 router.post('/addCatagory',addCatagory)
+
+//user details
+
+router.get('/users', getUsers)
+
+router.put('/block-user', blockUser)
 
 export default router;

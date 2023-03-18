@@ -13,6 +13,7 @@ import Product from './pages/products';
 import Adminauth from './auth/adminauth';
 import AddProduct from './pages/products/addProduct';
 import AddCatagory from './pages/catagory/addCatagory';
+import UserPage from './pages/user';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
               <Route path="/addproduct" element={<AddProduct />} />
               <Route path="/catagory" element={<Catagory />} />
               <Route path="/addCatagory" element={<AddCatagory />} />
+              <Route path="/user" element={<UserPage />} />
             </Route>
           </Route>
         </Routes>

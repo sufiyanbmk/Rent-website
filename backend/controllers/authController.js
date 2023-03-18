@@ -4,9 +4,13 @@ import jwt from "jsonwebtoken";
 
 //user registration
 export const register = async (req, res) => {
-  console.log('hiiiii')
   console.log(req.body)
   try {
+    const emailCheck = await User.findOne({email})
+    if(emailCheck){
+        return res.json({msg:"email already exists",status:false})
+    }
+   
     //hashing password
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
@@ -35,12 +39,16 @@ export const login = async (req, res) => {
   const email = req.body.email;
   try {
     const user = await User.findOne({ email });
+    console.log(user)
     //if email doesn't exist
     if (!user) {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     }
+    if(user.blocked===true){
+      return res.json({msg:"You are not allowed",status:false})
+  }
     //check password
     const checkCorrectPassword = await bcrypt.compare(
       req.body.password,
@@ -75,3 +83,23 @@ export const login = async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to login" });
   }
 };
+
+export const forgotPassword = async (req,res) => {
+  const email = User.findOne({email})
+  if(email){
+    const secert = process.env.JWT_SECRET_KEY + email.password;
+    const payload = {
+      email: email.email,
+      _id: email._id
+    }
+    const token = jwt.sign(payload,secert,{expiresIn: '15m'})
+    const link = `http://localhost:3000/resetpassword/${res._id}/${token}`;
+    const mailOpt = {
+      from: 'RENT <RENT@gmail.com>',
+      to: 'sufiyanbmk@gmail.com',
+      subject: 'RESET PASSWORD',
+      text: `Your Reset Password Link is:${link}`,
+      html: `<hi>Your Reset Password Link is:${link}</h1>`,
+    };
+  }
+}

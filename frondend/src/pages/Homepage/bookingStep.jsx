@@ -1,9 +1,9 @@
 /* eslint-disable */
 import {
   FaCalendarAlt,
-  FaCarSide,
   FaMapMarkerAlt,
 } from "react-icons/fa";
+import { AiOutlineUsergroupDelete } from 'react-icons/ai'
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import styled from "styled-components";
@@ -120,12 +120,12 @@ export default function BookingSteps() {
         <StepContainer>
           <Step>
             <StepIcon>
-              <FaCarSide />
+              <AiOutlineUsergroupDelete />
             </StepIcon>
           </Step>
-          <StepTitle>Book Your Car</StepTitle>
+          <StepTitle>Chat with Owner</StepTitle>
           <StepDescription>
-            Book your nice car with ease in one single click
+            Chat with Owner of Product in Single Click
           </StepDescription>
         </StepContainer>
       </StepsContainer>

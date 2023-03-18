@@ -1,30 +1,53 @@
 /* eslint-disable */
-import { Box, Typography, useTheme, Button } from "@mui/material";
+import { Box, Typography, useTheme, Button, Switch} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { Link } from "react-router-dom";
 import Header from "../../component/Headers";
 import useFetch from "hooks/useFetch";
+import axios from "../../axios/axios";
 
-const Catagory = () => {
+const User = () => {
   const { data } = useFetch(
-    'http://localhost:8000/admin/catagory'
+    'http://localhost:8000/admin/users'
   )
+  const blockUser = (email,block) => {
+    axios.put('/block-user', { email,block }).then(() => {
+
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
+  
   const rows = data;
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
     { field: "row._id", headerName: "NO" },
     {
-      field: "firstName",
-      headerName: "Name",
+      field: "username",
+      headerName: "user Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "lastName",
-      headerName: "Description",
+      field: "email",
+      headerName: "Email",
       flex: 1,
+    },
+    {
+      field: "phone",
+      headerName: "Contact",
+      flex: 1,
+    },
+    {
+      field: "blocked",
+      headerName: "ACTION",
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <Switch checked={params.row.blocked}onChange={() => blockUser(params.row.email,params.row.blocked)} />
+        )}
     },
   ];
 
@@ -69,4 +92,4 @@ const Catagory = () => {
   );
 };
 
-export default Catagory;
+export default User;

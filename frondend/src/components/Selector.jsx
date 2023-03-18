@@ -15,7 +15,8 @@ function Selector(props) {
     fetch(url)
     .then((res) => res.json())
     .then((data) => {
-      {type==="country"?setCountries(data):setCountries(data.states)}
+      console.log(data)
+      {type==="country"?setCountries(data.data):setCountries(data.states)}
       {settext(type==='country'?"Select Catagory":"Select Location")}
       });
   }, []);
@@ -52,29 +53,29 @@ function Selector(props) {
         </div>
         {countries.map((country) => (
           <li
-            key={type==='country'?country.name:country.state_id}
+            key={type==='country'?country.lastName:country.state_id}
             className={`p-2 text-sm hover:bg-sky-600 hover:text-white
             ${
-              type==="country"?country.name?.toLowerCase() === selected?.toLowerCase() &&
+              type==="country"?country.lastName?.toLowerCase() === selected?.toLowerCase() &&
             'bg-sky-600 text-white':country.state_name.toLowerCase() === selected?.toLowerCase() && 'bg-sky-600 text-white'
             }
             ${
-              type==="country"?country?.name?.toLowerCase().startsWith(inputValue)
+              type==="country"?country?.lastName?.toLowerCase().startsWith(inputValue)
                 ? 'block'
                 : 'hidden':country.state_name?.toLowerCase().startsWith(inputValue)
                 ? 'block': 'hidden'
             }`}
             onClick={() => {
-              if (country?.name?.toLowerCase() !== selected.toLowerCase()) {
-                type==="country"?setSelected(country?.name):setSelected(country.state_name)               
+              if (country?.lastName?.toLowerCase() !== selected.toLowerCase()) {
+                type==="country"?setSelected(country?.lastName):setSelected(country.state_name)               
                 setOpen(false);
                 setInputValue("");
               }
             }}
           >
-            {type==="country"?country.name:country.state_name}
-          </li>
-          // <li>{type==="country"?country.name:country.state_name}</li>
+            {type==="country"?country.firstName:country.state_name}
+           </li>
+          // <li>{type==="country"?country.lastName:country.state_name}</li>
         ))}
       </ul>
     </div>

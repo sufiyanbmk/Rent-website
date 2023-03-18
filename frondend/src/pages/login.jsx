@@ -8,10 +8,10 @@ import { BASE_URL } from '../utils/config';
 import { AiFillEyeInvisible } from 'react-icons/ai';
 import { AiFillEye } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc'
-import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
+// import Modal from '../components/modal';
 
 export default function Login() {
   // const [credential, setCredential] = useState({
@@ -37,11 +37,11 @@ export default function Login() {
           body: JSON.stringify(values)
         })
         const result = await res.json()
-        if (!res.sucess){         
+        if (!res.ok) {
           alert(result.message)
           navigate('/login')
           return
-        } 
+        }
         console.log(result.data)
         dispatch({ type: 'AUTH', data: result })
         navigate('/')
@@ -86,9 +86,7 @@ export default function Login() {
         }
       } catch (err) {
         console.log(err)
-
       }
-
     }
   });
 
@@ -104,7 +102,7 @@ export default function Login() {
           <div className="flex flex-col text-gray-400 py-2">
             <label htmlFor="email">
               Email
-              <input onChange={handleChange} className="rounded-lg bg-gray-700 mt-2 p-2 ml-12 focus:border-blue-500 focus:bg-gray-800 focus:outline-none" type="text" name='email' required/>
+              <input onChange={handleChange} className="rounded-lg bg-gray-700 mt-2 p-2 ml-12 focus:border-blue-500 focus:bg-gray-800 focus:outline-none" type="text" name='email' required />
             </label>
             {errors.email && <p className='text-red-700'>{errors.email}</p>}
           </div>
@@ -117,12 +115,15 @@ export default function Login() {
             {errors.password && <p className='text-red-700'>{errors.password}</p>}
           </div>
           <Button className="bg-blue-700 ml-28 mt-6" type='submit'>LOGIN IN</Button>
+
         </form>
         <p className="text-white p-4 md:ml-44">
           Don&#39;t have an account?
           <span className='text-blue-700 p-2'><Link to="/signup">Create Account</Link></span>
         </p>
         <button className='inline-flex md:ml-60 w-72 items-center px-9 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150' onClick={login} ><FcGoogle /><span className='ml-2'>continue with google</span></button>
+
+        {/* <Modal /> */}
         {/* <GoogleLogin
           onSuccess={credentialResponse => {
             // console.log(credentialResponse.credential);
@@ -131,7 +132,6 @@ export default function Login() {
           onError={() => {
             console.log('Login Failed');
           }} /> */}
-
       </div>
     </div>
   );

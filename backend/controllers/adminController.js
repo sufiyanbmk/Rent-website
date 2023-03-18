@@ -1,4 +1,4 @@
-import Product from "./../models/productSchema.js";
+import userSchema from "../models/userSchema.js";
 import addProduct from "./../models/addProductSchema.js";
 import addCatagorySchema from "../models/addCatagorySchema.js";
 const admin={email:'admin@gmail.com',password:'123'}
@@ -74,5 +74,32 @@ export const addCatagory = async (req, res) => {
     // res.status(200).json(products);
   } catch (error) {
     res.status(404).json({ message: error.message });
+  }
+};
+
+//users
+export const getUsers = async (req, res) => {
+  try {
+    const users = await userSchema.find();
+  
+    res.status(200).json({success: true,message: "Succesfull", data: users});
+  } catch (error) {
+    res.status(404).json({ success:false,message: error.message });
+  }
+};
+
+export const blockUser = async (req, res) => {
+  const { email,block } = req.body;
+  try {
+    const users = await userSchema.findOne({email});
+    if(users.blocked === false){
+      users.blocked = true
+    }else{
+      users.blocked = false
+    }
+    await users.save(); 
+    res.status(200).json({success: true,message: "Succesfull"});
+  } catch (error) {
+    res.status(404).json({ success:false,message: error.message });
   }
 };
