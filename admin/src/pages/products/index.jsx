@@ -1,5 +1,6 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import useFetch from "hooks/useFetch";
 import {
   Box,
   Card,
@@ -12,7 +13,6 @@ import {
 } from "@mui/material";
 import Header from "../../component/Headers";
 import { Link } from 'react-router-dom'
-// import { useGetProductsQuery } from "state/api";
 
 const Product = ({
   _id,
@@ -23,6 +23,7 @@ const Product = ({
   category,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [data, setData] = useState([]);
 
   return (
     <Card
@@ -83,14 +84,18 @@ const Product = ({
 };
 
 const Products = () => {
-  // const { data, isLoading } = useGetProductsQuery();
+  const {data} = useFetch(
+    'http://localhost:8000/admin/products'
+  )
+  console.log(data)
+  console.log(data.loading)
   const isNonMobile = useMediaQuery("(min-width: 1000px)");
 
   return (
     <Box m="1.5rem 2.5rem">
       <Header title="PRODUCTS" subtitle="See your list of products." />
-      <Button variant="contained" color="success"><Link to="/add-product">ADD PRODUCT</Link></Button>
-      {/* {data=null || !isLoading ? ( */}
+      <Button variant="contained" color="success"><Link to="/addproduct">ADD PRODUCT</Link></Button>
+      {data || !data.loading ? (
         <Box
           mt="20px"
           display="grid"
@@ -102,14 +107,14 @@ const Products = () => {
             "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
           }}
         >
-          {/* {data.map(
+          {data.map(
             ({
               _id,
               name,
-              description,
+              address2,
               price,
               rating,
-              category,
+              lastName,
               supply,
               stat,
             }) => (
@@ -117,19 +122,19 @@ const Products = () => {
                 key={_id}
                 _id={_id}
                 name={name}
-                description={description}
+                description={address2}
                 price={price}
                 rating={rating}
-                category={category}
+                category={lastName}
                 supply={supply}
                 stat={stat}
               />
             )
-          )} */}
+          )}
         </Box>
       ) : (
         <>Loading...</>
-      // )}
+      )}
     </Box>
   );
 };

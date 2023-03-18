@@ -4,14 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import loginImg from '../assets/images/login.jpg';
 import useLoginForm from '../hooks/useLoginForm';
-import { AuthContext } from '../context/AuthContext';
 import { BASE_URL } from '../utils/config';
 import { AiFillEyeInvisible } from 'react-icons/ai';
 import { AiFillEye } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc'
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
-import jwt_decode from "jwt-decode";
 import { useGoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 
