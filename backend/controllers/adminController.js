@@ -3,7 +3,7 @@ import addProduct from "./../models/addProductSchema.js";
 import addCatagorySchema from "../models/addCatagorySchema.js";
 const admin={email:'admin@gmail.com',password:'123'}
 
-export function adminLogin(req, res) {
+export const adminLogin = async(req, res) => {
   const { email, password,accessToken } = req.body.admin;
   if(email !== admin.email){
     console.log('err')
@@ -38,7 +38,6 @@ export const addProducts = async (req, res) => {
       contact: req.body.contact,
       address1: req.body.address1,
       address2: req.body.address2,
-
     });
     console.log(newProduct)
     const product = addProduct.create(newProduct)

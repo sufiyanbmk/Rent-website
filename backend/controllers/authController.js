@@ -1,10 +1,11 @@
 import User from "../models/userSchema.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { transport } from '../helpers/client/sentMail.js';
+
 
 //user registration
 export const register = async (req, res) => {
-  console.log(req.body)
   try {
     const emailCheck = await User.findOne({email})
     if(emailCheck){
@@ -20,10 +21,7 @@ export const register = async (req, res) => {
       password: hash,
       phone: req.body.phone,
     });
-    console.log(newUser)
-    // await newUser.save();
     const user = User.create(newUser)
-    // console.log(user)
     console.log('hiiiiiii')
 
     res.status(200).json({ success: true, message: "User created" });
@@ -84,22 +82,64 @@ export const login = async (req, res) => {
   }
 };
 
+//forgot password
 export const forgotPassword = async (req,res) => {
-  const email = User.findOne({email})
-  if(email){
-    const secert = process.env.JWT_SECRET_KEY + email.password;
-    const payload = {
-      email: email.email,
-      _id: email._id
+  const email = req.body.email
+  try{
+    const result = await User.findOne({email})
+    if(result){
+      const secert = process.env.JWT_SECRET_KEY + result.password;
+      const payload = {
+        email: result.email,
+        _id: result._id
+      }
+      const token = jwt.sign(payload,secert,{expiresIn: '15m'})
+      const link = `http://localhost:3000/reset-password/${result._id}/${token}`;
+      const mailOpt = {
+        from: 'RENT <RENT@gmail.com>',
+        to: 'sufiyanbmk@gmail.com',
+        subject: 'RESET PASSWORD',
+        text: `Your Reset Password Link is:${link}`,
+        html: `<hi>Your Reset Password Link is:${link}</h1>`,
+      };
+      let forgotemail = await transport(mailOpt)
+      return res.status(200).json({status:true,msg:'Check Email...'})
+    }else{
+      return res.status(401).json({status:false,msg:'Error Occured.try again'})
     }
-    const token = jwt.sign(payload,secert,{expiresIn: '15m'})
-    const link = `http://localhost:3000/resetpassword/${res._id}/${token}`;
-    const mailOpt = {
-      from: 'RENT <RENT@gmail.com>',
-      to: 'sufiyanbmk@gmail.com',
-      subject: 'RESET PASSWORD',
-      text: `Your Reset Password Link is:${link}`,
-      html: `<hi>Your Reset Password Link is:${link}</h1>`,
-    };
+  }catch(err){
+    return res.status(401).json({ ...err, status: false });
   }
+ 
+}
+
+//reset password
+
+export const resetPassword = async(req,res) => {
+  return new Promise(async (resolve,reject)=> {
+    const { id, token } = req.params;
+    const { pass } = req.body;
+    try{
+      const user = await User.findById(id)
+      if (user) {
+        const secret = process.env.JWT_SECRET_KEY + user.password;
+        const payload=jwt.verify(token,secret)
+        if(payload.expired){
+            reject(payload)
+        }else{
+            const hashedPassword = await bcrypt.hash(pass, 10)
+            await User.updateOne({email:payload.email},{password:hashedPassword})
+            resolve(res.status(200).json({ success: true, message: "Password changed" }))
+        }
+    } else {
+      reject({
+        msg: 'User Not Found',
+      });
+    }
+    }catch(err){
+      console.log(err)
+      res.status(500).json({ success: false, message: "Failed to Change Password" });
+    }
+  })
+ 
 }

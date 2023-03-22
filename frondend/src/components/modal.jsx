@@ -1,38 +1,31 @@
 /* eslint-disable */
 import React, { useState } from "react";
 import { BASE_URL } from '../utils/config';
+import axios from '../Axios/axios'
 
 export default function Modal() {
   const [showModal, setShowModal] = React.useState(false);
-  const [email , setEmail] = useState('')
+  const [email, setEmail] = useState('')
+  const [error, setErr] = useState({});
+  const [msg, setMsg] = useState(null);
   const handleChange = (e) => {
     setEmail(e.target.value)
   }
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`${BASE_URL}forgot-password`, {
-        method: "post",
-        headers: {
-          "content-type": "application/json"
-        },
-        body: JSON.stringify(email)
-      })
-      const result = await res.json()
-      if (!res.ok){         
-        alert(result.message)
-        navigate('/login')
-        return
-      } 
-      console.log(result.data)
-      dispatch({ type: 'AUTH', data: result })
-      navigate('/')
+      axios.post('/forgot-password', { email }).then((res) => {
+        console.log(res)
+        setMsg(res.data.msg);
+      }).catch((err) => {
+        setErr(err.response.data);
+      });
     } catch (err) {
       console.log(err)
       // dispatch({ type: 'LOGIN_FAILED', payload: err.message })
     }
   }
-  
+
   return (
     <>
       <button
@@ -40,7 +33,7 @@ export default function Modal() {
         type="button"
         onClick={() => setShowModal(true)}
       >
-        Open regular modal
+        Forgot Password?
       </button>
       {showModal ? (
         <>
@@ -66,7 +59,7 @@ export default function Modal() {
                 </div>
                 {/*body*/}
                 <div className="bg-gray-800 flex flex-col justify-center">
-                  <form className="max-w-[400px] w-full mx-auto rounded-lg bg-gray-900 p-8 px-8" onSubmit={handleSubmit}>
+                  <form onSubmit={handleSubmit} className="max-w-[400px] w-full mx-auto rounded-lg bg-gray-900 p-8 px-8">
                     <h2 className="text-4xl dark:text-white font-bold text-center">Enter Email</h2>
                     <div className="flex flex-col text-gray-400 py-2">
                       <label htmlFor="email">
@@ -75,6 +68,12 @@ export default function Modal() {
                       </label>
                       {/* {errors.email && <p className='text-red-700'>{errors.email}</p>} */}
                     </div>
+                    <button
+                      className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="submit"
+                    >
+                      Save Changes
+                    </button>
                   </form>
                 </div>
 
@@ -86,13 +85,6 @@ export default function Modal() {
                     onClick={() => setShowModal(false)}
                   >
                     Close
-                  </button>
-                  <button
-                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Save Changes
                   </button>
                 </div>
               </div>

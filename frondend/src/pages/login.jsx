@@ -11,7 +11,7 @@ import { FcGoogle } from 'react-icons/fc'
 import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
-// import Modal from '../components/modal';
+import Modal from '../components/modal';
 
 export default function Login() {
   // const [credential, setCredential] = useState({
@@ -123,7 +123,7 @@ export default function Login() {
         </p>
         <button className='inline-flex md:ml-60 w-72 items-center px-9 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150' onClick={login} ><FcGoogle /><span className='ml-2'>continue with google</span></button>
 
-        {/* <Modal /> */}
+        <Modal />
         {/* <GoogleLogin
           onSuccess={credentialResponse => {
             // console.log(credentialResponse.credential);

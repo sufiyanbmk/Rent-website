@@ -1,26 +1,26 @@
-import { adminLogin, getProducts, addProducts, addCatagory, getCatagory, getUsers, blockUser} from '../controllers/adminController.js';
+import * as  controllers from '../controllers/adminController.js';
 import express from "express";
 
 const router = express.Router()
 
-router.post('/login',adminLogin)
+router.post('/login',controllers.adminLogin)
 
 //products
 
-router.get('/products', getProducts)
+router.get('/products', controllers.getProducts)
 
-router.post('/addProducts',addProducts)
+router.post('/addProducts',controllers.addProducts)
 
 //catagory
 
-router.get('/catagory', getCatagory)
+router.get('/catagory', controllers.getCatagory)
 
-router.post('/addCatagory',addCatagory)
+router.post('/addCatagory',controllers.addCatagory)
 
 //user details
 
-router.get('/users', getUsers)
+router.get('/users', controllers.getUsers)
 
-router.put('/block-user', blockUser)
+router.put('/block-user', controllers.blockUser)
 
 export default router;
