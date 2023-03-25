@@ -2,12 +2,15 @@ import User from "../models/userSchema.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { transport } from '../helpers/client/sentMail.js';
+import {sendOtp,verifyOtp } from '../helpers/client/twilio.js'
 
 
 //user registration
 export const register = async (req, res) => {
+  const email = req.body.email
   try {
     const emailCheck = await User.findOne({email})
+    console.log(emailCheck)
     if(emailCheck){
         return res.json({msg:"email already exists",status:false})
     }
@@ -21,9 +24,8 @@ export const register = async (req, res) => {
       password: hash,
       phone: req.body.phone,
     });
+    console.log(newUser)
     const user = User.create(newUser)
-    console.log('hiiiiiii')
-
     res.status(200).json({ success: true, message: "User created" });
   } catch (err) {
     res
@@ -141,5 +143,61 @@ export const resetPassword = async(req,res) => {
       res.status(500).json({ success: false, message: "Failed to Change Password" });
     }
   })
- 
+}
+
+//verify email
+export const verifyEmail = async(req,res)=>{
+  const email = req.body.email
+  try{
+    const secert = process.env.JWT_SECRET_KEY + email;
+    const payload = {
+      email: email,
+    }
+    const token = jwt.sign(payload,secert,{expiresIn: '45m'})
+    const link = `http://localhost:3000/verify-mail/${token}`;
+    const mailOpt = {
+      from: 'RENT <RENT@gmail.com>',
+      to: 'sufiyanbmk@gmail.com',
+      subject: 'VERIFY EMAIL',
+      text: `Your Verify Email Link is:${link}`,
+      html: `<hi>Your Verify Email Link is:${link}</h1>`,
+    };
+    let verify = await transport(mailOpt)
+    return res.status(200).json({status:true,msg:'Check Email...'})
+  }catch(err){
+    return res.status(401).json({ ...err, status: false });
+  }
+}
+
+//otp login
+export const otpLogin = async(req,res) =>{
+  const { phone } = req.body;
+  try{
+    const phoneCheck = await User.findOne({ phone: phone})
+    const phoneNumber = parseInt(phone)
+    if(phoneNumber === phoneCheck.phone){
+      sendOtp(phoneCheck.phone)
+      const mobile = phoneCheck.phone;
+      console.log(mobile)
+      return res.json({status: true, msg:"mobile number verified",mobile})
+    } 
+  }catch(err){
+    console.log(err)
+  }
+}
+
+export const otpVerify = async(req,res) => {
+  const {mobile,otpNumber} = req.body;
+  try{
+    const userFind = await User.findOne({phone:mobile})
+    verifyOtp(otpNumber,mobile).then((response)=>{
+      if(response.status){
+        res.json({status:true,msg:response.msg,user:userFind})
+      }
+    }).catch((err)=>{
+      res.json({status:false,msg:'Invalid otp'})
+    })
+  }catch(err){
+    res.status(500).json({ success: false, message: "Failed to login" });
+  }
 }

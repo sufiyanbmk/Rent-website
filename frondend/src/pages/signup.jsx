@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import signupImg from '../assets/images/signup.jpg';
 import useSignupForm from '../hooks/useSignupForm';
-// import { AuthContext } from '../context/AuthContext';
+import axios from '../Axios/axios'
 import { BASE_URL } from '../utils/config';
 import { useNavigate } from 'react-router-dom';
 import { AiFillEyeInvisible } from 'react-icons/ai';
@@ -21,27 +21,36 @@ export default function Signup() {
   //   setCredential(prev => ({...prev, [e.target.id]: e.target.value}));
   // }
   const { handleChange, values,errors } = useSignupForm()
+  const email = values.email;
   const navigate = useNavigate()
   // const {dispatch} = useContext(AuthContext)
   const handleSubmit = async(e) => {
     e.preventDefault();
     if(Object.keys(errors).length === 0){
     try{
-      const res = await fetch(`${BASE_URL}register`,{
-        method:'post',
-        headers:{
-          'content-type':'application/json'
-        },
-        body: JSON.stringify(values)
-      })
-      const result = await res.json()
-      if(!res.success){
-
-        alert(res.message);
+      const response = await axios.post('/verify-email', { email });
+      if(response.status === 200){
+        const res = await fetch(`${BASE_URL}register`,{
+          method:'post',
+          headers:{
+            'content-type':'application/json'
+          },
+          body: JSON.stringify(values)
+        })
+        const result = await res.json()
+        if(!result.success){
+          console.log('error in if')
+          alert(result.message);
+          navigate('/signup')
+        } 
         navigate('/signup')
-      } 
-      // dispatch({type: "REGISTER_SUCCESS"})
-      navigate('/login');
+
+        // dispatch({type: "REGISTER_SUCCESS"})
+        // navigate('/login');
+      }else{
+        alert("Email is not valid")
+      }
+      
     }catch(err) {
       console.log(err)
       alert(err.message)
@@ -97,7 +106,7 @@ export default function Signup() {
             </label>
             {errors.confirm && <p className='text-red-700'>{errors.confirm}</p>}
           </div>
-          <Button type='submit' className="bg-blue-700 ml-24 mt-6">Create Account</Button>
+          <Button type='submit' className="bg-blue-700 ml-16 mt-6">Please Click To Verify Email</Button>
         </form>
         <p className="text-white p-4 md:ml-40">
           Already have an account?

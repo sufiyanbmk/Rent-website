@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { AUTH, LOGOUT } from '../constants/actionTypes.js';
+import { AUTH, LOGOUT, SIGNIN_WITH_OTP } from '../constants/actionTypes.js';
 
 const authReducer = (state = {authData:null},action) => {
   switch ( action.type ){
@@ -9,6 +9,9 @@ const authReducer = (state = {authData:null},action) => {
     case LOGOUT:
       localStorage.clear()
       return { ...state, authData: null}
+    case SIGNIN_WITH_OTP:
+      localStorage.setItem('profile',JSON.stringify({ ...action?.data}))
+      return {...state,authData:action?.data, loading: false, errors: null};
       default: 
         return state;
   }

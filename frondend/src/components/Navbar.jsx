@@ -12,8 +12,8 @@ function Navbar() {
   const Links = [
     { name: 'HOME', link: '/' },
     { name: 'MESSAGE', link: '/' },
-    { name: 'LIKED ITEMS', link: '/' },
-    { name: 'RENTED ITEMS', link: '/' },
+    { name: 'LIKED ITEMS', link: '/liked-item' },
+    { name: 'RENTED ITEMS', link: '/rented-item' },
   ];
   const location = useLocation();
   const [open, setOpen] = useState(false);
@@ -74,7 +74,7 @@ function Navbar() {
               </a>
             </li>
           ))}
-          <Button className="bg-blue-700 ml-8"><Link to="/login">RENT FORM</Link></Button>
+          <Button className="bg-blue-700 ml-8"><Link to="/rent-form">RENT FORM</Link></Button>
           {user?.res||user?.success ? (
             <Menu as="div" className="relative ml-3">
               <div>
