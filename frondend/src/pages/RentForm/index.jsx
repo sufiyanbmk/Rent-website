@@ -4,14 +4,17 @@ import axios from '../../Axios/axios'
 import FirstForm from "./firstForm";
 import SecondForm from "./secondForm";
 import ThirdForm from "./thirdForm";
+import { useNavigate } from "react-router-dom";
 
 const ParentComponent = () => {
   const formList = ["FirstForm", "SecondForm", "ThirdForm"];
+  const navigate = useNavigate()
 
   const formLength = formList.length;
 
   const [page, setPage] = useState(0);
   const [images,setImage] = useState(null)
+  const [user,setUser] = useState(JSON.parse(localStorage.getItem('profile')))
 
   const handlePrev = () => {
     setPage(page === 0 ? formLength - 1 : page - 1);
@@ -49,7 +52,6 @@ const ParentComponent = () => {
           <SecondForm
             formValues={values}
             onChange={onChange}
-            option={states}
           ></SecondForm>
         );
       }
@@ -60,26 +62,26 @@ const ParentComponent = () => {
         return null;
     }
   };
-
-  const states = [
-    { id: "0", name: "Paris" },
-    { id: "1", name: "London" },
-    { id: "2", name: "Berlin" },
-    { id: "3", name: "Warsaw" },
-  ];
+  const userId = user.data._id
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(images,'imagesss')
     const formData = new FormData();
-    formData.append("data", values);
-    formData.append("file", images[0]);
-    console.log(formData, 'formdata');
-    
+    formData.append("data", JSON.stringify(values));
+    images.forEach((image) => {
+      formData.append("file", image);
+    });
+    formData.append('userId', userId)  
     await axios.post('/product/add-product', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
-    });
+    }).then((res)=>{
+      if(res.data.success){
+        navigate('/rented-item')
+      }
+    }).catch((err)=>{
+      console.log(err)
+    })
 };
 
   const onChange = (e) => {
