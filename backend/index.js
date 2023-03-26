@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 
 import authRoute from "./routes/userAuth.js"
 import admin from "./routes/admin.js";
+import userRoute from "./routes/product.js";
 
 dotenv.config()
 const app = express()
@@ -34,8 +35,9 @@ app.use(cors({
 }))
 app.use(cookieParser());
 
-app.use("/",authRoute);
 app.use("/admin",admin)
+app.use("/",authRoute);
+app.use('/product',userRoute)
 
 
 app.listen(port , ()=> {

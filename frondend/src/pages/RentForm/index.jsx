@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { useState } from "react";
+import axios from '../../Axios/axios'
 import FirstForm from "./firstForm";
 import SecondForm from "./secondForm";
 import ThirdForm from "./thirdForm";
@@ -10,6 +11,7 @@ const ParentComponent = () => {
   const formLength = formList.length;
 
   const [page, setPage] = useState(0);
+  const [images,setImage] = useState(null)
 
   const handlePrev = () => {
     setPage(page === 0 ? formLength - 1 : page - 1);
@@ -52,7 +54,7 @@ const ParentComponent = () => {
         );
       }
       case 2: {
-        return <ThirdForm formValues={values} onChange={onChange}></ThirdForm>;
+        return <ThirdForm formValues={values} onChange={onChange} image ={handleFile}></ThirdForm>;
       }
       default:
         return null;
@@ -65,19 +67,30 @@ const ParentComponent = () => {
     { id: "2", name: "Berlin" },
     { id: "3", name: "Warsaw" },
   ];
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await setTimeout(() => {
-      console.log("form", values);
-    }, 2000);
-    return response;
-  };
+    console.log(images,'imagesss')
+    const formData = new FormData();
+    formData.append("data", values);
+    formData.append("file", images[0]);
+    console.log(formData, 'formdata');
+    
+    await axios.post('/product/add-product', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+};
 
   const onChange = (e) => {
     const {name, value, type, checked } = e.target;
     setValues({ ...values, [name]: type === "checkbox" ? checked : value });
   };
+
+  const handleFile = (e) => {
+    console.log(e,'hiii')
+    setImage(e)
+  }
 
   return (
     <div className="p-12 w-fit"> 

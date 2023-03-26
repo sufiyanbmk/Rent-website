@@ -4,17 +4,17 @@ import { useDropzone } from 'react-dropzone';
 import Error from "./error";
 import addFileIcon from '../../assets/images/addFileIcon.svg';
 
-const ThirdForm = ({ onChange, formValues, }) => {
+const ThirdForm = ({ onChange, formValues, image}) => {
   const [files, setFiles] = useState([]);
+  
   const handleUpload = (acceptedFiles) => {
     const file = acceptedFiles[0]
-    console.log(file)
     setFiles(
       acceptedFiles.map((file) => Object.assign(file, { preview: URL.createObjectURL(file) }))
     );
-    
+    console.log(file);
     // Trigger onChange event with updated files state
-    onChange(file);
+    image(files??files)
   };
 
   const { getRootProps, getInputProps, acceptedFiles, fileRejections } = useDropzone(
