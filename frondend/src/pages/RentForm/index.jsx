@@ -14,6 +14,7 @@ const ParentComponent = () => {
 
   const [page, setPage] = useState(0);
   const [images,setImage] = useState(null)
+  console.log(images)
   const [user,setUser] = useState(JSON.parse(localStorage.getItem('profile')))
 
   const handlePrev = () => {
@@ -36,8 +37,6 @@ const ParentComponent = () => {
     image:""
   };
   const [values, setValues] = useState(initialValues);
-  console.log(values)
-
   const handleForms = () => {
     switch (page) {
       case 0: {
@@ -68,6 +67,7 @@ const ParentComponent = () => {
     const formData = new FormData();
     formData.append("data", JSON.stringify(values));
     images.forEach((image) => {
+      console.log(image,'image')
       formData.append("file", image);
     });
     formData.append('userId', userId)  

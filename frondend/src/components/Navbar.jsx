@@ -6,7 +6,7 @@ import decode from 'jwt-decode';
 import Button from './Button';
 import logo from '../assets/images/logo.jpg';
 import { useDispatch } from 'react-redux';
-import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { Menu, Transition } from '@headlessui/react'
 
 function Navbar() {
   const Links = [

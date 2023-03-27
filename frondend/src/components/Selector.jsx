@@ -15,7 +15,6 @@ function Selector(props) {
     fetch(url)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data)
       {type==="country"?setCountries(data.data):setCountries(data.states)}
       {settext(type==='country'?"Select Catagory":"Select Location")}
       });

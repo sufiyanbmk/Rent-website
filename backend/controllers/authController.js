@@ -67,6 +67,7 @@ export const login = async (req, res) => {
       process.env.JWT_SECRET_KEY,
       { expiresIn: "15d" }
     );
+    await User.updateOne({ _id: user._id }, { $set: { token } })
     //set tokens to browser cookies and send response to the user
     res
       .cookie("accessToken", token, {
