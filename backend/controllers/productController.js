@@ -1,10 +1,10 @@
 import product from "../models/productSchema.js";
 import multer from "multer";
 import crypto from "crypto";
-
 import { deleteFile, getObjectSignedUrl } from "../services/awsS3.js";
+// import {searchProductHelper} from '../helpers/client/product.js'
 
-const storage = multer.memoryStorage();
+const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
 
 const generateFileName = (bytes = 32) =>
@@ -53,9 +53,8 @@ export const deleteProduct = async (req, res) => {
 };
 
 export const getSingleProduct = async (req, res) => {
-  console.log('iiiii')
   const id = req.params.id;
-  console.log(id)
+
   try {
     const singleProduct = await product.findOne({ _id: id });
 
@@ -71,3 +70,13 @@ export const getSingleProduct = async (req, res) => {
     res.status(500).json({ success: false, message: "Failed" });
   }
 };
+
+// export const getSearchedProduct = async(req,res) => {
+//   const {state,catagory} = req.params;
+//   console.log(state,catagory)
+//   try{
+//     const data = searchProductHelper(state,catagory)
+//   }catch(err){
+
+//   }
+// }

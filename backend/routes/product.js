@@ -1,7 +1,7 @@
 import express from "express";
 import multer from 'multer'
 import crypto from 'crypto'
-import { getRentedProducts, deleteProduct, getSingleProduct } from '../controllers/productController.js'
+import { getRentedProducts, deleteProduct, getSingleProduct, } from '../controllers/productController.js'
 import { uploadFile } from '../services/awsS3.js'
 import {addProduct} from '../helpers/client/product.js'
 // import verifyJWT from "../helpers/client/verifyJwt.js";
@@ -47,5 +47,7 @@ router.get('/rented-products/:id', getRentedProducts)
 router.delete('/delete-product/:id', deleteProduct)
 
 router.get('/product-detail/:id', getSingleProduct)
+
+// router.get('/search-product/:state/:catagory', getSearchedProduct)
 
 export default router;

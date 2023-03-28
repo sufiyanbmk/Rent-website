@@ -9,6 +9,7 @@ import OtpLogin from '../pages/OtpLogin';
 import RentForm from '../pages/RentForm';
 import RentedItem from '../pages/RentedItem';
 import SingleProduct from '../pages/ProductDetail';
+import SearchedProduct from '../pages/SearchedProduct';
 import { IsLogged } from '../auth/loginAuth';
 
 function Routers() {
@@ -26,6 +27,7 @@ function Routers() {
         <Route path="/rented-item" element={<RentedItem />} />
       </Route>
       <Route path="/product-detail/:id" element={<SingleProduct />} />
+      <Route path="/search-product/:state/:catagory" element={<SearchedProduct />} />
     </Routes>
   );
 }

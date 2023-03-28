@@ -4,7 +4,7 @@ import { BiChevronDown } from 'react-icons/bi';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 function Selector(props) {
-  const {type,url}= props
+  const {type,url,callback}= props
   const [text,settext]=useState('')
   const [countries, setCountries] = useState([]);
   const [inputValue, setInputValue] = useState('');
@@ -68,7 +68,8 @@ function Selector(props) {
               if (country?.lastName?.toLowerCase() !== selected.toLowerCase()) {
                 type==="country"?setSelected(country?.lastName):setSelected(country.state_name)               
                 setOpen(false);
-                setInputValue("");
+                callback(type==="country"?country?.lastName:country.state_name)
+                setInputValue();
               }
             }}
           >

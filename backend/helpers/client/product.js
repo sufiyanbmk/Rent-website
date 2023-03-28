@@ -19,7 +19,11 @@ export function addProduct(data,image,userId){
     }).catch((err)=>{
       reject(err)
     })
-
-
   })
 }
+
+// export function searchProductHelper(){
+//   return new Promise(async(resolve,reject)=>{
+
+//   })
+// }
