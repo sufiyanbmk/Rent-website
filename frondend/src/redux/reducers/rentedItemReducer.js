@@ -1,7 +1,7 @@
 /* eslint-disable */
-import { PRODUCT_ADDED , RENTED_PRODUCTS_FETCHED } from '../constants/actionTypes';
+import { PRODUCT_ADDED , RENTED_PRODUCTS_FETCHED, RENTED_REMOVED_ITEM } from '../constants/actionTypes';
 
-export const renteditemReducer = (state = {products:[]}, action) => {
+export const renteditemReducer = (state = {rentedItems:[]}, action) => {
   switch (action.type) {
     // case PRODUCT_ADDED:
       // const item = action.payload;
@@ -24,6 +24,14 @@ export const renteditemReducer = (state = {products:[]}, action) => {
           ...state,
           rentedItems: action.payload
         };
+      
+      case RENTED_REMOVED_ITEM:
+        return {
+          ...state,
+          rentedItems: state.rentedItems.filter((x)=>{
+            x._id !== action.payload
+          }) 
+        }
       default:
       return state;
   }

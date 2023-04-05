@@ -27,6 +27,7 @@ export const getRentedProducts = async (req, res) => {
   try {
     const rentedProduct = await product.find({ userId: userID });
     for (let product of rentedProduct) {
+      console.log(product)
       console.log(product.file[0]);
       let imageUrl = await getObjectSignedUrl(product.file[0]);
       product.set("link", imageUrl, { strict: false });

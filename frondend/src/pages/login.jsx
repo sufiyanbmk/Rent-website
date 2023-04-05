@@ -8,43 +8,52 @@ import { BASE_URL } from '../utils/config';
 import { AiFillEyeInvisible } from 'react-icons/ai';
 import { AiFillEye } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc'
-import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import Modal from '../components/modal';
+import axioss from '../Axios/axios'
+import axios from 'axios';
+import { Login } from '../redux/actions/authAction'
 
-export default function Login() {
+export default function LoginPage() {
   // const [credential, setCredential] = useState({
   //   email: undefined,
   //   password: undefined,
   // });
   // const handleChange = e => {
-  //   setCredential(prev => ({...prev, [e.target.id]: e.target.value}))
-  // }
-  const { handleChange, values, errors } = useLoginForm()
+    //   setCredential(prev => ({...prev, [e.target.id]: e.target.value}))
+    // }
+    const { handleChange, values, errors } = useLoginForm()
+    const [error, setErr] = useState({});
+    const dispatch = useDispatch()
   const navigate = useNavigate()
-  // const { dispatch } = useContext(AuthContext)
   const handleClick = async e => {
     e.preventDefault();
     if (Object.keys(errors).length === 0) {
-      // dispatch({ type: 'LOGIN_START' })
       try {
-        const res = await fetch(`${BASE_URL}login`, {
-          method: "post",
-          headers: {
-            "content-type": "application/json"
-          },
-          body: JSON.stringify(values)
+        axioss.post('/login' ,values).then((res)=>{
+           dispatch(Login(res.data.data))
+           navigate('/')
+        }).catch((err) => {
+          console.log(err)
+          // setErr(err.respose.data)
         })
-        const result = await res.json()
-        if (!res.ok) {
-          alert(result.message)
-          navigate('/login')
-          return
-        }
-        console.log(result.data)
-        dispatch({ type: 'AUTH', data: result })
-        navigate('/')
+        // const res = await fetch(`${BASE_URL}login`, {
+        //   method: "post",
+        //   headers: {
+        //     "content-type": "application/json"
+        //   },
+        //   body: JSON.stringify(values)
+        // })
+        // const result = await res.json()
+        // if (!res.ok) {
+        //   alert(result.message)
+        //   navigate('/login')
+        //   return
+        // }
+        // console.log(result.data)
+        // dispatch({ type: 'USER_LOGIN', data: result })
+        // navigate('/')
       } catch (err) {
         console.log(err)
         // dispatch({ type: 'LOGIN_FAILED', payload: err.message })
@@ -67,7 +76,6 @@ export default function Login() {
   };
   const [user, setUser] = useState([]);
   const [profile, setProfile] = useState([]);
-  const dispatch = useDispatch()
   const login = useGoogleLogin({
     onSuccess: async respose => {
       const token = respose.access_token

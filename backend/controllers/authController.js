@@ -39,7 +39,6 @@ export const login = async (req, res) => {
   const email = req.body.email;
   try {
     const user = await User.findOne({ email });
-    console.log(user)
     //if email doesn't exist
     if (!user) {
       return res
@@ -81,6 +80,7 @@ export const login = async (req, res) => {
         data: { ...rest },
       });
   } catch (err) {
+    console.log(err)
     res.status(500).json({ success: false, message: "Failed to login" });
   }
 };

@@ -1,35 +1,46 @@
 /* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import axios from '../../Axios/axios'
+import { useDispatch, useSelector } from "react-redux";
 import useFetchAxios from '../../hooks/useFetchAxios';
 import { BsThreeDots } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import { listRentedItem, removeFromRentedItem } from '../../redux/actions/rentedItems'
 
 function rentedItems() {
   const datas = [];
   const [isOpen, setIsOpen] = useState(Array(datas.length).fill(false))
   const [product,setProduct] = useState('')
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+  const productList = useSelector((state) => state.rentedItem);
+  const products =productList.rentedItems
+  const dispatch = useDispatch();
   const toggleDropdown = (index) => {
     const newIsOpen = [...isOpen];
     newIsOpen[index] = !newIsOpen[index];
     setIsOpen(newIsOpen);
   };
-  const userId = user.data._id
-  const { data: data } = useFetchAxios(`/product/rented-products/${userId}`)
-  const products = data.data
+  const userId = user._id
+  // const { data: data } = useFetchAxios(`/product/rented-products/${userId}`)
+
+  useEffect(()=>{
+    // await axios.get(`/product/rented-products/${userId}`).then((res)=>{
+      dispatch(listRentedItem(userId))
+    // })
+  },[dispatch]);
 
   const handleDelete = async(proId) => {
-    try{
-      if (window.confirm('Are you sure you want to delete this item?')) {
-        const res = await axios.delete(`/product/delete-product/${proId}`)
-        if(!res.data.success){
-          alert('error')
-        }   
-      } 
-    }catch(err){
-      console.log(err)
-    }
+    dispatch(removeFromRentedItem(proId))
+    // try{
+    //   if (window.confirm('Are you sure you want to delete this item?')) {
+    //     const res = await axios.delete(`/product/delete-product/${proId}`)
+    //     if(!res.data.success){
+    //       alert('error')
+    //     }   
+    //   } 
+    // }catch(err){
+    //   console.log(err)
+    // }
   }
   return (
     <div className=' pt-28 px-8'>

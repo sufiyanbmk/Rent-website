@@ -5,8 +5,9 @@ import { json, Link, useLocation, useNavigate } from 'react-router-dom';
 import decode from 'jwt-decode';
 import Button from './Button';
 import logo from '../assets/images/logo.jpg';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Menu, Transition } from '@headlessui/react'
+import { Logout } from '../redux/actions/authAction';
 
 function Navbar() {
   const Links = [
@@ -18,21 +19,24 @@ function Navbar() {
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+  const userLoggedIn = useSelector((state) => state.userLogin)
+  const userInfo = userLoggedIn.authData
+  
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  useEffect(() => {
-    // const token = user?.res.token;
+  // useEffect(() => {
+  //   // const token = user?.res.token;
 
-    // if (token) {
-    //   const decodedToken = decode(token);
+  //   // if (token) {
+  //   //   const decodedToken = decode(token);
 
-    //   if (decodedToken.exp * 1000 < new Date().getTime()) logout();
-    // }
+  //   //   if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+  //   // }
 
-    setUser(JSON.parse(localStorage.getItem('profile')));
-  }, [location]);
+  //   setUser(JSON.parse(localStorage.getItem('profile')));
+  // }, [location]);
   const logout = () => {
-    dispatch({ type: 'LOGOUT', data: null });
+    dispatch(Logout());
     setUser(null);
     navigate('/')
   };
@@ -75,7 +79,7 @@ function Navbar() {
             </li>
           ))}
           <Button className="bg-blue-700 ml-8"><Link to="/rent-form">RENT FORM</Link></Button>
-          {user?.res||user?.success ? (
+          {userInfo?(
             <Menu as="div" className="relative ml-3">
               <div>
                 <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">

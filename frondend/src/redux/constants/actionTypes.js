@@ -1,5 +1,6 @@
-export const AUTH = 'AUTH';
+export const USER_LOGIN = 'USER_LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const SIGNIN_WITH_OTP = 'SIGNIN_WITH-OTP';
 export const PRODUCT_ADDED = 'PRODUCT_ADDED';
 export const RENTED_PRODUCTS_FETCHED = 'RENTED_PRODUCTS_FETCHED';
+export const RENTED_REMOVED_ITEM = 'RENTED_REMOVED_ITEM';

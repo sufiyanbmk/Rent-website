@@ -5,6 +5,7 @@ import FirstForm from "./firstForm";
 import SecondForm from "./secondForm";
 import ThirdForm from "./thirdForm";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const ParentComponent = () => {
   const formList = ["FirstForm", "SecondForm", "ThirdForm"];
@@ -14,8 +15,10 @@ const ParentComponent = () => {
 
   const [page, setPage] = useState(0);
   const [images,setImage] = useState(null)
-  console.log(images)
-  const [user,setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+  console.log(images,'immmmmmmmmmmm')
+  // const [user,setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+  const userInfo = useSelector((state) => state.userLogin)
+  const userId = userInfo.authData._id
 
   const handlePrev = () => {
     setPage(page === 0 ? formLength - 1 : page - 1);
@@ -61,12 +64,12 @@ const ParentComponent = () => {
         return null;
     }
   };
-  const userId = user.data._id
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("data", JSON.stringify(values));
     images.forEach((image) => {
+      console.log('h--------------------------')
       console.log(image,'image')
       formData.append("file", image);
     });
@@ -90,7 +93,6 @@ const ParentComponent = () => {
   };
 
   const handleFile = (e) => {
-    console.log(e,'hiii')
     setImage(e)
   }
 

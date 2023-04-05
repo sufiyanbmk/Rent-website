@@ -1,9 +1,11 @@
 /* eslint-disable */
 import { combineReducers } from 'redux';
-import auth from './auth';
+import authReducer from './auth';
 import { renteditemReducer } from './rentedItemReducer';
 
-export const reducers = combineReducers({ 
-  auth ,
+const reducers = combineReducers({ 
+  userLogin: authReducer ,
   rentedItem: renteditemReducer
 });
+
+export default reducers;

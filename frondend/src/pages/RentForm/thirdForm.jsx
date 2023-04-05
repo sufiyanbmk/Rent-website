@@ -12,8 +12,6 @@ const ThirdForm = ({ onChange, formValues, image}) => {
     setFiles(
       acceptedFiles.map((file) => Object.assign(file, { preview: URL.createObjectURL(file) }))
     );
-    console.log(file);
-    // Trigger onChange event with updated files state
     image(files??files)
   };
 

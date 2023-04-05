@@ -1,6 +1,6 @@
 import products from "../../models/productSchema.js"
 export function addProduct(data,image,userId){
-  console.log(image)
+  console.log(image,'image')
   return new Promise(async(resolve,reject) =>{
     const newProduct = new products({
       userId:userId,

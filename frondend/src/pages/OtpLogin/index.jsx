@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from '../../Axios/axios';
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
+import { OtpLogin } from '../../redux/actions/authAction'
 
 const otpLogin = () => {
   const {mobile } = useParams()
@@ -27,10 +28,8 @@ const otpLogin = () => {
     const otpNumber = otp.join("")
     await axios.post('/verify-otp', {mobile,otpNumber}).then((res) => {
       if(res.data.status){
-        dispatch({
-          type: "SIGNIN_WITH_OTP",
-          data: res.data.user
-        })
+        console.log(res.data.user)
+        dispatch(OtpLogin(res.data.user))
         navigate('/')
       }else{
         setOtpErr(res.data.msg)
