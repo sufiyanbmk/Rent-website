@@ -2,7 +2,7 @@ import product from "../models/productSchema.js";
 import multer from "multer";
 import crypto from "crypto";
 import { deleteFile, getObjectSignedUrl } from "../services/awsS3.js";
-// import {searchProductHelper} from '../helpers/client/product.js'
+import { deleteProuduct } from '../helpers/client/product.js'
 
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
@@ -43,12 +43,10 @@ export const getRentedProducts = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   const id = req.params.id;
-  console.log(id);
   try {
-    await product.deleteOne({ _id: id });
+    const deltedProduct = deleteProuduct(id)
     res.status(200).json({ success: true, message: "Deleted Successfull" });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ success: false, message: "Failed" });
   }
 };

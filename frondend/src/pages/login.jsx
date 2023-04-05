@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import loginImg from '../assets/images/login.jpg';
 import useLoginForm from '../hooks/useLoginForm';
-import { BASE_URL } from '../utils/config';
 import { AiFillEyeInvisible } from 'react-icons/ai';
 import { AiFillEye } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc'
@@ -120,7 +119,6 @@ export default function LoginPage() {
               Password
               <input className="p-2 rounded-lg bg-gray-700 mt-2 ml-5 focus:border-blue-500 focus:bg-gray-800 focus:outline-none" type={showPassword ? 'text' : 'password'} name='password' onChange={handleChange} required />
             </label>
-            {errors.password && <p className='text-red-700'>{errors.password}</p>}
           </div>
           <Button className="bg-blue-700 ml-28 mt-6" type='submit'>LOGIN IN</Button>
 

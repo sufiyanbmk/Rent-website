@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { BASE_URL } from '../utils/config';
 import axios from '../Axios/axios'
 import { useNavigate } from "react-router-dom";
+import useLoginForm from '../hooks/useLoginForm';
 
 export default function Modal() {
   const [showModal, setShowModal] = React.useState(false);
@@ -21,13 +22,13 @@ export default function Modal() {
     });
     setIsOtp((prevIsSignup) => !prevIsSignup);
   };
-  const handleChange = (e) => {
-    if(isOtp){
-      setPhone(e.target.value)
-    }else{
-      setEmail(e.target.value)
-    }
-  }
+  // const handleChange = (e) => {
+  //   if(isOtp){
+  //     setPhone(e.target.value)
+  //   }else{
+  //     setEmail(e.target.value)
+  //   }
+  // }
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -58,6 +59,7 @@ export default function Modal() {
     }
     
   }
+  const { handleChange, values, errors } = useLoginForm()
 
   return (
     <>
@@ -98,11 +100,13 @@ export default function Modal() {
                       {isOtp?<label htmlFor="email">
                         Phone NO
                         <input onChange={handleChange} className="rounded-lg bg-gray-700 mt-2 p-2 ml-12 focus:border-blue-500 focus:bg-gray-800 focus:outline-none" type="number" name='phone' required />
+                        {errors.phone && <p className='text-red-700'>{errors.phone}</p>}
                       </label>:<label htmlFor="email">
                         Email
                         <input onChange={handleChange} className="rounded-lg bg-gray-700 mt-2 p-2 ml-12 focus:border-blue-500 focus:bg-gray-800 focus:outline-none" type="email" name='email' required />
-                      </label>}
-                      {/* {errors.email && <p className='text-red-700'>{errors.email}</p>} */}
+                        {errors.email && <p className='text-red-700'>{errors.email}</p>}
+                      </label>
+                      }
                     </div>
                     <button
                       className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
