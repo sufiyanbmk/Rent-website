@@ -1,7 +1,8 @@
 /* eslint-disable */
 import React from "react";
 
-const FirstForm = ({ formValues, onChange }) => {
+const FirstForm = ({ formValues, onChange, option }) => {
+  const { loading, categories, error } = option;
   return (
     <div>
       <form className="bg-white shadow-md  px-24 pt-16 pb-10 mb-8 rounded-md">
@@ -49,15 +50,26 @@ const FirstForm = ({ formValues, onChange }) => {
           >
             Catagory
           </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="catagory"
-            name="catagory"
+          <select
+            className="block shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="city"
+            name="city"
             onChange={onChange}
-            value={formValues.catagory}
-            type="text"
-            placeholder="Select Catagory"
-          ></input>
+            value={formValues.city}
+          >
+            <option value="">Select a category</option>
+            {loading ? (
+              <option>Loading...</option>
+            ) : error ? (
+              <option>{error}</option>
+            ) : (
+              categories.map((category) => (
+                <option key={category._id} value={category._id}>
+                  {category.firstName}
+                </option>
+              ))
+            )}
+          </select>
         </div>
         <div className="mb-6">
           <label
@@ -66,15 +78,16 @@ const FirstForm = ({ formValues, onChange }) => {
           >
             Documents
           </label>
-          <input
+           <textarea
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="documents"
             name="documents"
             onChange={onChange}
             value={formValues.documents}
-            type="text"
             placeholder="Cumpolsary Documents"
-          ></input>
+            rows="5" 
+            cols="50" 
+          ></textarea>
         </div>
         <div className="mb-6">
           <label
@@ -83,15 +96,16 @@ const FirstForm = ({ formValues, onChange }) => {
           >
             Description
           </label>
-          <input
+          <textarea
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="description"
             name="description"
             onChange={onChange}
             value={formValues.description}
-            type="text"
             placeholder="Enter Description"
-          ></input>
+            rows="5"
+            cols="50" 
+          ></textarea>
         </div>
         <div className="flex items-center justify-between"></div>
       </form>

@@ -1,18 +1,16 @@
-/* eslint-disabale */
-/* eslint-disable */
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Home from "../pages/Homepage";
-import LoginPage from "../pages/login";
-import Signup from "../pages/signup";
-import ResetPassword from "../pages/ResetPassword";
-import VerifyEmail from "../pages/VerifyMail";
-import OtpLogin from "../pages/OtpLogin";
-import RentForm from "../pages/RentForm";
-import RentedItem from "../pages/RentedItem";
-import SingleProduct from "../pages/ProductDetail";
-import SearchedProduct from "../pages/SearchedProduct";
-import { IsLogged } from "../auth/loginAuth";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Home from '../pages/Homepage';
+import LoginPage from '../pages/login';
+import Signup from '../pages/signup';
+import ResetPassword from '../pages/ResetPassword';
+import VerifyEmail from '../pages/VerifyMail';
+import OtpLogin from '../pages/OtpLogin';
+import RentForm from '../pages/RentForm';
+import RentedItem from '../pages/RentedItem';
+import SingleProduct from '../pages/ProductDetail';
+import SearchedProduct from '../pages/SearchedProduct';
+import { IsLogged } from '../auth/loginAuth';
 
 function Routers() {
   return (
@@ -34,7 +32,6 @@ function Routers() {
         element={<SearchedProduct />}
       />
     </Routes>
-    // </BrowserRouter>
   );
 }
 

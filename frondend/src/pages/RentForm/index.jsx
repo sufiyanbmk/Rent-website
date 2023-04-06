@@ -1,25 +1,29 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from '../../Axios/axios'
 import FirstForm from "./firstForm";
 import SecondForm from "./secondForm";
 import ThirdForm from "./thirdForm";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { getCatagory } from '../../redux/actions/catagory'
 
 const ParentComponent = () => {
   const formList = ["FirstForm", "SecondForm", "ThirdForm"];
   const navigate = useNavigate()
-
   const formLength = formList.length;
-
   const [page, setPage] = useState(0);
   const [images,setImage] = useState(null)
   console.log(images,'immmmmmmmmmmm')
-  // const [user,setUser] = useState(JSON.parse(localStorage.getItem('profile')))
   const userInfo = useSelector((state) => state.userLogin)
   const userId = userInfo.authData._id
+  const dispatch = useDispatch();
 
+  useEffect(()=>{
+    dispatch(getCatagory())
+},[dispatch]);
+
+const opitons = useSelector((state) => state.catagories);
   const handlePrev = () => {
     setPage(page === 0 ? formLength - 1 : page - 1);
   };
@@ -45,7 +49,7 @@ const ParentComponent = () => {
       case 0: {
         return (
           <div>
-            <FirstForm formValues={values} onChange={onChange}></FirstForm>
+            <FirstForm formValues={values} onChange={onChange} option={opitons}></FirstForm>
           </div>
         );
       }
@@ -97,7 +101,7 @@ const ParentComponent = () => {
   }
 
   return (
-    <div className="p-12 w-fit"> 
+    <div className="md:p-12 p-4"> 
       <div className="flex-1">{handleForms()}</div>
       <div className="grid grid-cols-2 gap-4 place-content-center items-center">
         <button

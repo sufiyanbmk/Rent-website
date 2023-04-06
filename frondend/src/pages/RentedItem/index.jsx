@@ -24,9 +24,7 @@ function rentedItems() {
   // const { data: data } = useFetchAxios(`/product/rented-products/${userId}`)
 
   useEffect(()=>{
-    // await axios.get(`/product/rented-products/${userId}`).then((res)=>{
       dispatch(listRentedItem(userId))
-    // })
   },[dispatch]);
 
   const handleDelete = async(proId) => {
