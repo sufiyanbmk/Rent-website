@@ -4,11 +4,12 @@ import { useDropzone } from 'react-dropzone';
 import Error from "./error";
 import addFileIcon from '../../assets/images/addFileIcon.svg';
 
-const ThirdForm = ({ onChange, formValues, image }) => {
+const ThirdForm = ({ onChange, formValues, image, errors }) => {
   const [files, setFiles] = useState([]);
   console.log(formValues.link)
 
   const handleUpload = (acceptedFiles) => {
+    console.log(acceptedFiles.length, 'accept ------------------')
     const file = acceptedFiles[0]
     setFiles(
       acceptedFiles.map((file) => Object.assign(file, { preview: URL.createObjectURL(file) }))
@@ -18,7 +19,7 @@ const ThirdForm = ({ onChange, formValues, image }) => {
 
   const { getRootProps, getInputProps, acceptedFiles, fileRejections } = useDropzone(
     {
-      maxFiles: 4,
+      maxFiles: 3,
       accept: {
         "image/png": [".png", ".jpg", '.jpeg',]
       },
@@ -42,7 +43,7 @@ const ThirdForm = ({ onChange, formValues, image }) => {
           <div {...getRootProps(
             { className: "text-center cursor-pointer" }
           )}>
-            <input {...getInputProps()}
+            <input {...getInputProps({ required: true })}
               name='image'
             />
             <img className=' mx-auto h-28 ' src={addFileIcon} alt="addfile" />
@@ -72,23 +73,10 @@ const ThirdForm = ({ onChange, formValues, image }) => {
                 </div>
               ))
             }
-            {/* {
-              files.map((file) => (
-                <div className="image-preview m-2 p-4 w-40 h-40 " key={file.name}>
-                  <img src={file.preview} alt="thumnail"
-                    className='w-auto h-full rounded-md'
-                    onLoad={
-                      () => {
-                        URL.revokeObjectURL(file.preview)
-                      }
-                    }
-                  />
-                </div>
-              ))
-            } */}
           </div>
 
           <div className="filesAccepted">
+            {errors.image && <p className='text-red-700'>{errors.image}</p>}
             {
               acceptedFiles[0] ? <p className='text-green-500 text-2xl'>🙂 Files accepted </p> : ''
             }
@@ -102,24 +90,25 @@ const ThirdForm = ({ onChange, formValues, image }) => {
             }
 
           </div>
-
+          {errors.image && <p className='text-red-700'>{errors.image}</p>}
         </section>
 
-
-        <div className="flex justify-items-center content-center items-center">
-          <label
-            className="block text-gray-700 px-2  text-sm font-bold mb-2"
-            htmlFor="Terms"
-          >
-            Terms
-          </label>
+        <div className="flex items-center">    
           <input
             name="terms"
             value={formValues.terms}
             onChange={onChange}
             className="shadow cursor-pointer border rounded"
             type="checkbox"
-          ></input>
+            required
+          />
+          <label
+            className="block text-gray-700 px-3 mt-2  text-sm font-bold mb-2"
+            htmlFor="Terms"
+          >
+            I agree all the Terms &amp; condition
+          </label>
+          {errors.terms && <p className='text-red-700'>{errors.terms}</p>}
         </div>
         <div className="flex items-center justify-between"></div>
       </form>

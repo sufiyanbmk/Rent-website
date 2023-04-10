@@ -2,29 +2,31 @@
 import React from "react";
 import { WithContext as ReactTags } from 'react-tag-input';
 
-const FirstForm = ({ formValues, onChange, option, Doc }) => {
+const FirstForm = ({ formValues, onChange, option, Doc, errors }) => {
   const { loading, categories, error } = option;
   const KeyCodes = {
     comma: 188,
     enter: 13
   };
   const delimiters = [KeyCodes.comma, KeyCodes.enter];
-
+  const Documents = ["license","adharr card","pan card" ]
+  const suggestions = Documents.map(country => {
+    return {
+      id: country,
+      text: country
+    };
+  });
   const [tags, setTags] = React.useState([
-    { id: 'Thailand', text: 'Thailand' },
-    { id: 'India', text: 'India' },
-    { id: 'Vietnam', text: 'Vietnam' },
-    { id: 'Turkey', text: 'Turkey' }
+    { id: 'license', text: 'License' },
+    { id: 'adharrcard', text: 'adharr card' },
   ]);
   const handleDelete = i => {
     setTags(tags.filter((tag, index) => index !== i));
   };
   const handleAddition = tag => {
     setTags([...tags, tag]);
+    console.log(tags,'tags-----------------')
     Doc(tags)
-  };
-  const handleTagClick = index => {
-    console.log('The tag at index ' + index + ' was clicked');
   };
   return (
     <div>
@@ -48,6 +50,7 @@ const FirstForm = ({ formValues, onChange, option, Doc }) => {
             onChange={onChange}
             value={formValues.productName}
           ></input>
+          {errors.name && <p className='text-red-700'>{errors.name}</p>}
         </div>
         <div className="mb-6">
           <label
@@ -65,6 +68,7 @@ const FirstForm = ({ formValues, onChange, option, Doc }) => {
             type="number"
             placeholder="Enter the Price"
           ></input>
+          {errors.price && <p className='text-red-700'>{errors.price}</p>}
         </div>
         <div className="mb-6">
           <label
@@ -79,6 +83,7 @@ const FirstForm = ({ formValues, onChange, option, Doc }) => {
             name="catagory"
             onChange={onChange}
             value={formValues.category}
+            required
           >
             <option value="">{formValues.catagory ? formValues.catagory :"Select a category"}</option>
             {loading ? (
@@ -102,16 +107,17 @@ const FirstForm = ({ formValues, onChange, option, Doc }) => {
             Documents
           </label>
            <ReactTags
+           name="documents"
           tags={tags}
-          // suggestions={suggestions}
+          suggestions={suggestions}
           delimiters={delimiters}
           handleDelete={handleDelete}
           handleAddition={handleAddition}
           value={formValues.tags}
-          handleTagClick={handleTagClick}
           inputFieldPosition="top"
           autocomplete
         />
+        {errors.documents && <p className='text-red-700'>{errors.documents}</p>}
         </div>
         <div className="mb-6">
           <label
@@ -130,6 +136,7 @@ const FirstForm = ({ formValues, onChange, option, Doc }) => {
             rows="5"
             cols="50" 
           ></textarea>
+          {errors.description && <p className='text-red-700'>{errors.description}</p>}
         </div>
         <div className="flex items-center justify-between"></div>
       </form>

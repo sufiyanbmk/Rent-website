@@ -22,7 +22,56 @@ const ParentComponent = () => {
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   const productId = queryParams.id;
-
+  const [errors, setErrors] = useState({});
+    
+  const firstValidateForm = () => {
+      let newErrors = {};
+      if (!values.productName) {
+        newErrors.name = 'Name is required';
+      }
+      if (!values.price) {
+        newErrors.price = 'Price is required';
+      } else if (isNaN(Number(values.price))) {
+        newErrors.price = 'Price must be a number';
+      }
+      if (!values.description) {
+        newErrors.description = 'Description is required';
+      }
+      if (!values.documents || values.documents.length < 3) {
+        // console.log(values,'----------------')
+        newErrors.documents = 'At least 3 documents are required';
+      }
+      setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
+    };
+    const secondValidateForm = () => {
+      let newErrors = {};
+      if (!values.address) {
+        newErrors.address = 'Address is required';
+      }
+      if (!values.city) {
+        newErrors.city = 'City is required';
+      }
+      if (!values.state) {
+        newErrors.state = 'State is required';
+      }
+      setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
+    };
+    const thirdValidateForm = () => {
+      let newErrors = {};
+      if(!images){
+        newErrors.image = 'image is required'
+      }else if(images.length < 1){
+        newErrors.image = 'Three image is required';
+      }
+      if(!values.terms){
+        newErrors.terms = 'agree the terms and condition'
+      } 
+      setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
+    }
+    
   useEffect(()=>{
     dispatch(getCatagory())
 },[dispatch]);
@@ -38,7 +87,20 @@ console.log(editProduct,'editproducts')
     setPage(page === 0 ? formLength - 1 : page - 1);
   };
   const handleNext = () => {
-    setPage(page === formLength - 1 ? 0 : page + 1);
+    if(page === 0){
+      const isValidate = firstValidateForm()
+      if(isValidate){
+        setPage(page === formLength - 1 ? 0 : page + 1);
+      }
+    }else if(page === 1){
+      const isValidate = secondValidateForm()
+      console.log(isValidate)
+      if(isValidate){
+        console.log(isValidate,'isval-----------')
+        setPage(page === formLength - 1 ? 0 : page + 1);
+      }
+    }
+  
   };
   let initialValues = {};
   if(productId){
@@ -87,6 +149,7 @@ console.log(editProduct,'editproducts')
             onChange={onChange} 
             option={opitons} 
             Doc = {setDoc}
+            errors={errors}
             ></FirstForm>
           </div>
         );
@@ -96,20 +159,27 @@ console.log(editProduct,'editproducts')
           <SecondForm
             formValues={values}
             onChange={onChange}
+            errors={errors}
           ></SecondForm>
         );
       }
       case 2: {
-        return <ThirdForm formValues={values} onChange={onChange} image ={handleFile}></ThirdForm>;
+        return <ThirdForm 
+          formValues={values} 
+          onChange={onChange} 
+          image ={handleFile}
+          errors={errors}
+          ></ThirdForm>;
       }
       default:
         return null;
     }
   };
-  console.log(values)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
+    const isFormValid = thirdValidateForm();
+    if(isFormValid){
+      const formData = new FormData();
     formData.append("data", JSON.stringify(values));
     if(images !== null){
       images.forEach((image) => {
@@ -137,20 +207,27 @@ console.log(editProduct,'editproducts')
     } catch (err) {
       console.log(err);
     }
+    }else{
+      console.log(errors);
+    }
+    
 };
 
   const onChange = (e) => {
     const {name, value, type, checked } = e.target;
     setValues({ ...values, [name]: type === "checkbox" ? checked : value });
+    firstValidateForm();
+    secondValidateForm
   };
 
   const setDoc=(value)=>{
-    console.log(value)
     setValues({...values,documents:value})
+    firstValidateForm();
   }
 
   const handleFile = (e) => {
     setImage(e)
+    thirdValidateForm()
   }
 
   return (

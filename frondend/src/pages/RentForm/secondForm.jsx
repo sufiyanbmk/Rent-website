@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 
-const SecondForm = ({ formValues, onChange, option }) => {
+const SecondForm = ({ formValues, onChange, errors }) => {
   return (
     <div>
       <form className="bg-white shadow-md  px-24 pt-16 pb-10 mb-8 rounded-md">
@@ -24,6 +24,7 @@ const SecondForm = ({ formValues, onChange, option }) => {
             value={formValues.address}
             onChange={onChange}
           ></input>
+          {errors.address && <p className='text-red-700'>{errors.address}</p>}
         </div>
         <div className="mb-6">
           <label
@@ -41,6 +42,7 @@ const SecondForm = ({ formValues, onChange, option }) => {
             onChange={onChange}
             placeholder="Enter the City"
           ></input>
+          {errors.city && <p className='text-red-700'>{errors.city}</p>}
         </div>
         <div className="mb-6">
           <label
@@ -58,6 +60,7 @@ const SecondForm = ({ formValues, onChange, option }) => {
             onChange={onChange}
             placeholder="Enter the State"
           ></input>
+          {errors.state && <p className='text-red-700'>{errors.state}</p>}
         </div>
         <div className="flex items-center justify-between"></div>
       </form>
