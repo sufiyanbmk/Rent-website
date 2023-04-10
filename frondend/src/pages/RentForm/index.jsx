@@ -4,9 +4,10 @@ import axios from '../../Axios/axios'
 import FirstForm from "./firstForm";
 import SecondForm from "./secondForm";
 import ThirdForm from "./thirdForm";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCatagory } from '../../redux/actions/catagory'
+import queryString from 'query-string';
 
 const ParentComponent = () => {
   const formList = ["FirstForm", "SecondForm", "ThirdForm"];
@@ -14,42 +15,79 @@ const ParentComponent = () => {
   const formLength = formList.length;
   const [page, setPage] = useState(0);
   const [images,setImage] = useState(null)
-  console.log(images,'immmmmmmmmmmm')
+  console.log(images,'images')
   const userInfo = useSelector((state) => state.userLogin)
   const userId = userInfo.authData._id
   const dispatch = useDispatch();
+  const location = useLocation();
+  const queryParams = queryString.parse(location.search);
+  const productId = queryParams.id;
 
   useEffect(()=>{
     dispatch(getCatagory())
 },[dispatch]);
 
 const opitons = useSelector((state) => state.catagories);
+const editProduct = useSelector((state) => {
+  const rentedItems = state.rentedItem.rentedItems || [];
+  console.log(rentedItems,'renddd')
+  return rentedItems.find(product => product._id === productId);
+});
+console.log(editProduct,'editproducts')
   const handlePrev = () => {
     setPage(page === 0 ? formLength - 1 : page - 1);
   };
   const handleNext = () => {
     setPage(page === formLength - 1 ? 0 : page + 1);
   };
-
-  const initialValues = {
-    productName: "",
-    price: "",
-    catagory: "",
-    documents: "",
-    description: "",
-    city: "",
-    address: "",
-    state: "",
-    terms: "",
-    image:""
-  };
+  let initialValues = {};
+  if(productId){
+    initialValues = {
+      productName: editProduct.productName,
+      price: editProduct.price,
+      catagory: editProduct.category,
+      documents: editProduct.documents,
+      description: editProduct.description,
+      city: editProduct.city,
+      address: editProduct.address,
+      state: editProduct.state,
+      terms: "",
+      link:editProduct.links, 
+      image:editProduct.file
+    };
+  }else{
+    initialValues = {
+      productName: "",
+      price: "",
+      catagory: "",
+      documents: [],
+      description: "",
+      city: "",
+      address: "",
+      state: "",
+      terms: "",
+      image:"",
+      link:[],
+    };
+  }
+  useEffect(()=>{
+    if(!productId){
+      setValues(initialValues)
+    }
+  },[productId])
   const [values, setValues] = useState(initialValues);
+  
   const handleForms = () => {
     switch (page) {
       case 0: {
         return (
           <div>
-            <FirstForm formValues={values} onChange={onChange} option={opitons}></FirstForm>
+            <FirstForm 
+            formValues={values} 
+            onChange={onChange} 
+            option={opitons} 
+            Doc = {setDoc}
+            ></FirstForm>
           </div>
         );
       }
@@ -68,33 +106,48 @@ const opitons = useSelector((state) => state.catagories);
         return null;
     }
   };
+  console.log(values)
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("data", JSON.stringify(values));
-    images.forEach((image) => {
-      console.log('h--------------------------')
-      console.log(image,'image')
-      formData.append("file", image);
-    });
+    if(images !== null){
+      images.forEach((image) => {
+        console.log('h--------------------------')
+        console.log(image,'image')
+        formData.append("file", image);
+      });
+    }  
     formData.append('userId', userId)  
-    await axios.post('/product/add-product', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
+    try {
+      let res = '';
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+      if(productId){
+        res = await axios.put(`/product/edit-product/${productId}` , formData, config);
+      }else{
+        res = await axios.post('/product/add-product', formData, config);
+      }    
+      if (res.data.success) {
+        navigate('/rented-item');
       }
-    }).then((res)=>{
-      if(res.data.success){
-        navigate('/rented-item')
-      }
-    }).catch((err)=>{
-      console.log(err)
-    })
+    } catch (err) {
+      console.log(err);
+    }
 };
 
   const onChange = (e) => {
     const {name, value, type, checked } = e.target;
     setValues({ ...values, [name]: type === "checkbox" ? checked : value });
   };
+
+  const setDoc=(value)=>{
+    console.log(value)
+    setValues({...values,documents:value})
+  }
 
   const handleFile = (e) => {
     setImage(e)
@@ -116,7 +169,7 @@ const opitons = useSelector((state) => state.catagories);
             onClick={handleSubmit}
             className="bg-blue-200 hover:bg-blue-300 rounded-md text-gray-800 font-bold py-2 px-4 "
           >
-            Submit
+            {productId?"Edit":"Submit"}
           </button>
         ) : (
           <button

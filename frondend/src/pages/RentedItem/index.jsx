@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../Axios/axios'
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import useFetchAxios from '../../hooks/useFetchAxios';
 import { BsThreeDots } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
@@ -21,7 +22,7 @@ function rentedItems() {
     setIsOpen(newIsOpen);
   };
   const userId = user._id
-  // const { data: data } = useFetchAxios(`/product/rented-products/${userId}`)
+  const navigate = useNavigate()
 
   useEffect(()=>{
       dispatch(listRentedItem(userId))
@@ -29,16 +30,10 @@ function rentedItems() {
 
   const handleDelete = async(proId) => {
     dispatch(removeFromRentedItem(proId))
-    // try{
-    //   if (window.confirm('Are you sure you want to delete this item?')) {
-    //     const res = await axios.delete(`/product/delete-product/${proId}`)
-    //     if(!res.data.success){
-    //       alert('error')
-    //     }   
-    //   } 
-    // }catch(err){
-    //   console.log(err)
-    // }
+  }
+
+  const handleEdit = (proId) => {
+    navigate(`/rent-form?id=${proId}`)
   }
   return (
     <div className=' pt-28 px-8'>
@@ -70,9 +65,9 @@ function rentedItems() {
                     <a
                       href="#"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                      role="menuitem"
+                      role="menuitem" onClick={ (e)=> handleEdit(product._id) }
                     >
-                      Option 2
+                      Edit
                     </a>
                     <a
                       href="#"
@@ -86,7 +81,7 @@ function rentedItems() {
               )}
             </div>
             <a href="#">
-              <img className="p-8 rounded-t-lg" src={product.link} alt="product image" />
+              <img className="p-8 rounded-t-lg" src={product.links[0]} alt="product image" />
             </a>
             <div className="px-5 pb-5">
               <a href="#">

@@ -4,15 +4,16 @@ import { useDropzone } from 'react-dropzone';
 import Error from "./error";
 import addFileIcon from '../../assets/images/addFileIcon.svg';
 
-const ThirdForm = ({ onChange, formValues, image}) => {
+const ThirdForm = ({ onChange, formValues, image }) => {
   const [files, setFiles] = useState([]);
-  
+  console.log(formValues.link)
+
   const handleUpload = (acceptedFiles) => {
     const file = acceptedFiles[0]
     setFiles(
       acceptedFiles.map((file) => Object.assign(file, { preview: URL.createObjectURL(file) }))
     );
-    image(files??files)
+    image(files ?? files)
   };
 
   const { getRootProps, getInputProps, acceptedFiles, fileRejections } = useDropzone(
@@ -41,15 +42,23 @@ const ThirdForm = ({ onChange, formValues, image}) => {
           <div {...getRootProps(
             { className: "text-center cursor-pointer" }
           )}>
-            <input {...getInputProps()} 
-            name='image'
+            <input {...getInputProps()}
+              name='image'
             />
             <img className=' mx-auto h-28 ' src={addFileIcon} alt="addfile" />
             <p className='text-xl font-semibold'>Drop a file here</p>
           </div>
 
           <div className="flex justify-center flex-wrap ">
-            {
+            {formValues.link &&
+              formValues.link.map((imageLink) => (
+                <div className="image-preview m-2 p-4 w-40 h-40 ">
+                  <img src={imageLink} alt="thumnail"
+                    className='w-auto h-full rounded-md'
+                  />
+                </div>
+              ))
+            }{files &&
               files.map((file) => (
                 <div className="image-preview m-2 p-4 w-40 h-40 " key={file.name}>
                   <img src={file.preview} alt="thumnail"
@@ -63,13 +72,27 @@ const ThirdForm = ({ onChange, formValues, image}) => {
                 </div>
               ))
             }
+            {/* {
+              files.map((file) => (
+                <div className="image-preview m-2 p-4 w-40 h-40 " key={file.name}>
+                  <img src={file.preview} alt="thumnail"
+                    className='w-auto h-full rounded-md'
+                    onLoad={
+                      () => {
+                        URL.revokeObjectURL(file.preview)
+                      }
+                    }
+                  />
+                </div>
+              ))
+            } */}
           </div>
 
           <div className="filesAccepted">
             {
               acceptedFiles[0] ? <p className='text-green-500 text-2xl'>🙂 Files accepted </p> : ''
             }
-            
+
           </div>
 
 

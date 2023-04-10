@@ -22,21 +22,35 @@ export const addProduct = async (req, res) => {
   }
 };
 
+// export const getRentedProducts = async (req, res) => {
+//   const userID = req.params.id;
+//   try {
+//     const rentedProduct = await product.find({ userId: userID });
+//     for (let product of rentedProduct) {
+//       let imageUrl = await getObjectSignedUrl(product.file[0]);
+//       product.set("link", imageUrl, { strict: false });
+//     }
+//     res
+//       .status(200)
+//       .json({ success: true, message: "Successfull", data: rentedProduct });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ success: false, message: "Failed" });
+//   }
+// };
+
 export const getRentedProducts = async (req, res) => {
   const userID = req.params.id;
   try {
-    const rentedProduct = await product.find({ userId: userID });
-    for (let product of rentedProduct) {
-      console.log(product)
-      console.log(product.file[0]);
-      let imageUrl = await getObjectSignedUrl(product.file[0]);
-      product.set("link", imageUrl, { strict: false });
-    }
-    res
-      .status(200)
-      .json({ success: true, message: "Successfull", data: rentedProduct });
+    const rentedProducts = await product.find({ userId: userID });
+    const promises = rentedProducts.map(async (product) => {
+      const signedUrls = await Promise.all(product.file.map(getObjectSignedUrl));
+      product.set("links", signedUrls, { strict: false });
+      return product;
+    });
+    const rentedProductsWithSignedUrls = await Promise.all(promises);
+    res.status(200).json({ success: true, message: "Successfull", data: rentedProductsWithSignedUrls });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ success: false, message: "Failed" });
   }
 };

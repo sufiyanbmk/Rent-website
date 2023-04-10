@@ -8,13 +8,12 @@ const ProductSchema = new mongoose.Schema(
     price: Number,
     description: String,
     category: String,
-    documents:String,
     rating: Number,
     supply: Number,
     address:String,
     city:String,
     state:String,
-    documents:String,
+    documents:Array,
     file:Array
   },
   // { timestamps: true }

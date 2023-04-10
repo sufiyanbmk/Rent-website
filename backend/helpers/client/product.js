@@ -2,13 +2,12 @@ import products from "../../models/productSchema.js"
 import { deleteFile } from "../../services/awsS3.js"
 
 export function addProduct(data,image,userId){
-  console.log(image,'image')
   return new Promise(async(resolve,reject) =>{
     const newProduct = new products({
       userId:userId,
       productName: data.productName,
       price: data.price,
-      category:data.category,
+      category:data.catagory,
       documents:data.documents,
       description:data.description,
       address:data.address,
@@ -27,7 +26,6 @@ export function addProduct(data,image,userId){
 export function deleteProuduct(id){
   return new Promise(async (resolve,reject)=>{
     const product = await products.findById(id)
-    console.log(product.file)
     product.file.map((x) => {
       deleteFile(x)
     })
@@ -36,6 +34,28 @@ export function deleteProuduct(id){
     }).catch((err)=>{
       reject(err)
     })
+  })
+}
+
+export function editProduct(data,image,proId){
+  return new Promise(async(resolve,reject)=>{
+    try{
+      if(image.length > 0){
+        data.file = image
+      }else{
+        data.file = data.image;
+        data.image = []
+      }
+      const oldProduct = await products.findByIdAndUpdate(proId,data)
+      oldProduct.file.map((x) => {
+        deleteFile(x)
+      })
+      resolve('successfull')
+    }catch(err){
+      reject(err)
+    }
+   
+
   })
 }
 
