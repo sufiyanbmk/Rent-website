@@ -1,66 +1,51 @@
 /* eslint-disable */
 import React, { useState } from "react";
-import { BASE_URL } from '../utils/config';
 import axios from '../Axios/axios'
 import { useNavigate } from "react-router-dom";
 import useLoginForm from '../hooks/useLoginForm';
 
 export default function Modal() {
   const [showModal, setShowModal] = React.useState(false);
-  const intitialState = {email:'',phone:''}
-  const [form, setForm] = useState({ email: '',phone: ''});
   const [isOtp, setIsOtp] = useState(false);
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [error, setErr] = useState({});
+  const [error, setErr] = useState('');
   const [msg, setMsg] = useState(null);
   const navigate = useNavigate()
   const switchMode = () => {
-    setForm({
-      email: '',
-      phone: ''
-    });
+    setErr('')
     setIsOtp((prevIsSignup) => !prevIsSignup);
   };
-  // const handleChange = (e) => {
-  //   if(isOtp){
-  //     setPhone(e.target.value)
-  //   }else{
-  //     setEmail(e.target.value)
-  //   }
-  // }
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    
+    e.preventDefault();   
     if(isOtp){
       try{
-        await axios.post('/otp-login',{ phone }).then((res)=>{
-          console.log(res)
+        await axios.post('/otp-login',{ values }).then((res)=>{
           if(res.data.status){
             navigate(`/otp-login/${res.data.mobile}`)
           }
         }).catch((err)=>{
-          console.log(err)
+          setErr(err.response.data)
         })
       }catch(err){
         console.log(err)
       }
     }else{
       try {
-        axios.post('/forgot-password', { email }).then((res) => {
-          console.log(res)
-          setMsg(res.data.msg);
+        axios.post('/forgot-password', { values }).then((res) => {
+          console.log(res.data.data)
+          setMsg(res.data);
         }).catch((err) => {
-          // setErr(err.response.data);
+          setErr(err.response.data)
         });
       } catch (err) {
-        console.log(err)
+        setErr({message:"network error"})
       }
     }
     
   }
   const { handleChange, values, errors } = useLoginForm()
-
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
   return (
     <>
       <button
@@ -93,6 +78,8 @@ export default function Modal() {
                   </button>
                 </div>
                 {/*body*/}
+                {msg && <h1 className="text-green-700 font-bold">{msg.message}</h1>}
+                {error && <h4 className="text-red-600">{error.message}</h4>}
                 <div className="bg-gray-800 flex flex-col justify-center">
                   <form onSubmit={handleSubmit} className={`max-w-[400px] w-full mx-auto rounded-lg bg-gray-900 p-8 px-8 {classes.form}`}>
                     <h2 className="text-4xl dark:text-white font-bold text-center">{isOtp?'Enter Phone NO':"Enter Email"}</h2>

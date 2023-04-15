@@ -36,7 +36,7 @@ function rentedItems() {
     navigate(`/rent-form?id=${proId}`)
   }
   return (
-    <div className=' pt-28 px-8'>
+    <div className='pt-28 px-8'>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products?.map((product, index) => (
           <div key={index} className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">

@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema(
     username: {
       type: String,
       required: true,
-      unique: true,
     },
     email: {
       type: String,
@@ -14,13 +13,18 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
     },
     phone:{
       type:Number,
-      required: true,
+    },
+    profileImage:{
+      type:String,
     },
     blocked:{
+      type:Boolean,
+      default:false,
+    },
+    verified:{
       type:Boolean,
       default:false,
     },

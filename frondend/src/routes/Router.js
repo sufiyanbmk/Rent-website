@@ -10,6 +10,7 @@ import RentForm from '../pages/RentForm';
 import RentedItem from '../pages/RentedItem';
 import SingleProduct from '../pages/ProductDetail';
 import SearchedProduct from '../pages/SearchedProduct';
+import ViewProfile from '../pages/ViewProfile';
 import { IsLogged } from '../auth/loginAuth';
 
 function Routers() {
@@ -20,11 +21,12 @@ function Routers() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/reset-Password/:id/:token" element={<ResetPassword />} />
-      <Route path="/verify-mail/:token" element={<VerifyEmail />} />
+      <Route path="/verify-mail/:token/:email" element={<VerifyEmail />} />
       <Route path="/otp-login/:mobile" element={<OtpLogin />} />
       <Route element={<IsLogged />}>
         <Route path="/rent-form" element={<RentForm />} />
         <Route path="/rented-item" element={<RentedItem />} />
+        <Route path="/view-profile" element={<ViewProfile />} />
       </Route>
       <Route path="/product-detail/:id" element={<SingleProduct />} />
       <Route

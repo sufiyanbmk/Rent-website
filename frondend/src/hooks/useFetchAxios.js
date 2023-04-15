@@ -6,12 +6,12 @@ function useFetchAxios(url) {
   console.log(url)
   const [data,setData] = useState([]);
   const [error,setError] = useState(null);
-  const [loading,setLoading] = useState(false)
+  const [isLoading,isSetLoading] = useState(false)
   useEffect(()=> {
     const fetchData = async()=>{
-      setLoading(true)
+      isSetLoading(true)
       try {
-        const res = await axios.get(url)
+        const res = await axios.get(url);
         if(!res.data.success){
           setError('failed to fetch')
           alert('Error occured')
@@ -19,10 +19,10 @@ function useFetchAxios(url) {
         // const rresult = await res.json()
         // console.log(rresult,'hiii')
         setData(res.data)
-        setLoading(false)
+        isSetLoading(false)
       } catch (err) {
         setError(err.message)
-        setLoading(false)
+        isSetLoading(false)
       }
     }
     fetchData()
@@ -31,7 +31,7 @@ function useFetchAxios(url) {
   return {
     data,
     error,
-    loading
+    isLoading
   }
 }
 

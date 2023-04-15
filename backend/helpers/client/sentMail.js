@@ -11,14 +11,12 @@ export const transport = async (mailOpt) => {
   oAuth2Client.setCredentials({
     refresh_token: process.env.oAuth2_REFRESH_TOKEN,
   });
-
   const accessToken = await oAuth2Client.getAccessToken();
-
   const transport = nodemailer.createTransport({
     service: "gmail",
     auth: {
       type: "OAuth2",
-      user: "sufiyanbmk@gmail.com",
+      user: "sufiyanbmk01@gmail.com",
       clientId: process.env.oAuth2_CLIENT_ID,
       clientSecret: process.env.oAuth2_CLIENT_SECRECT,
       refreshToken: process.env.oAuth2_REFRESH_TOKEN,

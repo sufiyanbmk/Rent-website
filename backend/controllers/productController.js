@@ -2,7 +2,7 @@ import product from "../models/productSchema.js";
 import multer from "multer";
 import crypto from "crypto";
 import { deleteFile, getObjectSignedUrl } from "../services/awsS3.js";
-import { deleteProuduct } from '../helpers/client/product.js'
+import { deleteProuduct, searchProductHelper } from '../helpers/client/product.js'
 
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
@@ -70,8 +70,6 @@ export const getSingleProduct = async (req, res) => {
 
   try {
     const singleProduct = await product.findOne({ _id: id });
-
-    console.log(singleProduct)
     let imageUrl = await getObjectSignedUrl(singleProduct.file[0]);
     
     singleProduct.set("link", imageUrl, { strict: false });
@@ -79,17 +77,24 @@ export const getSingleProduct = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Successfull", data: singleProduct });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ success: false, message: "Failed" });
   }
 };
 
-// export const getSearchedProduct = async(req,res) => {
-//   const {state,catagory} = req.params;
-//   console.log(state,catagory)
-//   try{
-//     const data = searchProductHelper(state,catagory)
-//   }catch(err){
-
-//   }
-// }
+export const getSearchedProduct = async(req,res) => {
+  const {state,catagory} = req.params;
+  try{
+    const data = await searchProductHelper(state,catagory)
+    const promises = data.map(async (product) => {
+      const signedUrls = await Promise.all(product.file.map(getObjectSignedUrl));
+      product.set("links", signedUrls, { strict: false });
+      return product;
+    });
+    const productsWithSignedUrls = await Promise.all(promises);
+    res
+    .status(200)
+    .json({ success: true, message: "Successfull", data: productsWithSignedUrls });
+  }catch(err){
+    res.status(500).json({ success: false, message: "Failed" });
+  }
+}

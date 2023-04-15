@@ -15,84 +15,45 @@ import axios from 'axios';
 import { Login } from '../redux/actions/authAction'
 
 export default function LoginPage() {
-  // const [credential, setCredential] = useState({
-  //   email: undefined,
-  //   password: undefined,
-  // });
-  // const handleChange = e => {
-    //   setCredential(prev => ({...prev, [e.target.id]: e.target.value}))
-    // }
-    const { handleChange, values, errors } = useLoginForm()
-    const [error, setErr] = useState({});
-    const dispatch = useDispatch()
+  const { handleChange, values, errors } = useLoginForm()
+  const [error, setErr] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleClick = async e => {
     e.preventDefault();
     if (Object.keys(errors).length === 0) {
-      try {
-        axioss.post('/login' ,values).then((res)=>{
-           dispatch(Login(res.data.data))
-           navigate('/')
-        }).catch((err) => {
-          console.log(err)
-          // setErr(err.respose.data)
-        })
-        // const res = await fetch(`${BASE_URL}login`, {
-        //   method: "post",
-        //   headers: {
-        //     "content-type": "application/json"
-        //   },
-        //   body: JSON.stringify(values)
-        // })
-        // const result = await res.json()
-        // if (!res.ok) {
-        //   alert(result.message)
-        //   navigate('/login')
-        //   return
-        // }
-        // console.log(result.data)
-        // dispatch({ type: 'USER_LOGIN', data: result })
-        // navigate('/')
-      } catch (err) {
-        console.log(err)
-        // dispatch({ type: 'LOGIN_FAILED', payload: err.message })
-      }
+      axioss.post('/login', values).then((res) => {
+        dispatch(Login(res.data.data))
+        navigate('/')
+      }).catch((err) => {
+        console.log(err.response.data, 'err')
+        setErr(err.response.data)
+      })
+    } else {
+      setErr({ message: "Password is Incorrect" })
     }
   }
-  // const [googleValue,setGoogleValue]= useState('')
-  // const googleClick = () => {
-  //   signInWithPopup(auth,provider).then((data)=>{
-  //     setGoogleValue(data.user.email);
-  //     localStorage.setItem("email",data.user.email)
-  //   })
-  // }
-  // useEffect(()=>{
-  //   setGoogleValue(localStorage.getItem('email'))
-  // })
-  const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
-  const [user, setUser] = useState([]);
-  const [profile, setProfile] = useState([]);
   const login = useGoogleLogin({
     onSuccess: async respose => {
       const token = respose.access_token
-      console.log(token)
       try {
         const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
           headers: {
             "Authorization": `Bearer ${token}`
           }
         })
-        try {
-          dispatch({ type: 'AUTH', data: { res, token } })
-          navigate('/')
-        } catch (error) {
-          console.log(error);
-        }
-      } catch (err) {
-        console.log(err)
+        axioss.post('/sign-in-with-google', res.data).then((res) => {
+            dispatch(Login(res.data.data))
+            navigate('/')
+          }).catch((err) => {
+            setErr(err.response.data)
+          })
+      }catch (error) {
+        setErr({message:'Server is down,try again Later..'})
       }
     }
   });
@@ -102,10 +63,10 @@ export default function LoginPage() {
       <div className="hidden sm:block">
         <img className="w-full h-full object-cover" src={loginImg} alt="" />
       </div>
-
       <div className="bg-gray-800 flex flex-col justify-center">
         <form className="max-w-[400px] w-full mx-auto rounded-lg bg-gray-900 p-8 px-8" onSubmit={handleClick}>
           <h2 className="text-4xl dark:text-white font-bold text-center">LOGIN IN</h2>
+          {error && <p className='text-red-700'>{error.message}</p>}
           <div className="flex flex-col text-gray-400 py-2">
             <label htmlFor="email">
               Email
@@ -129,17 +90,8 @@ export default function LoginPage() {
         </p>
         <button className='inline-flex md:ml-60 w-72 items-center px-9 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150' onClick={login} ><FcGoogle /><span className='ml-2'>continue with google</span></button>
         <div className='p-8'>
-
-        <Modal />
+          <Modal />
         </div>
-        {/* <GoogleLogin
-          onSuccess={credentialResponse => {
-            // console.log(credentialResponse.credential);
-            var decoded = jwt_decode(credentialResponse.credential);
-          }}
-          onError={() => {
-            console.log('Login Failed');
-          }} /> */}
       </div>
     </div>
   );

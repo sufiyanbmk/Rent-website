@@ -82,7 +82,6 @@ const editProduct = useSelector((state) => {
   console.log(rentedItems,'renddd')
   return rentedItems.find(product => product._id === productId);
 });
-console.log(editProduct,'editproducts')
   const handlePrev = () => {
     setPage(page === 0 ? formLength - 1 : page - 1);
   };

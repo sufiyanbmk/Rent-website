@@ -53,14 +53,16 @@ export function editProduct(data,image,proId){
       resolve('successfull')
     }catch(err){
       reject(err)
-    }
-   
-
+    } 
   })
 }
 
-// export function searchProductHelper(){
-//   return new Promise(async(resolve,reject)=>{
-
-//   })
-// }
+export function searchProductHelper(state,category){
+  return new Promise(async(resolve,reject)=>{
+    await products.find({state,category}).then((res)=>{
+      resolve(res)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useContext } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { json, Link, useLocation, useNavigate } from 'react-router-dom';
 import decode from 'jwt-decode';
@@ -8,6 +8,7 @@ import logo from '../assets/images/logo.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { Menu, Transition } from '@headlessui/react'
 import { Logout } from '../redux/actions/authAction';
+import image from '../assets/images/profileAvator.jpg';
 
 function Navbar() {
   const Links = [
@@ -21,32 +22,23 @@ function Navbar() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
   const userLoggedIn = useSelector((state) => state.userLogin)
   const userInfo = userLoggedIn.authData
-  
+  const [isdropdownVisible, isSetDropdownVisible] = useState(false);
+  console.log(userInfo)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  // useEffect(() => {
-  //   // const token = user?.res.token;
-
-  //   // if (token) {
-  //   //   const decodedToken = decode(token);
-
-  //   //   if (decodedToken.exp * 1000 < new Date().getTime()) logout();
-  //   // }
-
-  //   setUser(JSON.parse(localStorage.getItem('profile')));
-  // }, [location]);
+  const handleDropdown = () =>{
+    isSetDropdownVisible(!isdropdownVisible);
+  }
   const logout = () => {
     dispatch(Logout());
     setUser(null);
     navigate('/')
   };
   return (
-    <div className="fixed shadow-md w-full  md:fixed top-0 left-0">
+    <div className="fixed shadow-md w-full  md:fixed top-0 left-0 z-10">
       <div className="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
         <div
-          className="font-bold text-2xl cursor-pointer flex items-center font-[Poppins]
-      text-gray-800"
-        >
+          className="font-bold text-2xl cursor-pointer flex items-center font-[Poppins] text-gray-800">
           <div className="">
             <img
               className="max-w-sm w-20 rounded border bg-white p-1 dark:border-neutral-700 dark:bg-neutral-800"
@@ -79,46 +71,32 @@ function Navbar() {
             </li>
           ))}
           <Button className="bg-blue-700 ml-8"><Link to="/rent-form">RENT FORM</Link></Button>
-          {userInfo?(
-            <Menu as="div" className="relative ml-3">
-              <div>
-                <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
-                </Menu.Button>
+          {userInfo ? (
+            <>
+            <img type="button" className="w-10 h-10 rounded-full cursor-pointer" src={userInfo.Imglink ? userInfo.Imglink : image}  alt="User dropdown" onClick={handleDropdown} />
+              <div className={`absolute right-0 mt-72 w-48 origin-top-right ${isdropdownVisible ? '' : 'hidden'} bg-white divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}>
+                <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                  <div>{userInfo.username}</div>
+                  <div className="font-medium truncate">{userInfo.email}</div>
+                </div>
+                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
+                  <li>
+                    <p className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><Link to="/view-profile">View Profile</Link></p>
+                  </li>
+                  <li>
+                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                  </li>
+                </ul>
+                <div className="py-1">
+                  <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" onClick={logout}>Sign out</button>
+                </div>
               </div>
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
-                <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <p>view profile</p>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <button className="bg-black  text-white w-48 p-2" onClick={logout}>LOGOUT</button>
-                    )}
-                  </Menu.Item>
-
-                </Menu.Items>
-              </Transition>
-            </Menu>)
-            : (<Button className="bg-black ml-8" ><Link to="/login">LOGIN</Link></Button>)
+              </>
+              )
+              : (<Button className="bg-black ml-8" ><Link to="/login">LOGIN</Link></Button>)
           }
 
-        </ul>
+            </ul>
       </div>
     </div>
   );
