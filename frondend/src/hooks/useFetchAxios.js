@@ -3,7 +3,6 @@ import axios from '../Axios/axios'
 import { useEffect, useState } from 'react';
 
 function useFetchAxios(url) {
-  console.log(url)
   const [data,setData] = useState([]);
   const [error,setError] = useState(null);
   const [isLoading,isSetLoading] = useState(false)
@@ -16,8 +15,7 @@ function useFetchAxios(url) {
           setError('failed to fetch')
           alert('Error occured')
         }
-        // const rresult = await res.json()
-        // console.log(rresult,'hiii')
+        console.log(res,'res')
         setData(res.data)
         isSetLoading(false)
       } catch (err) {

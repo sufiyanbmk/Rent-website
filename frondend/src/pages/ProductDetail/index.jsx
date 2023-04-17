@@ -2,7 +2,8 @@
 import React, {useState} from 'react';
 import { useParams,Link } from 'react-router-dom';
 import useFetchAxios from '../../hooks/useFetchAxios';
-
+import MultipleImage from './multipleImg';
+import Review from './review';
 
 function productDetail() {
   const { id } = useParams()
@@ -23,8 +24,8 @@ function productDetail() {
           <div className='text-3xl font-semibold text-violet-600'>{product?.price}</div>
         </div>
         <div className='flex flex-row item-start gap-8 lg:flex'>
-          <div className='max-w-[768px]'>
-            <div className='mb-8'>
+           <div className='max-w-[768px]'>
+            {/* <div className='mb-8'>
               <img src ={product?.link} />
             </div>
             <div>
@@ -37,7 +38,8 @@ function productDetail() {
               <div>
                 icon
               </div>
-            </div>
+            </div>  */}
+            <MultipleImage />
             <div>{product?.description}</div>
           </div>
           <div className='flex-1 bg-white-100 w-full mb-8 border border-gray-300 rounder-lg px-6 py-8'>
@@ -64,6 +66,7 @@ function productDetail() {
           </div>
         </div>
       </div>
+      <Review />
     </section>
   )
 }

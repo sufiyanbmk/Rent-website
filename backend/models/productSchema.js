@@ -14,9 +14,15 @@ const ProductSchema = new mongoose.Schema(
     city:String,
     state:String,
     documents:Array,
-    file:Array
+    file:Array,
+    reviews: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "reviewSchema",
+      },
+    ],
   },
-  // { timestamps: true }
+  { timestamps: true }
 );
 
 // const Product = ;

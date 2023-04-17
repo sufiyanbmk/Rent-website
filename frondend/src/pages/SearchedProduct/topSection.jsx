@@ -7,6 +7,7 @@ import image from '../../assets/images/login.jpg'
 
 function TopSection() {
   const [city, setCity] = useState();
+  console.log(city)
   const[price,setPrice] = useState();
   const cityData = indianCities.cities.filter(city => city.state === 'Kerala');
   const priceRange = [
