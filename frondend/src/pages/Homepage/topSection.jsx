@@ -10,6 +10,7 @@ import SCREENS from '../../components/Responsive';
 const TopSectionContainer = styled.div`
   min-height: 400px;
   margin-top: 6em;
+  overflow:hidden;
   ${tw`
     w-full
     max-w-screen-2xl
@@ -99,9 +100,9 @@ const BlobContainer = styled.div`
   @media (min-width: ${SCREENS.xl}) {
     width: 70em;
     max-height: 30em;
-    right: -15em;
-    top: -25em;
-    transform: rotate(-20deg);
+    right: -2em;
+    top: -20em;
+    transform: rotate(-50deg);
   }
 `;
 

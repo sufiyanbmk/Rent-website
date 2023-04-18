@@ -51,10 +51,10 @@ const navItems = [
     text: "user",
     icon: <Groups2Outlined />,
   },
-  {
-    text: "Transactions",
-    icon: <ReceiptLongOutlined />,
-  },
+  // {
+  //   text: "Transactions",
+  //   icon: <ReceiptLongOutlined />,
+  // },
   {
     text: "Catagory",
     icon: <PointOfSaleOutlined/>,
@@ -63,10 +63,10 @@ const navItems = [
   //   text: "Sales",
   //   icon: null,
   // },
-  // {
-  //   text: "Overview",
-  //   icon: <PointOfSaleOutlined />,
-  // },
+  {
+    text: "Report",
+    icon: <ReceiptLongOutlined />,
+  },
   // {
   //   text: "Daily",
   //   icon: <TodayOutlined />,
