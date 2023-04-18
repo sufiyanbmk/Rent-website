@@ -8,6 +8,7 @@ import authRoute from "./routes/userAuth.js"
 import admin from "./routes/admin.js";
 import userRoute from "./routes/product.js";
 import reviewRoute from "./routes/review.js";
+import reportRoute from "./routes/report.js";
 
 dotenv.config()
 const app = express()
@@ -40,6 +41,7 @@ app.use("/admin",admin)
 app.use("/",authRoute);
 app.use('/product',userRoute)
 app.use('/review',reviewRoute)
+app.use('/report',reportRoute)
 
 
 app.listen(port , ()=> {

@@ -90,7 +90,8 @@ export const login = async (req, res) => {
         data: { phone, ...rest },
       });
   } catch (err) {
-    res.status(500).json({ success: false, message: "Failed to login" });
+    console.log(err)
+    res.status(500).json({ success: false, message: "Server is Down please try again later" });
   }
 };
 
@@ -347,4 +348,14 @@ export const editProfile = async(req,res) =>{
   }catch(err){
     res.status(500).json({success:false,message:'server down'})
   }
+}
+
+//delete user
+export const deleteUser = async(req,res) =>{
+  const userId = req.params.id
+  await User.deleteOne({_id:userId}).then((response)=>{
+    res.status(200).json({success:true,message:'user deletede'})
+  }).catch((err) =>{
+    res.status(404).json({success:false,message:'error occurred ...'})
+  })
 }

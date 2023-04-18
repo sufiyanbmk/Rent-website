@@ -1,14 +1,14 @@
 /* eslint-disable */
 import React, { useState } from 'react'
 
-const MultipleImage = () => {
-
+const MultipleImage = ({imagesUrl}) => {
+  console.log(imagesUrl,'linkk')
 
   const [images, setImages] = useState({
-    img1: "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,b_rgb:f5f5f5/3396ee3c-08cc-4ada-baa9-655af12e3120/scarpa-da-running-su-strada-invincible-3-xk5gLh.png",
-    img2: "https://static.nike.com/a/images/f_auto,b_rgb:f5f5f5,w_440/e44d151a-e27a-4f7b-8650-68bc2e8cd37e/scarpa-da-running-su-strada-invincible-3-xk5gLh.png",
-    img3: "https://static.nike.com/a/images/f_auto,b_rgb:f5f5f5,w_440/44fc74b6-0553-4eef-a0cc-db4f815c9450/scarpa-da-running-su-strada-invincible-3-xk5gLh.png",
-    img4: "https://static.nike.com/a/images/f_auto,b_rgb:f5f5f5,w_440/d3eb254d-0901-4158-956a-4610180545e5/scarpa-da-running-su-strada-invincible-3-xk5gLh.png"
+    img1: imagesUrl[0],
+    img2: imagesUrl[1],
+    img3: imagesUrl[2],
+    img4: imagesUrl[3]
   })
 
   const [activeImg, setActiveImage] = useState(images.img1)
@@ -17,16 +17,16 @@ const MultipleImage = () => {
 
   return (
     <div className='flex flex-col justify-between lg:flex-row gap-16 lg:items-center'>
-      <div className='flex flex-col gap-6 lg:w-2/4'>
-        <img src={activeImg} alt="" className='w-full h-full aspect-square object-cover rounded-xl' />
-        <div className='flex flex-row justify-between h-24'>
-          <img src={images.img1} alt="" className='w-24 h-24 rounded-md cursor-pointer' onClick={() => setActiveImage(images.img1)} />
-          <img src={images.img2} alt="" className='w-24 h-24 rounded-md cursor-pointer' onClick={() => setActiveImage(images.img2)} />
-          <img src={images.img3} alt="" className='w-24 h-24 rounded-md cursor-pointer' onClick={() => setActiveImage(images.img3)} />
-          <img src={images.img4} alt="" className='w-24 h-24 rounded-md cursor-pointer' onClick={() => setActiveImage(images.img4)} />
-        </div>
+    <div className='flex flex-col gap-6 lg:w-2/4 max-w-lg'>
+      <img src={activeImg} alt="" className='w-full max-w-full md:w-screen h-full aspect-square rounded-xl lg:aspect-none'/>
+      <div className='flex flex-row justify-between lg:justify-start lg:w-full h-24'>
+        <img src={imagesUrl[0]} alt="" className='w-16 h-16 lg:w-20 lg:h-20 rounded-md cursor-pointer' onClick={() => setActiveImage(images.img1)} />
+        <img src={images.img2} alt="" className='w-16 h-16 lg:w-20 lg:h-20 rounded-md cursor-pointer' onClick={() => setActiveImage(images.img2)} />
+        <img src={images.img3} alt="" className='w-16 h-16 lg:w-20 lg:h-20 rounded-md cursor-pointer' onClick={() => setActiveImage(images.img3)} />
+        <img src={images.img4} alt="" className='w-16 h-16 lg:w-20 lg:h-20 rounded-md cursor-pointer' onClick={() => setActiveImage(images.img4)} />
       </div>
     </div>
+  </div>
   )
 }
 export default MultipleImage

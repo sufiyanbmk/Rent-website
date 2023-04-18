@@ -1,8 +1,12 @@
 import product from "../models/productSchema.js";
+import Review from "../models/reviewSchema.js";
 import multer from "multer";
 import crypto from "crypto";
 import { deleteFile, getObjectSignedUrl } from "../services/awsS3.js";
 import { deleteProuduct, searchProductHelper } from '../helpers/client/product.js'
+import { url } from "inspector";
+import { resolve } from "path";
+import { rejects } from "assert";
 
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
@@ -67,24 +71,29 @@ export const deleteProduct = async (req, res) => {
 
 export const getSingleProduct = async (req, res) => {
   const id = req.params.id;
-
   try {
-    const singleProduct = await product.findOne({ _id: id });
-    let imageUrl = await getObjectSignedUrl(singleProduct.file[0]);
-    
+    const singleProduct = await product.findOne({ _id: id }).populate({ path: 'reviews', model: 'Review' });
+    let imageUrl = []
+    const singleProductWithImgLInk = singleProduct.file.map(async (x) => {
+      let Url = await getObjectSignedUrl(x);
+      imageUrl.push(Url);
+    })
+    await Promise.all(singleProductWithImgLInk);
     singleProduct.set("link", imageUrl, { strict: false });
     res
       .status(200)
       .json({ success: true, message: "Successfull", data: singleProduct });
   } catch (err) {
+    console.log(err)
     res.status(500).json({ success: false, message: "Failed" });
   }
 };
 
 export const getSearchedProduct = async(req,res) => {
   const {state,catagory} = req.params;
+  const page = parseInt(req.query.page)
   try{
-    const data = await searchProductHelper(state,catagory)
+    const data = await searchProductHelper(state,catagory,page)
     const promises = data.map(async (product) => {
       const signedUrls = await Promise.all(product.file.map(getObjectSignedUrl));
       product.set("links", signedUrls, { strict: false });
@@ -93,7 +102,7 @@ export const getSearchedProduct = async(req,res) => {
     const productsWithSignedUrls = await Promise.all(promises);
     res
     .status(200)
-    .json({ success: true, message: "Successfull", data: productsWithSignedUrls });
+    .json({ success: true, message: "Successfull", data: productsWithSignedUrls ,count:data.length });
   }catch(err){
     res.status(500).json({ success: false, message: "Failed" });
   }

@@ -4,6 +4,7 @@ import image from '../../assets/images/profileAvator.jpg';
 import EditModal from './editModal';
 import ImageChangeModal from './imageModal';
 import { useSelector } from 'react-redux';
+import DeleteModal from '../../components/DeleteModal'
 
 function Profile() {
   const [isdropdownVisible, isSetDropdownVisible] = useState(false);
@@ -36,18 +37,17 @@ function Profile() {
       <div id='subtitle' className='text-sm text-gray-600'>{userDetails.authData.email}</div>
       <div className='flex justify-between items-center my-6 gap-4 text-sm'>
         <div className='flex flex-col items-center  font-semibold'>
-          <div className='text-indigo-500 font-bold'>172</div>
+          <div className='text-indigo-500 font-bold'>2</div>
           <div className='text-indigo-400'>Products</div>
         </div>
         <div className='flex flex-col items-center  font-semibold'>
-          <div className='text-indigo-500 font-bold'>172</div>
-          <div className='text-indigo-400'>Products</div>
+          <div className='text-indigo-500 font-bold'>0</div>
+          <div className='text-indigo-400'>Liked</div>
         </div>
       </div>
       <div id='actions' className='flex justify-center items-center'>
         <EditModal user={userDetails} />
-        <div><button className='mr-4 focus:ring-2 ring-offset-2 ring-pink-600 bg-indigo-500 text-white p-2 px-4 rounded-md '>EDIT</button></div>
-        <div><button className='focus:ring-2 ring-offset-2 ring-pink-600 bg-red-500 text-white p-2 px-4 rounded-md'>Delete Account</button></div>
+        <DeleteModal url={`/delete-user/${userDetails.authData._id}`}/>
       </div>
     </div>
   )

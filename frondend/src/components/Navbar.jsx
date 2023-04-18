@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect, Fragment, useContext } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
-import { json, Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import decode from 'jwt-decode';
 import Button from './Button';
 import logo from '../assets/images/logo.jpg';

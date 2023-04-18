@@ -19,7 +19,7 @@ const ThirdForm = ({ onChange, formValues, image, errors }) => {
 
   const { getRootProps, getInputProps, acceptedFiles, fileRejections } = useDropzone(
     {
-      maxFiles: 3,
+      maxFiles: 4,
       accept: {
         "image/png": [".png", ".jpg", '.jpeg',]
       },

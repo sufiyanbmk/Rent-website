@@ -1,6 +1,6 @@
 import express from "express";
 import multer from 'multer'
-import { login, register, forgotPassword, resetPassword, verifyEmail, otpLogin, otpVerify, signInWithGoogle, verifyToLogin, profileImg, editProfile } from "../controllers/authController.js";
+import { login, register, forgotPassword, resetPassword, verifyEmail, otpLogin, otpVerify, signInWithGoogle, verifyToLogin, profileImg, editProfile, deleteUser } from "../controllers/authController.js";
 
 const router = express.Router()
 const storage = multer.memoryStorage()
@@ -17,5 +17,6 @@ router.post('/otp-login', otpLogin)
 router.post('/verify-otp', otpVerify)
 router.put('/uploading-profile-img/:id', upload.single('image'),profileImg)
 router.patch('/edit-profile/:id',editProfile)
+router.delete('/delete-user/:id',deleteUser)
 
 export default router;

@@ -21,6 +21,12 @@ const ProductSchema = new mongoose.Schema(
         ref: "reviewSchema",
       },
     ],
+    reports: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "reportSchema",
+      },
+    ],
   },
   { timestamps: true }
 );

@@ -13,7 +13,7 @@ const upload = multer({ storage: storage })
 
 const router = express.Router()
 
-router.post('/add-product',upload.array("file",3),async(req,res) => {
+router.post('/add-product',upload.array("file",4),async(req,res) => {
   const data = JSON.parse( req.body.data );
   const userId = req.body.userId
   const images = [];

@@ -32,7 +32,7 @@ export default function EditModal(userDetails) {
         type="button"
         onClick={() => setShowModal(true)}
       >
-        Open regular modal
+        MODIFY USER
       </button>
       {showModal ? (
         <>

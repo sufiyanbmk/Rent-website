@@ -1,4 +1,5 @@
-import products from "../../models/productSchema.js"
+import products from "../../models/productSchema.js";
+import Review from "../../models/reviewSchema.js"
 import { deleteFile } from "../../services/awsS3.js"
 
 export function addProduct(data,image,userId){
@@ -57,9 +58,9 @@ export function editProduct(data,image,proId){
   })
 }
 
-export function searchProductHelper(state,category){
+export function searchProductHelper(state,category,page){
   return new Promise(async(resolve,reject)=>{
-    await products.find({state,category}).then((res)=>{
+    await products.find({state,category}).populate({ path: 'reviews', model: 'Review' }).skip(page * 8).limit(8).then((res)=>{
       resolve(res)
     }).catch((err)=>{
       reject(err)
