@@ -25,6 +25,7 @@ const ParentComponent = () => {
   const [errors, setErrors] = useState({});
     
   const firstValidateForm = () => {
+    console.log(values.catagory,'cedsdf')
       let newErrors = {};
       if (!values.productName) {
         newErrors.name = 'Name is required';
@@ -38,8 +39,10 @@ const ParentComponent = () => {
         newErrors.description = 'Description is required';
       }
       if (!values.documents || values.documents.length < 3) {
-        // console.log(values,'----------------')
         newErrors.documents = 'At least 3 documents are required';
+      }
+      if (!values.catagory) {
+        newErrors.category = 'Category is required';
       }
       setErrors(newErrors);
       return Object.keys(newErrors).length === 0;

@@ -1,14 +1,14 @@
 import User from "../models/userSchema.js";
 import bcrypt from "bcryptjs";
 import crypto from 'crypto'
+import dotenv  from "dotenv"
 import jwt from "jsonwebtoken";
+import CryptoJS from 'crypto-js';
 import { transport } from "../helpers/client/sentMail.js";
 import { sendOtp, verifyOtp } from "../helpers/client/twilio.js";
 import { uploadFile, getObjectSignedUrl, deleteFile } from '../services/awsS3.js'
-import { resolve } from "path";
-import { rejects } from "assert";
-import { response } from "express";
 
+dotenv.config()
 const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
 
 //user registration
@@ -300,7 +300,9 @@ export const otpLogin = async (req, res) => {
 };
 
 export const otpVerify = async (req, res) => {
-  const { mobile, otpNumber } = req.body;
+  const { encryptedMobile, encryptedOtp } = req.body;
+  const mobile = JSON.parse(CryptoJS.AES.decrypt(encryptedMobile, process.env.SECERET_KEY).toString(CryptoJS.enc.Utf8));
+  const otpNumber = JSON.parse(CryptoJS.AES.decrypt(encryptedOtp, process.env.SECERET_KEY).toString(CryptoJS.enc.Utf8));
   try {
     const userFind = await User.findOne({ phone: mobile });
     verifyOtp(otpNumber, mobile)

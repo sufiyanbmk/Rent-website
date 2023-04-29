@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import axios from '../../Axios/axios';
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { OtpLogin } from '../../redux/actions/authAction'
+import { OtpLogin } from '../../redux/actions/authAction';
+import CryptoJS from 'crypto-js';
 
 const otpLogin = () => {
   const {mobile } = useParams()
@@ -11,6 +12,13 @@ const otpLogin = () => {
   const [otpErr,setOtpErr] = useState("")
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const seceretkey = process.env.REACT_APP_OTP_SECERET_KEY;
+  console.log(process.env.REACT_PP_OTP_SECERET_KEY,'sdfsf')
+  console.log(seceretkey,'sdkfs;lkfjdslfs')
+  const encryptData = (data) => {
+    const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), seceretkey).toString();
+    return ciphertext;
+  }
 
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;
@@ -24,11 +32,10 @@ const otpLogin = () => {
   };
   const handleSubmit = async(e)=>{
     e.preventDefault();
-    console.log(otp.join(""))
-    const otpNumber = otp.join("")
-    await axios.post('/verify-otp', {mobile,otpNumber}).then((res) => {
+    const encryptedMobile = encryptData(mobile);
+    const encryptedOtp = encryptData(otp.join(""));
+    await axios.post('/verify-otp', {encryptedMobile,encryptedOtp}).then((res) => {
       if(res.data.status){
-        console.log(res.data.user)
         dispatch(OtpLogin(res.data.user))
         navigate('/')
       }else{

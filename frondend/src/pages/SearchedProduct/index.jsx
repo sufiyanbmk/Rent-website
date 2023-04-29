@@ -18,17 +18,18 @@ function searchedProduct() {
   }, [data])
   const [city, setCity] = useState();
   const [price, setPrice] = useState();
-  const [pageCount, setPageCount ] = useState(0)
-  const [page,setPage] = useState(0)
+  const [pageCount, setPageCount] = useState(0)
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
+  const [page, setPage] = useState(0)
   const cityData = indianCities.cities.filter(city => city.state === 'Kerala');
-  const priceRange = [
-    { name: '100-500' },
-    { name: '500-1000' },
-  ]
-  useEffect(()=>{
-    const pages = Math.ceil(5/4)
+  // const priceRange = [
+  //   { name: '100-500' },
+  //   { name: '500-1000' },
+  // ]
+  useEffect(() => {
+    const pages = Math.ceil(5 / 4)
     setPageCount(pages)
-  },[page])
+  }, [page])
   const handleSearch = e => {
     const searchTerm = e.target.value;
     const searchedProduct = data?.data.filter(item => item.productName.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -36,6 +37,17 @@ function searchedProduct() {
   }
   const handleOnchange = e => {
     const filteredProducts = data.data.filter((item) => item.city.toLowerCase() === e.name.toLowerCase());
+    setProductsData(filteredProducts)
+  }
+  const handlePriceRange = e => {
+    const { name, value } = e.target
+    setPriceRange({ ...priceRange, [name]: value })
+ 
+  }
+  const handlePriceSubmit = e => {
+    e.preventDefault();
+    const { min, max } = priceRange;
+    const filteredProducts = data.data.filter((item) => item.price >= min && item.price <= max);
     setProductsData(filteredProducts)
   }
   return (
@@ -75,9 +87,21 @@ function searchedProduct() {
             <Selector data={cityData} selected={city} setSelected={handleOnchange} />
           </div>
           <div>
-            <p className="text-teal-800 font-semibold ">Price :</p>
-            <Selector data={priceRange} selected={price} setSelected={setPrice} />
+            {/* <p className="text-teal-800 font-semibold ">Price :</p>
+            <Selector data={priceRange} selected={price} setSelected={handleOnchange} /> */}
+            <form onSubmit={handlePriceSubmit}>
+              <label>
+                Minimum price:
+                <input className='bg-red-300' name='min' type="number" value={priceRange.min} onChange={handlePriceRange} />
+              </label>
+              <label>
+                Maximum price:
+                <input type="number" name='max' value={priceRange.max} onChange={handlePriceRange} />
+              </label>
+              <button type='submit' disabled={!priceRange.min || !priceRange.max} ><RiSearch2Line/></button>
+            </form>
           </div>
+
         </div>
       </section>
       <ProductList data={productsData} />

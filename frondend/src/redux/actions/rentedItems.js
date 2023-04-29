@@ -1,6 +1,6 @@
 /* eslint-disable */
 import axios from "../../Axios/axios";
-import { RENTED_PRODUCTS_FETCHED, RENTED_REMOVED_ITEM } from "../constants/actionTypes";
+import { RENTED_PRODUCTS_FETCHED, RENTED_REMOVED_ITEM, RENTED_REMOVE_ITEM_ERROR } from "../constants/actionTypes";
 
 export const listRentedItem = (id) => async (dispatch) => {
   try {
@@ -14,17 +14,17 @@ export const listRentedItem = (id) => async (dispatch) => {
 
 export const removeFromRentedItem = (id) => async (dispatch) => {
   try {
-    if (window.confirm("Are you sure you want to delete this item?")) {
     await axios.delete(`/product/delete-product/${id}`).then((res)=>{
       dispatch({
         type: RENTED_REMOVED_ITEM,
         payload: id,
       })
-    }).catch((err)=>{
-      console.log(err)
     })
-    }
   } catch (err) {
-    console.log(err);
+    dispatch({
+      type: RENTED_REMOVE_ITEM_ERROR,
+      payload: err.message,
+    });
+    throw err;
   }
 };

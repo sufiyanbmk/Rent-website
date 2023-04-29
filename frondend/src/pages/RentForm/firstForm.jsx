@@ -98,6 +98,7 @@ const FirstForm = ({ formValues, onChange, option, Doc, errors }) => {
               ))
             )}
           </select>
+          {errors.category && <p className='text-red-700'>{errors.category}</p>}
         </div>
         <div className="mb-6">
           <label

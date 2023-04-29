@@ -29,10 +29,7 @@ export function verifyOtp(otp, mobile) {
       to: `+91${(mobile)}`,
       code: otp,
     }).then((data) => {
-      console.log(data)
       if (data.valid) {
-        console.log("call is  coming ")
-        console.log(data)
         resolve({ status: true, msg: "otp verification successfull" })
       }
     }).catch((err) => {
@@ -40,7 +37,5 @@ export function verifyOtp(otp, mobile) {
       reject(err)
      
     })
-  
- 
   })
 }

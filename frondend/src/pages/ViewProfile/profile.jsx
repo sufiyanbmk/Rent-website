@@ -4,7 +4,7 @@ import image from '../../assets/images/profileAvator.jpg';
 import EditModal from './editModal';
 import ImageChangeModal from './imageModal';
 import { useSelector } from 'react-redux';
-import DeleteModal from '../../components/DeleteModal'
+import DeleteModal from '../../components/ConfirmModal'
 
 function Profile() {
   const [isdropdownVisible, isSetDropdownVisible] = useState(false);

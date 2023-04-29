@@ -1,34 +1,13 @@
 /* eslint-disable */
 import { useState } from "react";
-import axios from '../Axios/axios'
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
-export default function Modal({ url }) {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const [showModal, setShowModal] = useState(false);
+export default function Modal({onConfirm, type}) {
+  const [showModal, setShowModal] = useState(true);
   const handleDelete = () => {
-    try {
-      const res = axios.delete(url);
-      console.log(res)
-      dispatch(Logout());
-      navigate('/')
-    } catch (err) {
-      console.log(err)
-    }
+    onConfirm(true);
   }
   return (
     <>
-      <div className="flex items-center justify-center h-40">
-        <button
-          className="bg-red-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-          type="button"
-          onClick={() => setShowModal(true)}
-        >
-          Delete
-        </button>
-      </div>
       {showModal ? (
         <>
           <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -55,7 +34,7 @@ export default function Modal({ url }) {
                   </div>
                   <div className="mt-2 text-center sm:ml-4 sm:text-left">
                     <h4 className="text-lg font-medium text-gray-800">
-                      Delete account ?
+                      {type=== 'delete' ? 'Delete' : 'Logout'}
                     </h4>
                     <p className="mt-2 text-[15px] leading-relaxed text-gray-500">
                       Lorem ipsum dolor sit amet,
