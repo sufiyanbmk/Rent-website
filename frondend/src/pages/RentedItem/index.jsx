@@ -22,7 +22,7 @@ function rentedItems() {
 
   return (
     <div className='pt-28 px-8'>
-      {rentedItems.length === 0 ? <div className='h-screen'>NO products avaliable </div> :
+      {rentedItems?.length === 0 ? <div className='h-screen'>NO products avaliable </div> :
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {rentedItems?.map((product, index) => (
             <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">

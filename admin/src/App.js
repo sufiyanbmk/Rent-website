@@ -14,6 +14,7 @@ import Adminauth from './auth/adminauth';
 import AddProduct from './pages/products/addProduct';
 import AddCatagory from './pages/catagory/addCatagory';
 import UserPage from './pages/user';
+import Report from './pages/report';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               <Route path="/catagory" element={<Catagory />} />
               <Route path="/addCatagory" element={<AddCatagory />} />
               <Route path="/user" element={<UserPage />} />
+              <Route path="/report" element={<Report />} />
             </Route>
           </Route>
         </Routes>

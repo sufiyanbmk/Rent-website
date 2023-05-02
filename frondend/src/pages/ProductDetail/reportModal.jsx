@@ -10,6 +10,7 @@ const Modal = ({ id }) => {
   const LoggedInUser = useSelector((state) => state.userLogin)
   const userInfo = LoggedInUser.authData
   const handleReport = async (reportType) => {
+    console.log(reportType)
     const reportObj = {
       userId: userInfo._id,
       username: userInfo.username,

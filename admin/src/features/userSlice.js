@@ -1,5 +1,4 @@
 /* eslint-disable */
-import { Exposure } from "@mui/icons-material";
 import { createSlice } from "@reduxjs/toolkit";
 
 export const userSlice = createSlice({

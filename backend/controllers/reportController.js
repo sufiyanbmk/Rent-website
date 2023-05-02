@@ -11,7 +11,7 @@ export const createReport = async (req ,res ) =>{
       return res.status(200).json({success:false,message:'You already reported'})
     }
     const savedReport = await newReport.save()
-    await Product.findByIdAndUpdate(proId,{
+    await Product.findByIdAndUpdate(proID,{
       $push:{reports:savedReport._id}
     }).then((response)=>{
       return res.status(200).json({success:true,message:'success'})

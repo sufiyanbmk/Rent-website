@@ -5,6 +5,10 @@ const router = express.Router()
 
 router.post('/login',controllers.adminLogin)
 
+//dashboard
+
+router.get('/getAllDashboardData', controllers.getDashboardData)
+
 //products
 
 router.get('/products', controllers.getProducts)
@@ -22,5 +26,11 @@ router.post('/addCatagory',controllers.addCatagory)
 router.get('/users', controllers.getUsers)
 
 router.put('/block-user', controllers.blockUser)
+
+//reported 
+
+router.get('/reported-product', controllers.reportedProduct)
+
+router.delete('/removeProduct/:id', controllers.deleteProduct)
 
 export default router;

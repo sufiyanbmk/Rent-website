@@ -1,6 +1,8 @@
 import userSchema from "../models/userSchema.js";
 import addProduct from "./../models/addProductSchema.js";
+import Product from '../models/productSchema.js'
 import addCatagorySchema from "../models/addCatagorySchema.js";
+import Report from '../models/reportSchma.js'
 const admin={email:'admin@gmail.com',password:'123'}
 
 export const adminLogin = async(req, res) => {
@@ -102,3 +104,43 @@ export const blockUser = async (req, res) => {
     res.status(404).json({ success:false,message: error.message });
   }
 };
+
+//reported post
+
+export const reportedProduct = async(req,res) => {
+  try{
+    const result = await Product.find({
+      $where: "this.reports.length === 1"
+    }).populate({
+      path: "reports",
+      select: "username report",
+      model: "Report"
+    }).select("productName reports");
+    res.status(200).json({success: true,message: "Succesfull",data:result});
+  } catch(err){
+    res.status(404).json({ success:false,message: err.message });
+  }
+}
+
+export const deleteProduct = async(req,res) => {
+  try{
+    await Product.findByIdAndDelete({_id:req.params.id}).then(async(result)=>{
+      await Report.deleteMany({ productId: result._id }).then((resu)=>{
+        console.log(resu)
+      })
+      res.status(200).json({success: true,message: "Succesfull deleted"});
+    })
+  }catch(err){
+    console.log(err)
+    res.status(500).json({ success:false,message: err.message });
+  }
+}
+
+export const getDashboardData = async( req,res ) => {
+  let allData = {};
+  try{
+    
+  }catch(err){
+
+  }
+}
