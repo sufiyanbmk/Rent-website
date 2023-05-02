@@ -1,7 +1,7 @@
 import express from "express";
 import multer from 'multer'
 import crypto from 'crypto'
-import { getRentedProducts, deleteProduct, getSingleProduct, getSearchedProduct} from '../controllers/productController.js'
+import { getRentedProducts, deleteProduct, getSingleProduct, getSearchedProduct, getFilterSearch, getFilteredCity, getFilterPrice} from '../controllers/productController.js'
 import { uploadFile } from '../services/awsS3.js'
 import { addProduct, editProduct } from '../helpers/client/product.js'
 // import verifyJWT from "../helpers/client/verifyJwt.js";
@@ -59,6 +59,11 @@ router.put('/edit-product/:id',upload.array("file",3), async(req,res) => {
   }
 })
 
-router.get('/search-product/:state/:catagory', getSearchedProduct)
+router.post('/search-product', getSearchedProduct)
 
+router.get('/search-by-name', getFilterSearch)
+
+router.get('/search-by-city', getFilteredCity)
+
+router.get('/search-by-price', getFilterPrice)
 export default router;

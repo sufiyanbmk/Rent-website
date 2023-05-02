@@ -3,10 +3,7 @@ import Review from "../models/reviewSchema.js";
 import multer from "multer";
 import crypto from "crypto";
 import { deleteFile, getObjectSignedUrl } from "../services/awsS3.js";
-import { deleteProuduct, searchProductHelper } from '../helpers/client/product.js'
-import { url } from "inspector";
-import { resolve } from "path";
-import { rejects } from "assert";
+import { deleteProuduct, searchProductHelper, searchFilter, cityFilter, priceFilter } from '../helpers/client/product.js'
 
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
@@ -90,10 +87,59 @@ export const getSingleProduct = async (req, res) => {
 };
 
 export const getSearchedProduct = async(req,res) => {
-  const {state,catagory} = req.params;
-  const page = parseInt(req.query.page)
+  const {state,category,page} = req.body;
+  const limit = 3;
+  let skip = page * limit;
+  // const page = parseInt(req.query.page)
   try{
-    const data = await searchProductHelper(state,catagory,page)
+    const data = await searchProductHelper(state,category,skip,limit)
+    const promises = data.map(async (product) => {
+      const signedUrls = await Promise.all(product.file.map(getObjectSignedUrl));
+      product.set("links", signedUrls, { strict: false });
+      return product;
+    });
+    const productsWithSignedUrls = await Promise.all(promises);
+    // console.log(productsWithSignedUrls)
+    res
+    .status(200)
+    .json({ success: true, message: "Successfull", data: productsWithSignedUrls ,count:data.length });
+  }catch(err){
+    console.log(err)
+    res.status(500).json({ success: false, message: "Failed" });
+  }
+}
+
+export const getFilterSearch = async (req,res ) => {
+  let page = parseInt(req.query.page)
+  let name = req.query.name;
+  const limit = 3;
+  let skip = page * limit;
+  try{
+    const data = await searchFilter(name,skip,limit)
+    const promises = data.map(async (product) => {
+      const signedUrls = await Promise.all(product.file.map(getObjectSignedUrl));
+      product.set("links", signedUrls, { strict: false });
+      return product;
+    });
+    const productsWithSignedUrls = await Promise.all(promises);
+    // console.log(productsWithSignedUrls)
+    res
+    .status(200)
+    .json({ success: true, message: "Successfull", data: productsWithSignedUrls ,count:data.length });
+  }catch(err){
+    console.log(err)
+    res.status(500).json({ success: false, message: "Failed" });
+  }
+}
+
+export const getFilteredCity = async (req,res ) => {
+  let page = parseInt(req.query.page)
+  let city = req.query.city;
+  console.log(page)
+  const limit = 3;
+  let skip = page * limit;
+  try{
+    const data = await cityFilter(city,skip,limit)
     const promises = data.map(async (product) => {
       const signedUrls = await Promise.all(product.file.map(getObjectSignedUrl));
       product.set("links", signedUrls, { strict: false });
@@ -104,6 +150,29 @@ export const getSearchedProduct = async(req,res) => {
     .status(200)
     .json({ success: true, message: "Successfull", data: productsWithSignedUrls ,count:data.length });
   }catch(err){
+    console.log(err)
+    res.status(500).json({ success: false, message: "Failed" });
+  }
+}
+
+export const getFilterPrice = async (req,res ) => {
+  let page = parseInt(req.query.page)
+  let {min,max } = req.query;
+  const limit = 3;
+  let skip = page * limit;
+  try{
+    const data = await priceFilter(min,max,skip,limit)
+    const promises = data.map(async (product) => {
+      const signedUrls = await Promise.all(product.file.map(getObjectSignedUrl));
+      product.set("links", signedUrls, { strict: false });
+      return product;
+    });
+    const productsWithSignedUrls = await Promise.all(promises);
+    res
+    .status(200)
+    .json({ success: true, message: "Successfull", data: productsWithSignedUrls ,count:data.length });
+  }catch(err){
+    console.log(err)
     res.status(500).json({ success: false, message: "Failed" });
   }
 }

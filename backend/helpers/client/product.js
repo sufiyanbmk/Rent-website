@@ -58,9 +58,51 @@ export function editProduct(data,image,proId){
   })
 }
 
-export function searchProductHelper(state,category,page){
+export function searchProductHelper(state,category,skip,limit){
   return new Promise(async(resolve,reject)=>{
-    await products.find({state,category}).populate({ path: 'reviews', model: 'Review' }).skip(page * 8).limit(8).then((res)=>{
+    await products.find({state,category}).populate({ path: 'reviews', model: 'Review' }).skip(skip).limit(limit).then((res)=>{
+      resolve(res)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+
+export function searchFilter(Letter, skip, limit) {
+  const searchCriteria = {
+    productName: { $regex: `^${Letter}`, $options: 'i' } 
+  };
+  return new Promise(async(resolve, reject) => {
+    await products.find(searchCriteria).populate({ path: 'reviews', model: 'Review' }).skip(skip).limit(limit).then((res)=>{
+      resolve(res)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+
+export function cityFilter(city, skip, limit) {
+  const searchCriteria = {
+    city: { $regex: `^${city}`, $options: 'i' } 
+  };
+  return new Promise(async(resolve, reject) => {
+    await products.find(searchCriteria).populate({ path: 'reviews', model: 'Review' }).skip(skip).limit(limit).then((res)=>{
+      console.log(res)
+      resolve(res)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+
+export function priceFilter(min,max, skip, limit) {
+  console.log(min)
+  const searchCriteria = {
+    price: { $gte: min, $lte: max } 
+  };
+  return new Promise(async(resolve, reject) => {
+    await products.find(searchCriteria).populate({ path: 'reviews', model: 'Review' }).skip(skip).limit(limit).then((res)=>{
+      console.log(res)
       resolve(res)
     }).catch((err)=>{
       reject(err)
