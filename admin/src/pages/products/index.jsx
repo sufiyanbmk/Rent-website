@@ -10,9 +10,11 @@ import {
   Typography,
   Rating,
   useMediaQuery,
+  Collapse
 } from "@mui/material";
 import Header from "../../component/Headers";
 import { Link } from 'react-router-dom'
+import calcultateRating from '../../utils/avgRating';
 
 const Product = ({
   _id,
@@ -52,11 +54,7 @@ const Product = ({
         <Typography variant="body2">{description}</Typography>
       </CardContent>
       <CardActions>
-        <Button
-          variant="primary"
-          size="small"
-          onClick={() => setIsExpanded(!isExpanded)}
-        >
+        <Button  component={Link} to={`/single-product/${_id}`} sx={{ textDecoration: 'none' }}>
           See More
         </Button>
       </CardActions>
@@ -64,9 +62,9 @@ const Product = ({
         in={isExpanded}
         timeout="auto"
         unmountOnExit
-        sx={{
-          color: theme.palette.neutral[300],
-        }}
+        // sx={{
+        //   color: theme.palette.neutral[300],
+        // }}
       >
         <CardContent>
           <Typography>id: {_id}</Typography>
@@ -84,17 +82,14 @@ const Product = ({
 };
 
 const Products = () => {
-  const {data} = useFetch(
-    'http://localhost:8000/admin/products'
-  )
-  console.log(data)
-  console.log(data.loading)
+  const { result, error, loading } = useFetch('/products')
+  console.log(result)
   const isNonMobile = useMediaQuery("(min-width: 1000px)");
 
   return (
     <Box m="1.5rem 2.5rem">
       <Header title="PRODUCTS" subtitle="See your list of products." />
-      {data || !data.loading ? (
+      {result || !loading ? (
         <Box
           mt="20px"
           display="grid"
@@ -106,29 +101,33 @@ const Products = () => {
             "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
           }}
         >
-          {data.map(
+          {result.map(
             ({
               _id,
-              name,
+              productName,
               address2,
               price,
-              rating,
-              lastName,
+              reviews,
+              category,
+              description,
               supply,
               stat,
-            }) => (
-              <Product
-                key={_id}
-                _id={_id}
-                name={name}
-                description={address2}
-                price={price}
-                rating={rating}
-                category={lastName}
-                supply={supply}
-                stat={stat}
-              />
-            )
+            }) => {
+              const avgRating = calcultateRating(reviews);
+              return (
+                <Product
+                  key={_id}
+                  _id={_id}
+                  name={productName}
+                  description={description}
+                  price={price}
+                  rating={avgRating}
+                  category={category}
+                  supply={supply}
+                  stat={stat}
+                />
+              );
+            }
           )}
         </Box>
       ) : (

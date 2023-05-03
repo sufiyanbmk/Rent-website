@@ -9,7 +9,7 @@ const FirstForm = ({ formValues, onChange, option, Doc, errors }) => {
     enter: 13
   };
   const delimiters = [KeyCodes.comma, KeyCodes.enter];
-  const Documents = ["license","adharr card","pan card" ]
+  const Documents = ["license", "adharr card", "pan card"]
   const suggestions = Documents.map(country => {
     return {
       id: country,
@@ -25,7 +25,7 @@ const FirstForm = ({ formValues, onChange, option, Doc, errors }) => {
   };
   const handleAddition = tag => {
     setTags([...tags, tag]);
-    console.log(tags,'tags-----------------')
+    console.log(tags, 'tags-----------------')
     Doc(tags)
   };
   return (
@@ -85,7 +85,7 @@ const FirstForm = ({ formValues, onChange, option, Doc, errors }) => {
             value={formValues.category}
             required
           >
-            <option value="">{formValues.catagory ? formValues.catagory :"Select a category"}</option>
+            <option value="">{formValues.catagory ? formValues.catagory : "Select a category"}</option>
             {loading ? (
               <option>Loading...</option>
             ) : error ? (
@@ -107,18 +107,19 @@ const FirstForm = ({ formValues, onChange, option, Doc, errors }) => {
           >
             Documents
           </label>
-           <ReactTags
-           name="documents"
-          tags={tags}
-          suggestions={suggestions}
-          delimiters={delimiters}
-          handleDelete={handleDelete}
-          handleAddition={handleAddition}
-          value={formValues.tags}
-          inputFieldPosition="top"
-          autocomplete
-        />
-        {errors.documents && <p className='text-red-700'>{errors.documents}</p>}
+          <ReactTags
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            name="documents"
+            tags={tags}
+            suggestions={suggestions}
+            delimiters={delimiters}
+            handleDelete={handleDelete}
+            handleAddition={handleAddition}
+            value={formValues.tags}
+            inputFieldPosition="top"
+            autocomplete
+          />
+          {errors.documents && <p className='text-red-700'>{errors.documents}</p>}
         </div>
         <div className="mb-6">
           <label
@@ -135,7 +136,7 @@ const FirstForm = ({ formValues, onChange, option, Doc, errors }) => {
             value={formValues.description}
             placeholder="Enter Description"
             rows="5"
-            cols="50" 
+            cols="50"
           ></textarea>
           {errors.description && <p className='text-red-700'>{errors.description}</p>}
         </div>

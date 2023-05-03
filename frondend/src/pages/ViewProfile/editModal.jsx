@@ -5,9 +5,9 @@ import axios from '../../Axios/axios';
 import { useDispatch } from 'react-redux';
 import { EditProfileUpdate } from '../../redux/actions/authAction'
 
-export default function EditModal(userDetails) {
-  const user = userDetails.user.authData
-  const [showModal, setShowModal] = useState(false);
+export default function EditModal({userDetails,isSetEditModel}) {
+  const user = userDetails.authData
+  const [showModal, setShowModal] = useState(true);
   const [isPassword, setIsassword] = useState(false);
   const { handleChange, values, errors } = useSignupForm()
   const dispatch = useDispatch()
@@ -17,6 +17,7 @@ export default function EditModal(userDetails) {
       axios.patch(`/edit-profile/${user._id}`, values).then((res) => {
         dispatch(EditProfileUpdate(values))
         // navigate('/')
+        isSetEditModel(false)
       }).catch((err) => {
         console.log(err, 'err')
         // setErr(err.response.data)
@@ -27,13 +28,13 @@ export default function EditModal(userDetails) {
   }
   return (
     <>
-      <button
+      {/* <button
         className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
         type="button"
         onClick={() => setShowModal(true)}
       >
-        MODIFY USER
-      </button>
+        EDIT USER
+      </button> */}
       {showModal ? (
         <>
           <div
@@ -94,7 +95,7 @@ export default function EditModal(userDetails) {
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => isSetEditModel(false)}
                   >
                     Close
                   </button>

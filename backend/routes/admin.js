@@ -1,4 +1,5 @@
-import * as  controllers from '../controllers/adminController.js';
+import * as  controllers from '../controllers/adminController.js'
+import {getSingleProduct } from '../controllers/productController.js';
 import express from "express";
 
 const router = express.Router()
@@ -14,6 +15,8 @@ router.get('/getAllDashboardData', controllers.getDashboardData)
 router.get('/products', controllers.getProducts)
 
 router.post('/addProducts',controllers.addProducts)
+
+router.get('/single-product/:id', getSingleProduct)
 
 //catagory
 

@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCatagory } from '../../redux/actions/catagory'
 import queryString from 'query-string';
+import toast, { Toaster } from 'react-hot-toast';
 
 const ParentComponent = () => {
   const formList = ["FirstForm", "SecondForm", "ThirdForm"];
@@ -82,7 +83,6 @@ const ParentComponent = () => {
 const opitons = useSelector((state) => state.catagories);
 const editProduct = useSelector((state) => {
   const rentedItems = state.rentedItem.rentedItems || [];
-  console.log(rentedItems,'renddd')
   return rentedItems.find(product => product._id === productId);
 });
   const handlePrev = () => {
@@ -204,13 +204,14 @@ const editProduct = useSelector((state) => {
         res = await axios.post('/product/add-product', formData, config);
       }    
       if (res.data.success) {
+        toast.success("SuccessFullY Added New Product")
         navigate('/rented-item');
       }
     } catch (err) {
-      console.log(err);
+      toast.error('Error Occured Try again')
     }
     }else{
-      console.log(errors);
+      toast.error('Something Is Not Correct')
     }
     
 };
@@ -259,6 +260,7 @@ const editProduct = useSelector((state) => {
           </button>
         )}
       </div>
+      <Toaster />
       </div>
   );
 };

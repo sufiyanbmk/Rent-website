@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from '../../Axios/axios';
 import { useSelector } from 'react-redux';
+import toast ,{Toaster} from 'react-hot-toast';
 
 const Modal = ({ id }) => {
   const [showModal, setShowModal] = useState(false);
@@ -17,9 +18,18 @@ const Modal = ({ id }) => {
       report: reportType,
     }
     try {
-      const res = await axios.post(`/report/${id}`, reportObj)
-      setShowModal(false)
+      const {data} = await axios.post(`/report/${id}`, reportObj)
+      console.log(data)
+      if(data.success){
+        toast.success('Reported SuccessFully')
+      }else{
+        toast.error('You Already Reported')
+      }
+      setTimeout(() => {
+        setShowModal(false)
+      }, 2000);
     } catch (err) {
+      toast.error('Error Occured')
       console.log(err)
     }
   }
@@ -45,10 +55,10 @@ return (
               <div className="relative p-6 flex-auto">
                 {!form ? (
                   <>
-                    <button className="bg-gray-200 shadow-md rounded w-full outline-0 mt-5" onClick={() => handleReport('scam')}>Scam</button>
-                    <button className="bg-gray-200 shadow-md rounded w-full outline-0 mt-5" >Illegal</button>
-                    <button className="bg-gray-200 shadow-md rounded w-full outline-0 mt-5" >Exploit</button>
-                    <button className="bg-gray-200 shadow-md rounded w-full outline-0 mt-5" >Piracy</button>
+                    <button className="bg-gray-200 shadow-md rounded w-full outline-0 mt-5" onClick={() => handleReport('Scam')}>Scam</button>
+                    <button className="bg-gray-200 shadow-md rounded w-full outline-0 mt-5" onClick={() => handleReport('Illegal')}>Illegal</button>
+                    <button className="bg-gray-200 shadow-md rounded w-full outline-0 mt-5" onClick={() => handleReport('Scam')}>Exploit</button>
+                    <button className="bg-gray-200 shadow-md rounded w-full outline-0 mt-5" onClick={() => handleReport('Privacy')}>Pirvacy</button>
                     <button className="bg-gray-200 shadow-md rounded w-full outline-0 mt-5" onClick={() =>setform(true)}>Others</button>
                   </>
                 ) : 
@@ -68,19 +78,21 @@ return (
                 >
                   Close
                 </button>
+                {!form?'':
                 <button
                   className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                   type="button"
                   onClick={() => setShowModal(false)}
                 >
                   Submit
-                </button>
+                </button>}
               </div>
             </div>
           </div>
         </div>
       </>
     ) : null}
+    <Toaster />
   </>
 );
 };

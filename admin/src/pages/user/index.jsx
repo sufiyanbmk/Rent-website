@@ -8,9 +8,7 @@ import useFetch from "hooks/useFetch";
 import axios from "../../axios/axios";
 
 const User = () => {
-  const { data } = useFetch(
-    'http://localhost:8000/admin/users'
-  )
+  const { result, error, loading } = useFetch('/users')
   const blockUser = (email,block) => {
     axios.put('/block-user', { email,block }).then(() => {
 
@@ -19,11 +17,12 @@ const User = () => {
     });
   };
   
-  const rows = data;
+  const rows = result;
+  const rowsWithNo = rows.map((row, index) => ({ ...row, no: index + 1 }));
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
-    { field: "row._id", headerName: "NO" },
+    { field: "no", headerName: "NO" },
     {
       field: "username",
       headerName: "user Name",
@@ -55,8 +54,8 @@ const User = () => {
 
   return (
     <Box m="20px">
-      <Header title="Catagory" subtitle="Catagory For The Product" />
-      <Button variant="contained" color="success"><Link to="/addCatagory">ADD Catagory</Link></Button>
+      <Header title="User" subtitle="User which logged" />
+      {/* <Button variant="contained" color="success"><Link to="/addCatagory">ADD user</Link></Button> */}
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -86,7 +85,7 @@ const User = () => {
           },
         }}
       >
-        <DataGrid getRowId={(row) => row._id} checkboxSelection rows={rows} columns={columns} />
+        <DataGrid getRowId={(row) => row._id} rows={rowsWithNo} columns={columns} />
       </Box>
     </Box>
   );

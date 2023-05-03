@@ -77,12 +77,14 @@ function searchedProduct() {
 
   if (isError) return <p className='center'>Error: {error.message}</p>
 
-  const content = product?.map((product, i) => {
+  const content = product?.length > 0 ? product.map((product, i) => {
     if (results.length === i + 1) {
       return <ProductList ref={lastPostRef} key={product._id} data={product} />
     }
     return <ProductList key={product._id} data={product} />
-  })
+  }) : (
+    <div className="text-center text-gray-600 mt-6">No products available. Please try a different search.</div>
+  );
 
 
   return (
@@ -103,9 +105,11 @@ function searchedProduct() {
         </div>
         <Filter handleSearch={handleSearch} handleCity={handleOnchange} handlePriceSubmit={handlePriceSubmit} />
       </section>
+      <div className='grid grid-cols-3 gap-6 px-20'>
       {content}
-      {isLoading && <p className="center">Loading More Posts...</p>}
-      <p className="center"><a href="#top">Back to Top</a></p>
+      </div>
+      {isLoading && <p className="text-center mt-8 md:mt-12 lg:mt-16">Loading More Posts...</p>}
+      <p className="text-center mt-8 md:mt-12 lg:mt-16"><a href="#top" className="text-violet-700 font-semibold hover:underline">Back to Top</a></p>
     </div>
   )
 }

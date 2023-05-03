@@ -5,6 +5,7 @@ import axios from '../../Axios/axios'
 import dataURLtoFile from "../../utils/dataURLtoFile";
 import { useDispatch } from 'react-redux';
 import { UpdateProfileimg } from '../../redux/actions/authAction';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function ImageChangeModal({ showModal, setShowModal, id }) {
   const [preview, setPreview] = useState(false);
@@ -32,7 +33,10 @@ export default function ImageChangeModal({ showModal, setShowModal, id }) {
     };
     await axios.put(`/uploading-profile-img/${id}`, formData, config).then((res) => {
       dispatch(UpdateProfileimg(res.data.data))
-      setShowModal(false)
+      toast.success('successfully Updated')
+      setTimeout(() => {   
+        setShowModal(false)
+      }, 2000);
     }).catch((err) => {
       console.log(err)
     })
@@ -96,6 +100,7 @@ export default function ImageChangeModal({ showModal, setShowModal, id }) {
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
       ) : null}
+       <Toaster />
     </>
   );
 }

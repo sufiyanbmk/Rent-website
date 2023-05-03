@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDropzone } from 'react-dropzone';
 import Error from "./error";
 import addFileIcon from '../../assets/images/addFileIcon.svg';
@@ -14,8 +14,12 @@ const ThirdForm = ({ onChange, formValues, image, errors }) => {
     setFiles(
       acceptedFiles.map((file) => Object.assign(file, { preview: URL.createObjectURL(file) }))
     );
-    image(files ?? files)
+    console.log(files,'sdfsdfdssss')
+    
   };
+  useEffect(()=>{
+    image(files)
+  },[files])
 
   const { getRootProps, getInputProps, acceptedFiles, fileRejections } = useDropzone(
     {

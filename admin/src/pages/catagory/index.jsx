@@ -1,20 +1,29 @@
 /* eslint-disable */
+import { useState } from "react";
 import { Box, Typography, useTheme, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { Link } from "react-router-dom";
 import Header from "../../component/Headers";
 import useFetch from "hooks/useFetch";
+import { AiFillDelete } from 'react-icons/ai';
+import DeleteModal from '../../component/ConfirmModal';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Catagory = () => {
-  const { data } = useFetch(
-    'http://localhost:8000/admin/catagory'
-  )
-  const rows = data;
+  const { result, error, loading } = useFetch('/catagory')
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const handleDelete = (id) => {
+    setShowDeleteModal(true);
+    // Make a delete request to the server with the user ID
+    // Refresh the data in the table
+  }
+  const rows = result;
+  const rowsWithNo = rows.map((row, index) => ({ ...row, no: index + 1 }));
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
-    { field: "row._id", headerName: "NO" },
+    { field: "no", headerName: "NO" },
     {
       field: "firstName",
       headerName: "Name",
@@ -26,9 +35,22 @@ const Catagory = () => {
       headerName: "Description",
       flex: 1,
     },
+    {
+      field: "blocked",
+      headerName: "ACTION",
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <Button variant="contained" color="error" onClick={() => handleDelete(params.row._id)}>
+            <AiFillDelete />
+          </Button>
+        )
+      }
+    },
   ];
 
-  
+
+
 
   return (
     <Box m="20px">
@@ -63,8 +85,14 @@ const Catagory = () => {
           },
         }}
       >
-        <DataGrid getRowId={(row) => row._id} checkboxSelection rows={rows} columns={columns} />
+        <DataGrid getRowId={(row) => row._id} rows={rowsWithNo} columns={columns} />
       </Box>
+      {showDeleteModal && (
+        <DeleteModal
+          onConfirm={() => handleDeleteModalConfirm(rows._id)}
+          type='delete'
+        />
+      )}
     </Box>
   );
 };

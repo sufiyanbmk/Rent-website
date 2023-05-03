@@ -15,6 +15,7 @@ import AddProduct from './pages/products/addProduct';
 import AddCatagory from './pages/catagory/addCatagory';
 import UserPage from './pages/user';
 import Report from './pages/report';
+import SingleProduct from './pages/products/singleProduct';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/products" element={<Product />} />
+              <Route path="/single-product/:id" element={<SingleProduct />} />
               <Route path="/addproduct" element={<AddProduct />} />
               <Route path="/catagory" element={<Catagory />} />
               <Route path="/addCatagory" element={<AddCatagory />} />

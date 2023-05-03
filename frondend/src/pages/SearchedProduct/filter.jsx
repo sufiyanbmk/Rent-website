@@ -7,7 +7,7 @@ import useFilter from '../../hooks/useFilter';
 import { searchByName } from '../../api/api';
 import ProductList from './productList';
 
-function Filter({handleSearch, handleCity, handlePriceSubmit}) {
+function Filter({ handleSearch, handleCity, handlePriceSubmit }) {
   const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
   const [city, setCity] = useState();
   const [filter, setFilter] = useState();
@@ -21,41 +21,49 @@ function Filter({handleSearch, handleCity, handlePriceSubmit}) {
   }
 
   return (
-    <div className='px-[30px] py-6 max-w-[1170px] mx-auto flex flex-col lg:flex-row justify-between gap-4 lg:gap-x-3 lg:-top-4 lg:shadow-1 bg-white lg:bg-transparent lg:backdrop:blur rounded-lg'>
+    <div className='px-4 py-6 max-w-7xl mx-auto flex flex-col lg:flex-row justify-between gap-4 lg:gap-x-3 lg:-top-4 lg:shadow-lg bg-white lg:bg-transparent lg:backdrop-blur rounded-lg'>
 
-          <div>
-            <p className="text-teal-800 font-semibold">Search :</p>
-            <div className="w-96 max-w-lg">
-              <form>
-                <div class="flex justify-between overflow-hidden rounded-md h-10 w-fit md:w-full  bg-white shadow shadow-black/20 ">
-                  <input type="text" className="block flex-1  px-3 focus:outline-none" placeholder="Start Typing..." onChange={handleSearch} />
-                  <span className="m-1 inline-flex cursor-pointer items-center rounded-md bg-indigo-600 px-2 py-2 hover:bg-indigo-700">
-                    <svg className="text-white" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21.07 16.83L19 14.71a3.08 3.08 0 0 0-3.4-.57l-.9-.9a7 7 0 1 0-1.41 1.41l.89.89a3 3 0 0 0 .53 3.46l2.12 2.12a3 3 0 0 0 4.24 0a3 3 0 0 0 0-4.29Zm-8.48-4.24a5 5 0 1 1 0-7.08a5 5 0 0 1 0 7.08Zm7.07 7.07a1 1 0 0 1-1.42 0l-2.12-2.12a1 1 0 0 1 0-1.42a1 1 0 0 1 1.42 0l2.12 2.12a1 1 0 0 1 0 1.42Z" /></svg>
-                  </span>
-                </div>
-              </form>
+      <div>
+        <p className="text-teal-800 font-semibold mb-2">Search:</p>
+        <div className="w-full max-w-md">
+          <form>
+            <div className="relative rounded-md shadow-sm">
+              <input type="text" className="block w-full pl-3 pr-10 py-2 text-gray-700 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm border-gray-300" placeholder="Start Typing..." onChange={handleSearch} />
+              <div className="absolute inset-y-0 right-0 flex items-center">
+                <button type="submit" className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M14.707 13.293a1 1 0 0 0-1.414-1.414l-1.147 1.147v-5.293a1 1 0 0 0-2 0v5.293l-1.147-1.147a1 1 0 0 0-1.414 1.414l2.586 2.586a1 1 0 0 0 1.414 0l2.586-2.586ZM9 16a7 7 0 1 1 0-14a7 7 0 0 1 0 14Z"></path></svg>
+                </button>
+              </div>
             </div>
-          </div>
-          <div>
-            <p className="text-teal-800 font-semibold">City :</p>
-            <Selector data={cityData} selected={city} setSelected={handleCity} />
-          </div>
-          <div>
-            {/* <p className="text-teal-800 font-semibold ">Price :</p>
-            <Selector data={priceRange} selected={price} setSelected={handleOnchange} /> */}
-            <form onSubmit={handlePriceSubmit}>
-              <label>
-                Minimum price:
-                <input className='bg-red-300' name='min' type="number" value={priceRange.min} onChange={handlePriceRange} />
-              </label>
-              <label>
-                Maximum price:
-                <input type="number" name='max' value={priceRange.max} onChange={handlePriceRange} />
-              </label>
-              <button type='submit' disabled={!priceRange.min || !priceRange.max} ><RiSearch2Line /></button>
-            </form>
-          </div>
+          </form>
         </div>
+      </div>
+
+      <div>
+        <p className="text-teal-800 font-semibold mb-2">City:</p>
+        <Selector data={cityData} selected={city} setSelected={handleCity} />
+      </div>
+      <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-between lg:items-center px-4 py-6 max-w-[1170px] mx-auto bg-white lg:bg-transparent lg:backdrop-blur rounded-lg shadow-md lg:shadow-none">
+        <div className="flex flex-col justify-center items-center lg:items-start">
+          <p className="text-teal-800 font-semibold mb-2 lg:mb-0">Price Range:</p>
+          <form onSubmit={handlePriceSubmit} className="flex justify-center lg:justify-start">
+            <div className="flex flex-col lg:flex-row lg:items-center">
+              <label className="text-gray-600 lg:mr-2">
+                Min:
+                <input className="bg-gray-200 rounded-lg py-1 px-2 lg:mx-2" name="min" type="number" value={priceRange.min} onChange={handlePriceRange} />
+              </label>
+              <label className="text-gray-600 lg:mr-2">
+                Max:
+                <input className="bg-gray-200 rounded-lg py-1 px-2 lg:mx-2" name="max" type="number" value={priceRange.max} onChange={handlePriceRange} />
+              </label>
+              <button type="submit" disabled={!priceRange.min || !priceRange.max} className="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300 ease-in-out">
+                <RiSearch2Line />
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   )
 }
 

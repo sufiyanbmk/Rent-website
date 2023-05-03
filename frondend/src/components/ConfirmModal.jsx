@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useState } from "react";
 
-export default function Modal({onConfirm, type}) {
+export default function Modal({onConfirm, type,onClose}) {
   const [showModal, setShowModal] = useState(true);
   const handleDelete = () => {
     onConfirm(true);
@@ -52,7 +52,7 @@ export default function Modal({onConfirm, type}) {
                       <button
                         className="w-full mt-2 p-2.5 flex-1 text-gray-800 rounded-md outline-none border ring-offset-2 ring-indigo-600 focus:ring-2"
                         onClick={() =>
-                          setShowModal(false)
+                          onClose(false)
                         }
                       >
                         Cancel

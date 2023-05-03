@@ -1,5 +1,6 @@
 import product from "../models/productSchema.js";
 import Review from "../models/reviewSchema.js";
+import User from "../models/userSchema.js"
 import multer from "multer";
 import crypto from "crypto";
 import { deleteFile, getObjectSignedUrl } from "../services/awsS3.js";
@@ -70,18 +71,16 @@ export const getSingleProduct = async (req, res) => {
   const id = req.params.id;
   try {
     const singleProduct = await product.findOne({ _id: id }).populate({ path: 'reviews', model: 'Review' });
-    let imageUrl = []
-    const singleProductWithImgLInk = singleProduct.file.map(async (x) => {
-      let Url = await getObjectSignedUrl(x);
-      imageUrl.push(Url);
-    })
-    await Promise.all(singleProductWithImgLInk);
-    singleProduct.set("link", imageUrl, { strict: false });
-    res
-      .status(200)
-      .json({ success: true, message: "Successfull", data: singleProduct });
+    const productUserDetail = await User.findOne({ _id: singleProduct.userId });
+    const userImageUrl = await getObjectSignedUrl(productUserDetail.profileImage);
+    const fileUrls = await Promise.all(singleProduct.file.map((file) => getObjectSignedUrl(file)));
+    singleProduct.set("link", fileUrls, { strict: false });
+    productUserDetail.set("image", userImageUrl, { strict: false });
+    singleProduct.set("user", productUserDetail, { strict: false });
+    console.log(singleProduct)
+    res.status(200).json({ success: true, message: "Successfull", data: singleProduct });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json({ success: false, message: "Failed" });
   }
 };

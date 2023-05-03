@@ -21,7 +21,7 @@ export const adminLogin = async(req, res) => {
 
 export const getProducts = async (req, res) => {
   try {
-    const products = await addProduct.find();
+    const products = await Product.find().populate({ path: 'reviews', model: 'Review' });
   
     res.status(200).json({success: true,message: "Succesfull", data: products});
   } catch (error) {

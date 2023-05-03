@@ -29,6 +29,7 @@ function Actions({ proId, error }) {
       successDuration: 7000,
       error: <b>Could not remove product from rented items.</b>,
     });
+    setShowDeleteModal(false);
   };
 
   const handleEdit = (proId) => {
@@ -76,6 +77,7 @@ function Actions({ proId, error }) {
             <DeleteModal
               onConfirm={() => handleDeleteModalConfirm(proId)}
               type='delete'
+              onClose={()=>setShowDeleteModal(false)}
             />
           )}
         </div>
