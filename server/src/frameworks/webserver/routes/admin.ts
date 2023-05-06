@@ -1,6 +1,7 @@
 import express from "express";
 import adminController from "../../../adapters/controllers/adminController";
-import { userRepositoryMongoDB } from "../../database/mongoDb/repositories/userRepository";
+import { adminDbRepository } from '../../../application/repositories/adminDbRepsitory'
+import { adminRepositoryMongoDB } from "../../database/mongoDb/repositories/adminRepository";
 
 
 
@@ -8,12 +9,17 @@ const adminRoute = () => {
   const router = express.Router();
 
   const controller = adminController(
-    userRepositoryMongoDB
+    adminDbRepository,
+    adminRepositoryMongoDB
   );
 
-  router.get("/users", controller.getAllUsers);
-  router.put("/block-user", controller.blockUser);
-  router.get("/reported-post", controller.getReportedPost);
+  router.route('/users')
+  .get(controller.getAllUsers)
+  .put(controller.blockUser)
+
+  router.route('/catagory')
+  .get(controller.getAllCatagory)
+  .post(controller.addCatagory)
 
   return router;
 };

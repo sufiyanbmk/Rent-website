@@ -10,7 +10,7 @@ const configKeys= {
 
     awsSecretAccessKey:process.env.AWS_SECRET_ACCESS_KEY as string,
 
-    mongoDbUrl: process.env.DATABASE as string,
+    mongoDbUrl: process.env.MONGODBURL as string,
 
     port: process.env.PORT || 5000,
 

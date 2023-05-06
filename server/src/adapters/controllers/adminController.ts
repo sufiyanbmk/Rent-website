@@ -1,68 +1,45 @@
-import { PostRepositoryInterface } from "../../application/repositories/postRepositoryInterface";
-import { UserRepositoryInterFace } from "../../application/repositories/userRepositoryInterface";
-import { AuthServiceInterface } from "../../application/services/authServiceInterface";
-import { PostRepositoryMongoDB } from "../../framework/database/mongoDb/repositories/postRepository";
-import { UserRepositoryMongoDB } from "../../framework/database/mongoDb/repositories/userRepository";
 import { Request, Response } from "express";
-import { AuthService } from "../../framework/services/authServices";
-import {
-  Adminlogin,
-  blockUnblock,
-  getAllUser,
-  getDashboards,
-  reportedPosts,
-  singlePost,
-} from "../../application/use_cases/admin/admin";
-import { paginateUser } from "../../application/use_cases/admin/paginate";
-import User from "../../framework/database/mongoDb/models/userModels";
-import { S3service } from "../../framework/services/s3Service";
-import { S3serviceInterface } from "../../application/services/s3serviceInterface";
+import asyncHandler from "express-async-handler";
+import { getUsers, blockAndUnblockUser } from '../../application/useCases/admin/managingUser';
+import { getCatagories, catagoryAdd } from '../../application/useCases/admin/managingCatagory'
+import { AdminDbInterface } from "../../application/repositories/adminDbRepsitory";
+import { AdminRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/adminRepository";
+import { CreateCatagoryInterface } from "../../types/catagoryInterface";
 
 const adminController = (
-  useRepositoryImpl: UserRepositoryMongoDB,
+  adminDbRepository: AdminDbInterface,
+  adminDbRepositoryImpl: AdminRepositoryMongoDB
+) =>{
 
-) => {
-  const userRepo = userDbrepository(useRepositoryImpl());
-  const postRepo = postRepository(postRepositortyImpl());
-  const authServices = authService(authServiceImpl());
-  const s3Services = s3Service(s3ServiceImpl());
+  const DbRepositoryAdmin = adminDbRepository(adminDbRepositoryImpl())
 
+   const getAllUsers = asyncHandler(async(req: Request, res: Response) => {
+    const users = await getUsers(DbRepositoryAdmin)
+    res.json(users) 
+   })
 
-  const getAllUsers = (req: Request, res: Response) => {
-    const { page } = req.query;
-    paginateUser(User, page as string).then((data) => {
-      let users = data?.results.map((e: any) => {
-        return {
-          id: e["_id"],
-          name: e["username"],
-          email: e["email"],
-          status: e["blocked"],
-          verified: e["verified"],
-        };
-      });
-      data.results = users;
-      res.json(data);
-    });
-  };
+   const blockUser = asyncHandler(async(req:Request, res:Response) =>{
+    const { email } = req.body;
+    await blockAndUnblockUser(email,DbRepositoryAdmin)
+    res.json({status:"success",message:"succefully updated"})
+   })
 
-  const blockUser = (req: Request, res: Response) => {
-    const { email }: { email: string } = req.body;
-    blockUnblock(email, userRepo).then(() => {
-      res.sendStatus(200);
-    });
-  };
+   const getAllCatagory = asyncHandler(async(req:Request, res:Response) => {
+    const catagory = await getCatagories(DbRepositoryAdmin)
+    res.json(catagory)
+   })
 
-  const getReportedPost = (req: Request, res: Response) => {
-    reportedPosts(postRepo).then((post) => {
-      res.json(post);
-    });
-  };
-
-  return {
+   const addCatagory = asyncHandler(async(req:Request, res:Response) => {
+    const catagory: CreateCatagoryInterface = req.body
+    await catagoryAdd(catagory,DbRepositoryAdmin)
+    res.json({status:"success", message:"succefully added"})
+   })
+   return {
     getAllUsers,
     blockUser,
-    getReportedPost,
-  };
-};
+    getAllCatagory,
+    addCatagory
+   }
+}
 
 export default adminController;

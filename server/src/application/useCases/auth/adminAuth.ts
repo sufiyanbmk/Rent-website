@@ -2,6 +2,7 @@ import { HttpStatus } from "../../../types/httpStatus"
 import AppError from "../../../utils/appError"
 import { AdminDbInterface } from "../../repositories/adminDbRepsitory"
 import { AuthServiceInterface } from "../../services/authServiceInterface"
+import AdminInterface from "../../../types/adminInterface"
 
 
 const adminLogin =async (

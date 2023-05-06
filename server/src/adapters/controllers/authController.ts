@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 import adminLogin from '../../application/useCases/auth/adminAuth'
 import { AdminDbInterface } from '../../application/repositories/adminDbRepsitory'
-import { AdminRepository } from '../../frameworks/database/mongoDb/repositories/adminRepository'
+import { AdminRepositoryMongoDB } from '../../frameworks/database/mongoDb/repositories/adminRepository'
 import { AuthServiceInterface } from '../../application/services/authServiceInterface'
 import { AuthService } from '../../frameworks/services/authService'
 import { userLogin, userRegister } from '../../application/useCases/auth/userAuth'
@@ -11,7 +11,7 @@ import { UserRepositoryMongoDB } from '../../frameworks/database/mongoDb/reposit
 
 const authController = (
   adminDbRepository: AdminDbInterface,
-  adminDbRepositoryImpl: AdminRepository,
+  adminDbRepositoryImpl: AdminRepositoryMongoDB,
   authServiceInterface: AuthServiceInterface,
   authServiceImpl: AuthService,
   userDbRepository: UserDbInterface,
@@ -61,9 +61,3 @@ const loginUser = asyncHandler(async(req:Request,res:Response)=>{
 }
 
 export default authController
-
-
-// const loginUser = asyncHandler(async(req: Request, res: Response) => {
-//   const { email, password } : {email:string, password: string} = req.body;
-//   const token = await userLogin(email,password,dbRepositoryUser,authService) 
-// })
