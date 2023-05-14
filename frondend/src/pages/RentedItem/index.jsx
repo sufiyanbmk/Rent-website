@@ -8,10 +8,12 @@ import { BsThreeDots } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { listRentedItem, removeFromRentedItem } from '../../redux/actions/rentedItems';
 import Actions from './actions';
+import { FaStar } from "react-icons/fa";
 
 function rentedItems() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
   const { rentedItems, error } = useSelector((state) => state.rentedItem);
+  console.log(rentedItems)
   const dispatch = useDispatch();
 
   const userId = user._id
@@ -54,10 +56,12 @@ function rentedItems() {
                 <span className='text-sm font-semibold text-gray-500 mr-2'>
                   Category:
                 </span>
+                
                 <span className='text-sm text-gray-900 dark:text-white'>
                   {product.category}
                 </span>
               </div>
+              {product?.featured.length >= 1 ? <FaStar color="gold" /> : ''}
               <div className='flex items-center justify-between'>
                 <div className='text-xl font-bold text-gray-900 dark:text-white'>
                   ${product.price}

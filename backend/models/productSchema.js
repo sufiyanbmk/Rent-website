@@ -27,6 +27,10 @@ const ProductSchema = new mongoose.Schema(
         ref: "reportSchema",
       },
     ],
+    featured:{
+      type:Array,
+      default:[],
+    },
   },
   { timestamps: true }
 );

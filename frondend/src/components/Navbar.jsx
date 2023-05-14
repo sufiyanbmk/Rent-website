@@ -13,7 +13,7 @@ import image from '../assets/images/profileAvator.jpg';
 function Navbar() {
   const Links = [
     { name: 'HOME', link: '/' },
-    { name: 'MESSAGE', link: '/' },
+    { name: 'MESSAGE', link: '/conversation' },
     { name: 'LIKED ITEMS', link: '/liked-item' },
     { name: 'RENTED ITEMS', link: '/rented-item' },
   ];
@@ -23,7 +23,6 @@ function Navbar() {
   const userLoggedIn = useSelector((state) => state.userLogin)
   const userInfo = userLoggedIn.authData
   const [isdropdownVisible, isSetDropdownVisible] = useState(false);
-  console.log(userInfo)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const handleDropdown = () =>{

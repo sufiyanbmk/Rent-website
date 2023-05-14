@@ -44,7 +44,7 @@ export const addProduct = async (req, res) => {
 export const getRentedProducts = async (req, res) => {
   const userID = req.params.id;
   try {
-    const rentedProducts = await product.find({ userId: userID });
+    const rentedProducts = await product.find({ userId: userID }).sort({featured: -1,createdAt: -1})
     const promises = rentedProducts.map(async (product) => {
       const signedUrls = await Promise.all(product.file.map(getObjectSignedUrl));
       product.set("links", signedUrls, { strict: false });
@@ -77,10 +77,8 @@ export const getSingleProduct = async (req, res) => {
     singleProduct.set("link", fileUrls, { strict: false });
     productUserDetail.set("image", userImageUrl, { strict: false });
     singleProduct.set("user", productUserDetail, { strict: false });
-    console.log(singleProduct)
     res.status(200).json({ success: true, message: "Successfull", data: singleProduct });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ success: false, message: "Failed" });
   }
 };

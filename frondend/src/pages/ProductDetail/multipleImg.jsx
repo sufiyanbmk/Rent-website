@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 
 const MultipleImage = ({imagesUrl}) => {
-  console.log(imagesUrl,'linkk')
 
   const [images, setImages] = useState({
     img1: imagesUrl[0],

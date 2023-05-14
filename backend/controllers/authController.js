@@ -249,6 +249,7 @@ export const verifyEmail = async (req, res) => {
         .status(200)
         .json({ status: true, message: "Please Check Email To Verify" });
   } catch (err) {
+    // console.log(err)
     return res.status(500).json({ status: false, message:'Server is Down. try again later' });
   }
 };

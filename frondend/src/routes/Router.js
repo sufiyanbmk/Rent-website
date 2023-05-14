@@ -11,6 +11,8 @@ import RentedItem from '../pages/RentedItem';
 import SingleProduct from '../pages/ProductDetail';
 import SearchedProduct from '../pages/SearchedProduct';
 import ViewProfile from '../pages/ViewProfile';
+import FeatureTheProduct from '../pages/FeatureTheProduct';
+import Conversation from '../pages/Conversation';
 import { IsLogged } from '../auth/loginAuth';
 
 function Routers() {
@@ -27,6 +29,8 @@ function Routers() {
         <Route path="/rent-form" element={<RentForm />} />
         <Route path="/rented-item" element={<RentedItem />} />
         <Route path="/view-profile" element={<ViewProfile />} />
+        <Route path="/premium/:id" element={<FeatureTheProduct />} />
+        <Route path="/conversation" element={<Conversation />} />
       </Route>
       <Route path="/product-detail/:id" element={<SingleProduct />} />
       <Route

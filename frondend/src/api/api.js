@@ -23,6 +23,24 @@ export function searchByCity(values,page){
 }
 
 export function searchByPrice(values,page){
-  console.log(values)
   return Axios.get(`/product/search-by-price?min=${values.min}&max=${values.max}&page=${page}`);
+}
+
+//featured 
+
+export function getPublishKey(){
+  return Axios.get(`/featured/config`)
+}
+ 
+export function stripePost(){
+  return Axios.post(`/featured/create-payment-intent`)
+}
+
+export function updateToFeature(data){
+  return Axios.patch(`/featured/update-feature`,data)
+}
+
+export function cancelIncompletePyment(id){
+  console.log(id,'idkdkkd')
+  return Axios.post('/featured/cancel-payment', {"paymentId":id})
 }

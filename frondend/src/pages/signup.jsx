@@ -26,8 +26,8 @@ export default function Signup() {
         const response = await axios.post('/verify-email', { email });
         if (response.status === 200) {
           const res = await axios.post('/register', values);
-          const result = await res.json()
-          if (!result.success) {
+          // const result = await res.json()
+          if (!res.success) {
             setError({message:'Failed ,Please Try again'})
             navigate('/signup')
           }
@@ -37,7 +37,8 @@ export default function Signup() {
           setError({message:'Email is not valid'})
         }
       } catch (err) {
-        setError(err.response.data)
+        console.log(err)
+        setError({message:'server is down'})
       }
     }
   }

@@ -19,6 +19,8 @@ const userSchema = new mongoose.Schema(
     },
     profileImage:{
       type:String,
+      default:
+        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
     blocked:{
       type:Boolean,
@@ -27,6 +29,13 @@ const userSchema = new mongoose.Schema(
     verified:{
       type:Boolean,
       default:false,
+    },
+    socket_id: {
+      type: String
+    },
+    status: {
+      type: String,
+      enum: ["Online", "Offline"]
     },
     token:String,
   },

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { removeFromRentedItem } from '../../redux/actions/rentedItems';
 import { useDispatch } from "react-redux";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DeleteModal from '../../components/ConfirmModal';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -64,13 +64,13 @@ function Actions({ proId, error }) {
             >
               Edit
             </a>
-            <a
+            <button
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
               role="menuitem"
             >
-              Option 3
-            </a>
+             <Link to = {`/premium/${proId}`} >Add to Premium</Link> 
+            </button>
           </div>
           {/* modal  */}
           {showDeleteModal && (

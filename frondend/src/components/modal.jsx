@@ -34,7 +34,7 @@ export default function Modal() {
           console.log(res.data.data)
           setMsg(res.data);
         }).catch((err) => {
-          setErr(err.response.data)
+          setErr({message:"server is down ,try again Later"})
         });
       } catch (err) {
         setErr({message:"network error"})
@@ -42,6 +42,7 @@ export default function Modal() {
     }
     
   }
+  console.log(error.message)
   const { handleChange, values, errors } = useLoginForm()
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -79,7 +80,7 @@ export default function Modal() {
                 </div>
                 {/*body*/}
                 {msg && <h1 className="text-green-700 font-bold">{msg.message}</h1>}
-                {error && <h4 className="text-red-600">{error.message}</h4>}
+                {error.message && <h4 className="text-red-600">{error.message}</h4>}
                 <div className="bg-gray-800 flex flex-col justify-center">
                   <form onSubmit={handleSubmit} className={`max-w-[400px] w-full mx-auto rounded-lg bg-gray-900 p-8 px-8 {classes.form}`}>
                     <h2 className="text-4xl dark:text-white font-bold text-center">{isOtp?'Enter Phone NO':"Enter Email"}</h2>

@@ -15,7 +15,6 @@ function useFetchAxios(url) {
           setError('failed to fetch')
           alert('Error occured')
         }
-        console.log(res,'res')
         setData(res.data)
         isSetLoading(false)
       } catch (err) {
