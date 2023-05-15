@@ -19,9 +19,9 @@ export const UpdateDirectConversation = ({ conversation,user_id}) => ({
   payload:{conversation,user_id}
 })
 
-export const AddDirectConversation = ({conversation}) => ({
+export const AddDirectConversation = ({conversation,user_id}) => ({
   type: ADD_DIRECT_CONVERSATION,
-  payload:conversation
+  payload:{conversation,user_id}
 })
 
 export const AddDirectMessage = (message) => ({

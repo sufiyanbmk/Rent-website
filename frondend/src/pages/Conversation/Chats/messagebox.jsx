@@ -6,6 +6,7 @@ import { socket } from '../../../utils/socket'
 import { FetchCurrentMessages, SetCurrentConversation, } from '../../../redux/actions/conversation'
 import { useDispatch, useSelector } from "react-redux";
 import { TextMsg } from '../../../components/MessageElements'
+import MessageShowing from '../../../components/MessageShowing'
 
 function Messagebox() {
   const scrollRef = useRef();
@@ -38,67 +39,7 @@ function Messagebox() {
       <div>
         
       </div>
-      <div className="flex-grow p-6
-        h-70vh w-full bg-ccd5cc 
-        overflow-x-hidden h-60 overflow-y-scroll scrollbar-thin 
-        scrollbar-track-gray-100 scrollbar-thumb-gray-500 
-        hover:scrollbar-thumb-gray-600
-       bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700" ref={scrollRef}>
-
-        {/* <div
-          className="
-        "
-        > */}
-          {/* <ul className="space-y-2"> */}
-            {current_messages.map((el, idx) => {
-              switch (el.type) {
-                case "divider":
-                  return (
-                    // Timeline
-                    <Timeline el={el} />
-                  );
-
-                case "msg":
-                  switch (el.subtype) {
-                    case "img":
-                      return (
-                        // Media Message
-                        <MediaMsg el={el} menu={menu} />
-                      );
-
-                    case "doc":
-                      return (
-                        // Doc Message
-                        <DocMsg el={el} menu={menu} />
-                      );
-                    case "Link":
-                      return (
-                        //  Link Message
-                        <LinkMsg el={el} menu={menu} />
-                      );
-
-                    case "reply":
-                      return (
-                        //  ReplyMessage
-                        <ReplyMsg el={el} menu={menu} />
-                      );
-
-                    default:
-                      return (
-                        // Text Message
-                        <TextMsg el={el}/>
-                      );
-                  }
-
-                default:
-                  return <></>;
-              }
-            })}
-
-          {/* </ul> */}
-
-        {/* </div> */}
-      </div>
+      <MessageShowing />
 
       <Bottom className="sticky bottom-0" />
         {/* </div> */}

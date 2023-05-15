@@ -33,7 +33,7 @@ function Conversation() {
     console.log(socket,'sokee')
     if(!socket){
       connectSocket(authData._id)
-      console.log(socket,'sdsdfssfddsfdsdfdsfssdfdffdfddsfssdfsfsdfdsfssfdfsfs')
+      console.log(socket,'sdsdfssfddsfdsdfsddfdsfssdfdffdfddsfssdfsfsdfdsfssfdfsfs')
     } 
     socket?.on("new_message", (data) => {
       const message = data.message;

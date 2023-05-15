@@ -77,7 +77,7 @@ const conversationReducer = (state = initialState, action) => {
           );
 
           return {
-            id: thisConversation._id._id,
+            id: thisConversation._id,
             user_id: user?._id,
             name: `${user.username}`,
             online: user.status === "Online",
@@ -98,19 +98,20 @@ const conversationReducer = (state = initialState, action) => {
     case ADD_DIRECT_CONVERSATION:
       const newConversation = action.payload.conversation;
       const newConversationUser = newConversation.participants.find(
-        (elm) => elm._id.toString() !== user_id
+        (elm) => elm._id.toString() !== action.payload.user_id
       );
+      console.log(newConversation._id,'new convdfsddd')
       const newConversations = [
         ...state.direct_chat.conversations.filter(
           (el) => el?.id !== newConversation._id
         ),
         {
-          id: newConversation._id._id,
+          id: newConversation._id,
           user_id: newConversationUser?._id,
-          name: `${newConversationUser?.firstName} ${newConversationUser?.lastName}`,
+          name: `${newConversationUser?.username}`,
           online: newConversationUser?.status === "Online",
-          img: faker.image.avatar(),
-          msg: faker.music.songName(),
+          // img: faker.image.avatar(),
+          // msg: faker.music.songName(),
           time: "9:36",
           unread: 0,
           pinned: false,

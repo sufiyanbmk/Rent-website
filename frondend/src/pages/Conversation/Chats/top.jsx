@@ -17,7 +17,7 @@ function Top() {
               </StyledBadge> */}
             </div>
             <div className="flex flex-col">
-              <p variant="subtitle2" className="text-gray-800 dark:text-gray-200">{current_conversation.name}</p>
+              <p variant="subtitle2" className="text-gray-800 dark:text-gray-200">sufiyan</p>
               <p variant="caption" className="text-gray-500 dark:text-gray-400">Online</p>
             </div>
           </div>

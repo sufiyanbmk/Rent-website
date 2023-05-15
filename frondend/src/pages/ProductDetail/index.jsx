@@ -21,6 +21,7 @@ function productDetail() {
   const dispatch = useDispatch()
   const { data: data } = useFetchAxios(`/product/product-detail/${id}`)
   const product = data.data
+  const [isShowMessage,setIsShowMessage] = useState(false)
   const { authData } = useSelector((state) => state.userLogin)
   const { conversations, current_conversation } = useSelector(
     (state) => state.conversation?.direct_chat
@@ -63,12 +64,12 @@ function productDetail() {
         (el) => el?.id === data._id );
       console.log(existing_conversation,'existing')
       if (existing_conversation) {
+        dispatch(UpdateDirectConversation({ conversation: data,user_id: authData._id}));
         // update direct conversation
         // console.log(data,'data,int he staert')
-        dispatch(UpdateDirectConversation({ conversation: data,user_id: authData._id}));
       } else {
         // add direct conversation
-        dispatch(AddDirectConversation({ conversation: data }));
+        dispatch(AddDirectConversation({ conversation: data ,user_id: authData._id }));
       }
       dispatch(SelectConversation({ room_id: data._id }));
     });
@@ -84,6 +85,7 @@ function productDetail() {
     avgRating = calcultateRating(review)
   }
   const handleChat = () =>{
+    setIsShowMessage(true)
     socket?.emit("start_conversation", { to: product?.user._id, from: authData._id })
   }
   return (
@@ -130,8 +132,8 @@ function productDetail() {
               <input className='border border-gray-300 focus:border-violet-700 outline-none rounded w-full px-4 h-14 text-sm' type='text' placeholder='Email' />
               <input className='border border-gray-300 focus:border-violet-700 outline-none rounded w-full px-4 h-14 text-sm' type='text' placeholder='Phone' />
               <textarea className='border border-gray-300 focus:border-violet-300 outline-none resize-none rounded w-full p-4 h-36 text-sm text-gray-400' placeholder='Message' defaultValue='HEllo I am Interested ' /> */}
-             
-              <ChatWithSocket />
+              {isShowMessage? <ChatWithSocket /> : ''}
+              
               
               <div className='flex flex-col lg:flex-row gap-y-4 lg:gap-x-2'>
                 <button onClick={handleChat}  className='bg-blue-700 hover:bg-blue-900 rounded text-white p-4 text-sm w-full lg:w-auto transition'>Send Message</button>
