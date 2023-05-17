@@ -1,7 +1,7 @@
 import express from "express";
 import multer from 'multer'
 import crypto from 'crypto'
-import { getRentedProducts, deleteProduct, getSingleProduct, getSearchedProduct, getFilterSearch, getFilteredCity, getFilterPrice} from '../controllers/productController.js'
+import { getRentedProducts, deleteProduct, getSingleProduct, getSearchedProduct, getFilterSearch, getFilteredCity, getFilterPrice, getFeaturedOnlyProduct} from '../controllers/productController.js'
 import { uploadFile } from '../services/awsS3.js'
 import { addProduct, editProduct } from '../helpers/client/product.js'
 // import verifyJWT from "../helpers/client/verifyJwt.js";
@@ -66,4 +66,6 @@ router.get('/search-by-name', getFilterSearch)
 router.get('/search-by-city', getFilteredCity)
 
 router.get('/search-by-price', getFilterPrice)
+
+router.get('/home-featured', getFeaturedOnlyProduct)
 export default router;

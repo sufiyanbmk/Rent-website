@@ -43,7 +43,7 @@ function Filter({ handleSearch, handleCity, handlePriceSubmit }) {
         <p className="text-teal-800 font-semibold mb-2">City:</p>
         <Selector data={cityData} selected={city} setSelected={handleCity} />
       </div>
-      <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-between lg:items-center px-4 py-6 max-w-[1170px] mx-auto bg-white lg:bg-transparent lg:backdrop-blur rounded-lg shadow-md lg:shadow-none">
+      <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-between lg:items-center max-w-[1170px] mx-auto bg-white lg:bg-transparent lg:backdrop-blur rounded-lg shadow-md lg:shadow-none">
         <div className="flex flex-col justify-center items-center lg:items-start">
           <p className="text-teal-800 font-semibold mb-2 lg:mb-0">Price Range:</p>
           <form onSubmit={handlePriceSubmit} className="flex justify-center lg:justify-start">

@@ -41,6 +41,13 @@ export function updateToFeature(data){
 }
 
 export function cancelIncompletePyment(id){
-  console.log(id,'idkdkkd')
   return Axios.post('/featured/cancel-payment', {"paymentId":id})
+}
+
+export function startAudioCall(to,from){
+  return Axios.post('/call/start-call',{to,from})
+}
+
+export function generateZegoToken({userID,roomID}){
+  return Axios.post('/call/generate-zego-token',{ userId: userID, room_id: roomID,})
 }

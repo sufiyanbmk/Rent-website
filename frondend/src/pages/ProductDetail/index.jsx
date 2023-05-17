@@ -7,21 +7,23 @@ import Review from './review';
 import calcultateRating from '../../utils/avgRating';
 import Star from '../../components/Star';
 import Report from './reportModal';
-import { socket,connectSocket  } from '../../utils/socket';
+import { socket, connectSocket } from '../../utils/socket';
 import { useDispatch, useSelector } from 'react-redux';
 import ChatWithSocket from './chatWithSocket'
 import {
   UpdateDirectConversation,
   AddDirectConversation,
   SelectConversation,
-  AddDirectMessage, } from '../../redux/actions/conversation';
+  AddDirectMessage,
+} from '../../redux/actions/conversation';
+import toast, { Toaster } from 'react-hot-toast';
 
 function productDetail() {
   const { id } = useParams()
   const dispatch = useDispatch()
   const { data: data } = useFetchAxios(`/product/product-detail/${id}`)
   const product = data.data
-  const [isShowMessage,setIsShowMessage] = useState(false)
+  const [isShowMessage, setIsShowMessage] = useState(false)
   const { authData } = useSelector((state) => state.userLogin)
   const { conversations, current_conversation } = useSelector(
     (state) => state.conversation?.direct_chat
@@ -31,13 +33,13 @@ function productDetail() {
     socket?.off("start_chat");
     socket?.off("new_message");
   }
-  alert(socket?.connected)
+  // alert(socket?.connected)
   useEffect(() => {
-    console.log(socket,'sokee')
-    if(!socket){
+    console.log(socket, 'sokee')
+    if (!socket) {
       connectSocket(authData._id)
-      console.log(socket,'sdsdfssfddsfdsdfdsfssdfdffdfddsfssdfsfsdfdsfssfdfsfs')
-    } 
+      console.log(socket, 'sdsdfssfddsfdsdfdsfssdfdffdfddsfssdfsfsdfdsfssfdfsfs')
+    }
     socket?.on("new_message", (data) => {
       const message = data.message;
       // console.log(message, 'hllmessagsdfsdfe');
@@ -57,19 +59,19 @@ function productDetail() {
       }
     });
     socket?.on("start_chat", (data) => {
-      console.log(conversations,'data._id')
+      console.log(conversations, 'data._id')
       // console.log(data,'start chat');
       // add / update to conversation list
       const existing_conversation = conversations.find(
-        (el) => el?.id === data._id );
-      console.log(existing_conversation,'existing')
+        (el) => el?.id === data._id);
+      console.log(existing_conversation, 'existing')
       if (existing_conversation) {
-        dispatch(UpdateDirectConversation({ conversation: data,user_id: authData._id}));
+        dispatch(UpdateDirectConversation({ conversation: data, user_id: authData._id }));
         // update direct conversation
         // console.log(data,'data,int he staert')
       } else {
         // add direct conversation
-        dispatch(AddDirectConversation({ conversation: data ,user_id: authData._id }));
+        dispatch(AddDirectConversation({ conversation: data, user_id: authData._id }));
       }
       dispatch(SelectConversation({ room_id: data._id }));
     });
@@ -77,15 +79,19 @@ function productDetail() {
     return () => {
       removeSocketEventListeners()
     };
-  },[socket,current_conversation])
+  }, [socket, current_conversation])
 
   const review = product?.reviews
   let avgRating = '';
   if (review) {
     avgRating = calcultateRating(review)
   }
-  const handleChat = () =>{
+  const handleChat = () => {
     setIsShowMessage(true)
+    if(!authData){
+      toast.error('Please Login')
+      return
+    }
     socket?.emit("start_conversation", { to: product?.user._id, from: authData._id })
   }
   return (
@@ -108,14 +114,15 @@ function productDetail() {
             <div className='mt-6 text-gray-700 text-lg'>Address: {product?.address},{product?.city},{product?.state}</div>
             <div className='mt-6 text-gray-700 text-lg'>Description: {product?.description}</div>
             <div className="flex gap-3">
-            {product?.documents.map((doc) => (
-              <div key={doc.id} className="bg-white p-4 rounded-lg shadow">
-                <p className="text-gray-500">{doc.text}</p>
-              </div>
-            ))}
+              {product?.documents.map((doc) => (
+                <div key={doc.id} className="bg-white p-4 rounded-lg shadow">
+                  <p className="text-gray-500">{doc.text}</p>
+                </div>
+              ))}
+            </div>
           </div>
-          </div>
-          
+
+            {authData._id !== product?.user._id? 
           <div className='flex-1 bg-white-100 w-full mb-8 lg:mb-0 border border-gray-300 rounded-lg px-6 py-8'>
             <div className='flex flex-col lg:flex-row items-center gap-x-4 mb-8'>
               <div className='w-20 h-20 p-1 border border-gray-300 rounded-full'>
@@ -132,21 +139,23 @@ function productDetail() {
               <input className='border border-gray-300 focus:border-violet-700 outline-none rounded w-full px-4 h-14 text-sm' type='text' placeholder='Email' />
               <input className='border border-gray-300 focus:border-violet-700 outline-none rounded w-full px-4 h-14 text-sm' type='text' placeholder='Phone' />
               <textarea className='border border-gray-300 focus:border-violet-300 outline-none resize-none rounded w-full p-4 h-36 text-sm text-gray-400' placeholder='Message' defaultValue='HEllo I am Interested ' /> */}
-              {isShowMessage? <ChatWithSocket /> : ''}
-              
-              
-              <div className='flex flex-col lg:flex-row gap-y-4 lg:gap-x-2'>
-                <button onClick={handleChat}  className='bg-blue-700 hover:bg-blue-900 rounded text-white p-4 text-sm w-full lg:w-auto transition'>Send Message</button>
-                <button className='bg-black text-white hover:border-violet-500 hover:text-violet-500 rounded p-4 text-sm w-full lg:w-auto transition'>Call</button>
-              </div>
+            {isShowMessage ? <ChatWithSocket /> : ''}
+
+
+            <div className='flex flex-col lg:flex-row gap-y-4 lg:gap-x-2'>
+              <button onClick={handleChat} className='bg-blue-700 hover:bg-blue-900 rounded text-white p-4 text-sm w-full lg:w-auto transition'>Send Message</button>
+              <button className='bg-black text-white hover:border-violet-500 hover:text-violet-500 rounded p-4 text-sm w-full lg:w-auto transition'>Call</button>
+            </div>
             {/* </form> */}
           </div>
+:''}
         </div>
         <div>
           <Report id={id} />
         </div>
         <Review id={id} reviews={product?.reviews} />
       </div>
+      <Toaster />
     </section>
   )
 }

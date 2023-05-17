@@ -173,3 +173,21 @@ export const getFilterPrice = async (req,res ) => {
     res.status(500).json({ success: false, message: "Failed" });
   }
 }
+
+export const getFeaturedOnlyProduct = async(req,res) => {
+  try{
+    const products = await product.find({ featured:{ $exists: true, $ne: [] } }).sort({ createdAt: -1 });
+    const promises = products.map(async (product) => {
+      const signedUrls = await Promise.all(product.file.map(getObjectSignedUrl));
+      product.set("links", signedUrls, { strict: false });
+      return product;
+    });
+    const productsWithSignedUrls = await Promise.all(promises);
+    res
+    .status(200)
+    .json({ success: true, message: "Successfull", data: productsWithSignedUrls});
+  }catch(err){
+    console.log(err)
+    res.status(500).json({ success: false, message: "Failed" });
+  }
+}

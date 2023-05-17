@@ -61,7 +61,7 @@ function rentedItems() {
                   {product.category}
                 </span>
               </div>
-              {product?.featured.length >= 1 ? <FaStar color="gold" /> : ''}
+              {product?.featured.length >= 1 ? <span className="badge badge-lg">FEATURED</span>:''}
               <div className='flex items-center justify-between'>
                 <div className='text-xl font-bold text-gray-900 dark:text-white'>
                   ${product.price}

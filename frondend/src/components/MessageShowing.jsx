@@ -2,8 +2,10 @@
 import { FetchCurrentMessages, SetCurrentConversation, } from '../redux/actions/conversation'
 import { useDispatch, useSelector } from "react-redux";
 import { useRef, useEffect } from 'react';
-import { TextMsg } from './MessageElements'
+import { TextMsg,MediaMsg } from './MessageElements'
 import { socket } from '../utils/socket'
+
+// import TypingDot from '../assets/illustration/dots_2.gif'
 
 export default function MessageShowing() {
   const scrollRef = useRef();
@@ -13,12 +15,12 @@ export default function MessageShowing() {
   );
   // console.log(current_messages,'currennt')
   const { authData } = useSelector((state) => state.userLogin)
-  const { room_id } = useSelector((state) => state.conversation)
+  const { room_id,typing } = useSelector((state) => state.conversation)
   useEffect(() => {
     const current = conversations?.find((el) => el?.id === room_id);
-    console.log(current,'cusrrentttsdfdsdfsfsdsdfssdfsdfsdff')
+    // console.log(current,'cusrrentttsdfdsdfsfsdsdfssdfsdfsdff')
     socket?.emit("get_messages", { conversation_id: current?.id }, (data) => {
-      console.log(data,'ttttttttttttttttttttttttti')
+      // console.log(data,'ttttttttttttttttttttttttti')
       // data => list of messages
       dispatch(FetchCurrentMessages({ messages: data , user_id:authData._id}));
     });
@@ -53,10 +55,10 @@ export default function MessageShowing() {
 
                 case "msg":
                   switch (el.subtype) {
-                    case "img":
+                    case "File":
                       return (
                         // Media Message
-                        <MediaMsg el={el} menu={menu} />
+                        <MediaMsg el={el} />
                       );
 
                     case "doc":
@@ -70,11 +72,6 @@ export default function MessageShowing() {
                         <LinkMsg el={el} menu={menu} />
                       );
 
-                    case "reply":
-                      return (
-                        //  ReplyMessage
-                        <ReplyMsg el={el} menu={menu} />
-                      );
 
                     default:
                       return (
@@ -87,8 +84,7 @@ export default function MessageShowing() {
                   return <></>;
               }
             })}
-
-          {/* </ul> */}
+          {typing? 'typing ...' : ''}
 
         {/* </div> */}
       </div>

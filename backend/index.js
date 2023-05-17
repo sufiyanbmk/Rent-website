@@ -13,6 +13,7 @@ import reviewRoute from "./routes/review.js";
 import reportRoute from "./routes/report.js";
 import featuredProductRoute from './routes/featuredProduct.js'
 import chatRoute from './routes/chat.js'
+import callRoute from './routes/audioCall.js'
 
 import { Server } from "socket.io";
 import socketManager from "./socket/socketManger.js";
@@ -53,6 +54,7 @@ app.use('/review',reviewRoute)
 app.use('/report',reportRoute)
 app.use('/featured',featuredProductRoute)
 app.use('/chat',chatRoute)
+app.use('/call',callRoute)
 
 
 

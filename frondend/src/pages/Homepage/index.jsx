@@ -6,6 +6,7 @@ import Selector from '../../components/Selector';
 import Button from '../../components/Button';
 import WorkingStep from './bookingStep'
 import AboutUs from './aboutUs'
+import FeaturedProduct from './featuredProduct';
 
 function Home() {
   const [state,setState]=useState("")
@@ -20,6 +21,7 @@ function Home() {
         <Selector type="country" url="http://localhost:8000/admin/catagory" callback={(value)=>setCatagory(value)}/>
         <Button className="bg-blue-500 h-12 md:ml-12 w-24 ml-32"><Link to={`/search-product/${state}/${catagory}`}>Search</Link></Button>
       </div>
+      <FeaturedProduct />
       <WorkingStep />
       <AboutUs />
     </div>

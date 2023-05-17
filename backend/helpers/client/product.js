@@ -60,7 +60,7 @@ export function editProduct(data,image,proId){
 
 export function searchProductHelper(state,category,skip,limit){
   return new Promise(async(resolve,reject)=>{
-    await products.find({state,category}).populate({ path: 'reviews', model: 'Review' }).skip(skip).limit(limit).then((res)=>{
+    await products.find({state,category}).sort({featured: -1,createdAt: -1}).populate({ path: 'reviews', model: 'Review' }).skip(skip).limit(limit).then((res)=>{
       resolve(res)
     }).catch((err)=>{
       reject(err)
@@ -73,7 +73,7 @@ export function searchFilter(Letter, skip, limit) {
     productName: { $regex: `^${Letter}`, $options: 'i' } 
   };
   return new Promise(async(resolve, reject) => {
-    await products.find(searchCriteria).populate({ path: 'reviews', model: 'Review' }).skip(skip).limit(limit).then((res)=>{
+    await products.find(searchCriteria).sort({featured: -1,createdAt: -1}).populate({ path: 'reviews', model: 'Review' }).skip(skip).limit(limit).then((res)=>{
       resolve(res)
     }).catch((err)=>{
       reject(err)
@@ -86,7 +86,7 @@ export function cityFilter(city, skip, limit) {
     city: { $regex: `^${city}`, $options: 'i' } 
   };
   return new Promise(async(resolve, reject) => {
-    await products.find(searchCriteria).populate({ path: 'reviews', model: 'Review' }).skip(skip).limit(limit).then((res)=>{
+    await products.find(searchCriteria).sort({featured: -1,createdAt: -1}).populate({ path: 'reviews', model: 'Review' }).skip(skip).limit(limit).then((res)=>{
       console.log(res)
       resolve(res)
     }).catch((err)=>{
@@ -101,7 +101,7 @@ export function priceFilter(min,max, skip, limit) {
     price: { $gte: min, $lte: max } 
   };
   return new Promise(async(resolve, reject) => {
-    await products.find(searchCriteria).populate({ path: 'reviews', model: 'Review' }).skip(skip).limit(limit).then((res)=>{
+    await products.find(searchCriteria).sort({featured: -1,createdAt: -1}).populate({ path: 'reviews', model: 'Review' }).skip(skip).limit(limit).then((res)=>{
       console.log(res)
       resolve(res)
     }).catch((err)=>{

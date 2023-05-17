@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { SETTING_TAB,GETTING_ALREDY_CHATTED_USER, UPDATE_DIRECT_CONVERSATION, ADD_DIRECT_CONVERSATION, ADD_DIRECT_MESSAGE, SELECT_CONVERSATION,
-  FETCH_CURRENT_MESSAGES,
-  SET_CURRENT_CONVERSATION,
+  FETCH_CURRENT_MESSAGES,SET_CURRENT_CONVERSATION,TYPING_STATUS,CLEAR
 } from "../constants/actionTypes";
 
 export const UpdateTab = (tab) => ({
@@ -42,4 +41,13 @@ export const FetchCurrentMessages = ({messages,user_id}) => ({
 export const SetCurrentConversation = (current_conversation) => ({
   type:SET_CURRENT_CONVERSATION,
   payload:current_conversation
+})
+
+export const typingStart = (status) =>({
+  type:TYPING_STATUS,
+  payload:status
+})
+
+export const clearRedux = () => ({
+  type: CLEAR,
 })

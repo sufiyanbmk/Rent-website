@@ -7,7 +7,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import Messagebox from './messagebox';
 
 function Chats() {
-  const { room_id, chat_type } = useSelector((state) => state.conversation);
+  const { room_id, chat_type,} = useSelector((state) => state.conversation);
 
   return (
     <div className="flex w-full pt-20">

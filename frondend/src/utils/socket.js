@@ -9,16 +9,12 @@ const connectSocket = (user_id) => {
     query: `user_id=${user_id}`,
   });
 
-  socket.on("connection _error", (err) => {
-    console.log(err)
-    if (err.message === "invalid username") {
-      console.log("ERROR");
-    }
+  socket.on('disconnect', function() {
+    alert('disconnected')
+    console.log('hiiiiiiiii')
+    socket.emit("end", 'offline');
   });
-  // socket.on('disconnect', function() {
-  //   console.log('disconnected')
-  //   socket.emit("end", 'offline');
-  // });
+
 } 
 
 export {socket, connectSocket};

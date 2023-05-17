@@ -19,7 +19,7 @@ const messageSchema = mongoose.Schema({
       },
       type: {
         type: String,
-        enum: ["Text", "Media", "Document", "Link"],
+        enum: ["Text", "Media","File", "Document", "Link"],
       },
       created_at: {
         type: Date,

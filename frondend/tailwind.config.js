@@ -23,4 +23,14 @@ module.exports = {
     },
   },
   plugins: [require("daisyui")],
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          // Set the base color to none
+          DAISY_UI_BASE_COLOR: 'transparent',
+        },
+      },
+    ],
+  },
 }

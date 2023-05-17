@@ -37,6 +37,7 @@ export const stripePayment = async (req,res) => {
 
 export const updateToFeature = async(req,res) => {
   const { proID,plan,price } = req.body
+  const currentDate = new Date()
   const expireDate = new Date(currentDate.setMonth(currentDate.getMonth() + plan));
   
   try{

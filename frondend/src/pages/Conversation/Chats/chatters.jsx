@@ -10,15 +10,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { FetchDirectConversations } from '../../../redux/actions/conversation'
 import { socket } from '../../../utils/socket'
 import ChatElement from '../../../components/ChatElement';
+import { useNavigate } from 'react-router-dom';
 
 
 function Chatters() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const {authData} = useSelector((state) => state.userLogin)
   const {conversations} = useSelector((state) => state.conversation?.direct_chat);
   const user_id = authData._id
   useEffect(() => {
-    console.log(socket,'sdfsfusdffadfsdsdfsdfedsdfsdf')
+    // console.log(socket,'sdfsfusdffadfsdsdfsdfedsdfsdf')
     socket?.emit("get_direct_conversations", { user_id }, (data) => {
       dispatch(FetchDirectConversations({ conversations: data,user_id }));
     });
@@ -34,14 +36,12 @@ function Chatters() {
         <div className="flex items-center space-x-1">
           <button
             onClick={() => {
-              handleOpenDialog();
+              socket.emit("end", 'offline');
+              navigate('/')
             }}
             className="p-1 rounded-full bg-blue-500 text-white focus:outline-none"
           >
-            <Users className="h-5 w-5" />
-          </button>
-          <button className="p-1 rounded-full bg-blue-500 text-white focus:outline-none">
-            <CircleDashed className="h-5 w-5" />
+            BACK TO HOME PAGE
           </button>
         </div>
       </div>

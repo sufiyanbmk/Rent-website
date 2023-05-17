@@ -46,6 +46,7 @@ const ProductList = forwardRef(({ data }, ref) => {
           </div>
           <div className="p-4">
             <h2 className="text-2xl font-semibold text-gray-800 mb-2">{data.productName}</h2>
+            {data?.featured.length >= 1 ? <span className="badge badge-lg ml-56">FEATURED</span>:''}
             <div className="flex items-center mb-2">
               <StarIcon className="h-5 w-5 text-yellow-500 mr-1" />
               <span className="text-gray-600 text-lg">{avgRating || 0}.0</span>

@@ -12,75 +12,81 @@ import {
   User,
 } from "phosphor-react";
 import { socket } from '../../../utils/socket'
-import { useSelector } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
+import { typingStart } from '../../../redux/actions/conversation';
 
-const ChatInput = ({ showEmojiPicker, setShowEmojiPicker, value, setValue, inputRef }) => {
-  const [openActions, setOpenActions] = useState(false);
+const ChatInput = ({ showEmojiPicker, setShowEmojiPicker, value, setValue }) => {
+  const {room_id,typing } = useSelector((state) => state.conversation)
+  const { current_conversation } = useSelector(
+    (state) => state.conversation.direct_chat
+  );
+  const { authData } = useSelector((state) => state.userLogin)
+  const [showFileInput, setShowFileInput] = useState(false);
+  const dispatch = useDispatch()
 
+  const typingHandler = (e) => {
+    setValue(e.target.value);
+    if (!socket) return;
 
-  const Actions = [
-    {
-      color: "#4da5fe",
-      icon: <Image size={24} />,
-      y: 48,
-      title: "Photo/Video",
-    },
-    {
-      color: "#1b8cfe",
-      icon: <Sticker size={24} />,
-      y: 60,
-      title: "Stickers",
-    },
-    // {
-    //   color: "#0172e4",
-    //   icon: <Camera size={24} />,
-    //   y: 80,
-    //   title: "Image",
-    // },
-    // {
-    //   color: "#0159b2",
-    //   icon: <File size={24} />,
-    //   y: 312,
-    //   title: "Document",
-    // },
-  ];
+    if (!typing) {
+      dispatch(typingStart(true))
+      socket.emit("typing", { to: current_conversation.user_id });
+    }
+    let lastTypingTime = new Date().getTime();
+    let timerLength = 3000;
+    setTimeout(() => {
+      let timeNow = new Date().getTime();
+      let timeDiff = timeNow - lastTypingTime;
+      if (timeDiff >= timerLength && typing) {
+        socket.emit("stop typing", { to: current_conversation.user_id });
+        dispatch(typingStart(false))
+      }
+    }, timerLength);
+  };
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+
+    if (!file.type.startsWith("image/") && !file.type.startsWith("video/")) {
+      alert("Please select an image or video file.");
+      return;
+    }
+  
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onload = () => {
+      const fileBuffer = reader.result;
+      const fileData = {
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        fileBuffer,
+      };
+      socket.emit("file_message",{message: fileData,
+      conversation_id: room_id,
+      from: authData._id,
+      to: current_conversation.user_id,
+      type: "File",})
+    setShowFileInput(false)
+  }
+}
+
   return (
     <div className="w-full flex flex-col md:flex-row">
       <input
         className="w-full rounded-full border-gray-300 shadow-sm py-2 px-4 bg-white dark:bg-gray-900 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
         value={value}
-        onChange={(event) => {
-          setValue(event.target.value);
-        }}
+        onChange={typingHandler}
         placeholder="Write a message..."
-        inputRef={inputRef}
+        // inputRef={inputRef}
       />
       <div className="flex justify-end">
-        <div className={` ${openActions ? "inline-block" : "none"}`}>
-          {Actions.map((el) => (
-            <div
-              key={el.title}
-              className={`${openActions ? "inline-block" : "hidden"
-                } absolute transform translate-x-1/2 -mt-${el.y}  `}
-            >
-              <button
-                key={el.title}
-                className={`absolute top-[102px] bg-blue-500 rounded-full w-8 h-8 flex items-center justify-center focus:outline-none`}
-              >
-                {el.icon}
-                <span className="ml-2 text-sm font-medium">{el.title}</span>
-              </button>
-            </div>
-          ))}
-          <button
-            onClick={() => {
-              setOpenActions(!openActions);
-            }}
-            className={`h-8 w-8 rounded-full focus:outline-none ${openActions ? "bg-gray-200" : ""
-              }`}
+        <div>
+        <button onClick={() => setShowFileInput(true)}
+            className={`h-8 w-8 rounded-full focus:outline-none `}
           >
             <LinkSimple className="h-5 w-5" />
           </button>
+          <input type="file" style={{ display: showFileInput ? 'block' : 'none' }}  onChange={handleFileInputChange} />
         </div>
         <div className="relative inline-block">
           <button
@@ -111,7 +117,7 @@ function containsUrl(text) {
 }
 
 function Bottom() {
-  const inputRef = createRef();
+  // const inputRef = createRef();
   const [value, setValue] = useState("");
   const [message, setMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -140,7 +146,7 @@ function Bottom() {
         {/* <div className="w-full" > */}
 
             <ChatInput
-              inputRef={inputRef}
+              // inputRef={inputRef}
               value={value}
               setValue={setValue}
               showEmojiPicker={showEmojiPicker}

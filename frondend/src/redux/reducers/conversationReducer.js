@@ -8,12 +8,15 @@ import {
   SELECT_CONVERSATION,
   FETCH_CURRENT_MESSAGES,
   SET_CURRENT_CONVERSATION,
+  TYPING_STATUS,
+  CLEAR
 } from "../constants/actionTypes";
 
 const initialState = {
   tab: 0,
   chat_type: null,
   room_id: null,
+  typing:false,
   direct_chat: {
     conversations: [],
     current_conversation: null,
@@ -41,7 +44,7 @@ const conversationReducer = (state = initialState, action) => {
           user_id: user?._id,
           name: `${user?.username}`,
           online: user?.status === "Online",
-          img: ``,
+          img: user?.profileImage,
           msg: el.messages?.slice(-1)[0]?.text,
           time: "9:36",
           unread: 0,
@@ -125,7 +128,6 @@ const conversationReducer = (state = initialState, action) => {
         },
       };
     case ADD_DIRECT_MESSAGE:
-      console.log(action.payload,'add direct')
       return {
         ...state,
         direct_chat: {
@@ -161,6 +163,14 @@ const conversationReducer = (state = initialState, action) => {
           current_conversation: action.payload,
         },
       };
+    case TYPING_STATUS:
+      
+      return{
+        ...state,
+        typing:action.payload
+      }
+    case CLEAR:
+      return direct_chat.conversation;
     default:
       return state;
   }
