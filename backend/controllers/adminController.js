@@ -137,10 +137,46 @@ export const deleteProduct = async(req,res) => {
 }
 
 export const getDashboardData = async( req,res ) => {
-  let allData = {};
   try{
-    
-  }catch(err){
+    const [usercount, blockedCount, verifiedCount ] =
+      await Promise.all([
+        userSchema.countDocuments(),
+        userSchema.countDocuments({ blocked: true }),
+        userSchema.countDocuments({ verified: true }),
+      ]);
 
+    const data = { usercount, blockedCount, verifiedCount };
+    res.status(200).json({success: true,message: "Succesfull", data: data});
+  }catch(err){
+    res.status(404).json({ success:false,message: err.message });
+  }
+}
+
+export const getUserGraph = async(req,res) => {
+  try{
+    const users = await userSchema.find()
+    res.status(200).json({success: true,message: "Succesfull", data: users});
+  }catch(err){
+    res.status(404).json({ success:false,message: err.message });
+  }
+}
+
+export const getProductGraph = async(req,res) => {
+  try{
+    const product = await Product.find()
+    res.status(200).json({success: true,message: "Succesfull", data: product});
+  }catch(err){
+    res.status(404).json({ success:false,message: err.message });
+  }
+}
+
+export const pieChartProduct = async(req,res) => {
+  try{
+    const featuredProduct = await Product.countDocuments({featured:{ $exists: true, $ne: [] }})
+    const product  = await Product.countDocuments({featured: { $exists: false, $not: {$gt: 0} }})
+    console.log(product);
+    res.status(200).json({success: true,message: "Succesfull", data: {product:product,featuredProduct:featuredProduct}});
+  }catch(err){
+    res.status(404).json({ success:false,message: err.message });
   }
 }

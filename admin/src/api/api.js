@@ -8,3 +8,15 @@ export function getDashboardData(){
 export function delteProduct(id){
   return axios.delete(`/removeProduct/${id}`)
 }
+
+export function productChart(){
+  return axios.get('/product-graph')
+}
+
+export function userGraph(){
+  return axios.get('/user-graph')
+}
+
+export function pieChartProduct(){
+  return axios.get('/pie-chart')
+}

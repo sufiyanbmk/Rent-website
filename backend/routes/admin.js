@@ -8,7 +8,13 @@ router.post('/login',controllers.adminLogin)
 
 //dashboard
 
-router.get('/getAllDashboardData', controllers.getDashboardData)
+router.get('/get-dashboard-data', controllers.getDashboardData)
+
+router.get('/product-graph', controllers.getProductGraph)
+
+router.get('/user-graph',controllers.getUserGraph)
+
+router.get('/pie-chart',controllers.pieChartProduct)
 
 //products
 
