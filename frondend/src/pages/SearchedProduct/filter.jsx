@@ -15,7 +15,7 @@ function Filter({ handleSearch, handleCity, handlePriceSubmit }) {
   const [pageNum, setPageNum] = useState(0)
   const cityData = indianCities.cities.filter(city => city.state === 'Kerala');
 
-  const handlePriceRange = e => {
+  const handlePriceRange = e => { 
     const { name, value } = e.target
     setPriceRange({ ...priceRange, [name]: value })
   }

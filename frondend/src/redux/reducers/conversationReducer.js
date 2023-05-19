@@ -103,7 +103,7 @@ const conversationReducer = (state = initialState, action) => {
       const newConversationUser = newConversation.participants.find(
         (elm) => elm._id.toString() !== action.payload.user_id
       );
-      console.log(newConversation._id,'new convdfsddd')
+      const formattedTime = `${currentDate.getHours()}:${currentDate.getMinutes()}`;
       const newConversations = [
         ...state.direct_chat.conversations.filter(
           (el) => el?.id !== newConversation._id
@@ -115,7 +115,7 @@ const conversationReducer = (state = initialState, action) => {
           online: newConversationUser?.status === "Online",
           // img: faker.image.avatar(),
           // msg: faker.music.songName(),
-          time: "9:36",
+          time: formattedTime,
           unread: 0,
           pinned: false,
         },

@@ -12,7 +12,6 @@ const MultipleImage = ({imagesUrl}) => {
 
   const [activeImg, setActiveImage] = useState(images.img1)
 
-  const [amount, setAmount] = useState(1);
 
   return (
     <div className='flex flex-col justify-between lg:flex-row gap-16 lg:items-center'>
