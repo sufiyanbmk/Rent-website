@@ -2,7 +2,8 @@ import { HttpStatus } from "../../../types/httpStatus";
 import AppError from "../../../utils/appError";
 import { UserDbInterface } from "../../repositories/userDbRepository";
 import { AuthServiceInterface } from "../../services/authServiceInterface";
-import {UserInterface} from "../../../types/userInterface";
+import {UserInterface, UserReturnInterface} from "../../../types/userInterface";
+import { S3serviceInterface } from "../../services/s3ServiceInterface";
 
 export const userRegister = async (
   user: {userName:string,email:string,phone:number,password:string},
@@ -24,9 +25,10 @@ export const userLogin = async (
   email: string,
   password: string,
   userRepository: ReturnType<UserDbInterface>,
-  authService: ReturnType<AuthServiceInterface>
+  authService: ReturnType<AuthServiceInterface>,
+  s3Services: ReturnType<S3serviceInterface>
 ) => {
-   const user:UserInterface | null = await userRepository.getUserByEmail(email)
+   const user:UserInterface | null | any = await userRepository.getUserByEmail(email)
    if(!user){
     throw new AppError("this user doesn't exist", HttpStatus.UNAUTHORIZED)
    }
@@ -38,5 +40,18 @@ export const userLogin = async (
     throw new AppError("Sorry, your password was incorrect. Please double-check your password", HttpStatus.UNAUTHORIZED)
    }
    const token = authService.generateToken(user._id.toString())
-   return token
+   if(user.profileImage){
+    let url = await s3Services.getFile(user.profileImage);
+    user.set("imgLink", url, { strict: false });
+   }
+   const userDetails : UserReturnInterface = {
+    id:user._id,
+    email:user.email,
+    userName:user.userName,
+    profileImage:user.profileImage,
+    imgLink:user.imgLink,
+    token:token
+   }
+
+   return userDetails;
 };

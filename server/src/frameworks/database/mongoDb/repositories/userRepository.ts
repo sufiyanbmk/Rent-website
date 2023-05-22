@@ -13,12 +13,54 @@ export const userRepositoryMongoDB = () => {
     phone: number;
     password?: string;
   }) => {
-    return await User.create(user)
-  }
+    return await User.create(user);
+  };
+
+  const getAllUsers = async () => await User.find();
+
+  const getByEmail = async (email: string) =>
+    await User.findOne({ email: email });
+
+  const updateOne = async (filter: object, update: object) =>
+    await User.updateOne(filter, update);
+
+  const getUsercount = async () => await User.countDocuments();
+
+  const getCountof = async (filter: object) =>
+    await User.countDocuments(filter);
+
+  const getUserGraph = async () => {
+    const counts = await User.aggregate([
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
+          },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    return counts;
+  };
+
+  const updateImg = async (userId: string, profileImg: string) => {
+    const oldImg = await User.findByIdAndUpdate(
+      { _id: userId },
+      { $set: { profileImage: profileImg } }
+    ).select("profileImage");
+    return oldImg;
+  };
 
   return {
     getUserByEmail,
     addUser,
+    getAllUsers,
+    getByEmail,
+    updateOne,
+    getUsercount,
+    getCountof,
+    getUserGraph,
+    updateImg,
   };
 };
 

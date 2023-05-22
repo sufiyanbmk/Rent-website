@@ -1,11 +1,12 @@
-import authRouter from './auth';
 import { Application } from 'express';
-import authRoute from './auth';
-import adminRoute from './admin'
+import authRouter from './auth';
+import adminRouter from './admin'
+import userRouter from './user';
 
 const routes = (app:Application) =>{
-  app.use('/api/auth', authRoute)
-  app.use('/api/adminRoute', adminRoute )
+  app.use('/api/auth', authRouter())
+  app.use('/api/admin', adminRouter())
+  app.use('/api/user', userRouter())
 }
 
 

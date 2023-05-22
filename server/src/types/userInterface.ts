@@ -1,17 +1,28 @@
+import { ObjectId } from "mongoose";
+
 export interface UserInterface {
-  _id: string;
-  firstName:string;
-  lastName:string;
+  set(arg0: string, url: string, arg2: { strict: boolean; }): unknown;
+  _id: string | ObjectId;
+  userName:string;
   email: string;
   password: string;
+  profileImage:string;
+  imgLink?:string;
   isGoogleUser:boolean;
-  isBlocked:boolean;
-  isVerified:boolean;
+  token?:string;
+}
+
+export interface UserReturnInterface {
+  id:ObjectId | string,
+  userName:string,
+  email:string,
+  profileImage?:string,
+  imgLink?:string,
+  token?:string
 }
 
 export interface CreateUserInterface{
-  firstName:string;
-  lastName:string;
+  userName:string;
   email: string;
   password?: string;
   isGoogleUser?:boolean

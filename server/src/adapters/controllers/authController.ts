@@ -8,6 +8,8 @@ import { AuthService } from '../../frameworks/services/authService'
 import { userLogin, userRegister } from '../../application/useCases/auth/userAuth'
 import { UserDbInterface } from '../../application/repositories/userDbRepository'
 import { UserRepositoryMongoDB } from '../../frameworks/database/mongoDb/repositories/userRepository'
+import { S3serviceInterface } from '../../application/services/s3ServiceInterface'
+import { S3ServiceImpl } from '../../frameworks/services/s3Service'
 
 const authController = (
   adminDbRepository: AdminDbInterface,
@@ -16,11 +18,13 @@ const authController = (
   authServiceImpl: AuthService,
   userDbRepository: UserDbInterface,
   userDbRepositoryImpl : UserRepositoryMongoDB,
-
+  s3ServiceInterface: S3serviceInterface,
+  s3ServiceImpl: S3ServiceImpl,
 ) => {
   const dbRepositoryUser = userDbRepository(userDbRepositoryImpl())
   const dbRepositoryAdmin = adminDbRepository(adminDbRepositoryImpl())
   const authService = authServiceInterface(authServiceImpl())
+  const s3Service = s3ServiceInterface(s3ServiceImpl())
 
   const loginAdmin = asyncHandler(async(req: Request, res:Response) => {
     const {email, password } : {email: string, password: string } = req.body
@@ -44,11 +48,11 @@ const authController = (
 
 const loginUser = asyncHandler(async(req:Request,res:Response)=>{
   const {email,password}:{email:string,password:string} = req.body;
-  const token = await userLogin(email,password,dbRepositoryUser,authService)
+  const userDetails = await userLogin(email,password,dbRepositoryUser,authService,s3Service)
   res.json({
       status:"success",
       message:"user verified",
-      token
+      userDetails
   })
 })
 

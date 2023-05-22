@@ -1,25 +1,24 @@
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 dotenv.config();
 
-const configKeys= {
-    awsBucketName:process.env.AWS_BUCKET_NAME as string,
+const configKeys = {
+  AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME as string,
 
-    awsBucketRegion: process.env.AWS_BUCKET_REGION as string,
+  AWS_BUCKET_REGION: process.env.AWS_BUCKET_REGION as string,
 
-    awsAccessKey:process.env.AWS_ACCESS_KEY as string,
+  AWS_ACCESS_KEY: process.env.AWS_ACCESS_KEY as string,
 
-    awsSecretAccessKey:process.env.AWS_SECRET_ACCESS_KEY as string,
+  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY as string,
 
-    mongoDbUrl: process.env.MONGODBURL as string,
+  mongoDbUrl: process.env.MONGODBURL as string,
 
-    port: process.env.PORT || 5000,
+  port: process.env.PORT || 5000,
 
-    jwtSecret: process.env.JWT_SECRET as string,
+  jwtSecret: process.env.JWT_SECRET as string,
 
-    nodeEnv: process.env.NODE_ENV as string,
+  nodeEnv: process.env.NODE_ENV as string,
 
-    googleAuthClient: process.env.GOOGLE_AUTH_CLIENT as string
+  googleAuthClient: process.env.GOOGLE_AUTH_CLIENT as string,
+};
 
-}
-
-export default configKeys
+export default configKeys;
