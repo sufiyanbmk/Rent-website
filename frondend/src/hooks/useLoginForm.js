@@ -40,6 +40,17 @@ const useLoginForm=()=> {
                 
             }
         break;
+        case 'phone':
+          if(!new RegExp(/^(\+91|0)?[6789]\d{9}$/).test(value)){
+            setErrors({
+              ...errors,
+              phone:'Enter a valid Phone Number'
+          })
+          }else{
+            let newObj = {};
+                setErrors(newObj);
+          }
+        break;
         
         default:
             break;

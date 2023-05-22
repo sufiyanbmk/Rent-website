@@ -48,13 +48,13 @@ const navItems = [
     icon: <ShoppingCartOutlined />,
   },
   {
-    text: "Customers",
+    text: "user",
     icon: <Groups2Outlined />,
   },
-  {
-    text: "Transactions",
-    icon: <ReceiptLongOutlined />,
-  },
+  // {
+  //   text: "Transactions",
+  //   icon: <ReceiptLongOutlined />,
+  // },
   {
     text: "Catagory",
     icon: <PointOfSaleOutlined/>,
@@ -63,10 +63,10 @@ const navItems = [
   //   text: "Sales",
   //   icon: null,
   // },
-  // {
-  //   text: "Overview",
-  //   icon: <PointOfSaleOutlined />,
-  // },
+  {
+    text: "Report",
+    icon: <ReceiptLongOutlined />,
+  },
   // {
   //   text: "Daily",
   //   icon: <TodayOutlined />,
@@ -131,8 +131,8 @@ const Sidebar = ({
             <Box m="1.5rem 2rem 2rem 3rem">
               <Flex color={theme.palette.secondary.main}>
                 <Box display="flex" alignItems="center" gap="0.5rem">
-                  <Typography variant="h5" fontWeight="bold">
-                    RENT
+                  <Typography variant="h4" fontWeight="bold"  color='black'>
+                    ADMIN
                   </Typography>
                 </Box>
                 {!isNonMobile && (

@@ -1,13 +1,36 @@
+import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 
 const ProductSchema = new mongoose.Schema(
   {
-    name: String,
+    userId:ObjectId,
+    productName: String,
     price: Number,
     description: String,
     category: String,
     rating: Number,
     supply: Number,
+    address:String,
+    city:String,
+    state:String,
+    documents:Array,
+    file:Array,
+    reviews: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "reviewSchema",
+      },
+    ],
+    reports: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "reportSchema",
+      },
+    ],
+    featured:{
+      type:Array,
+      default:[],
+    },
   },
   { timestamps: true }
 );

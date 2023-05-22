@@ -1,5 +1,6 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import useFetch from "hooks/useFetch";
 import {
   Box,
   Card,
@@ -9,9 +10,11 @@ import {
   Typography,
   Rating,
   useMediaQuery,
+  Collapse
 } from "@mui/material";
 import Header from "../../component/Headers";
-// import { useGetProductsQuery } from "state/api";
+import { Link } from 'react-router-dom'
+import calcultateRating from '../../utils/avgRating';
 
 const Product = ({
   _id,
@@ -22,6 +25,7 @@ const Product = ({
   category,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [data, setData] = useState([]);
 
   return (
     <Card
@@ -50,11 +54,7 @@ const Product = ({
         <Typography variant="body2">{description}</Typography>
       </CardContent>
       <CardActions>
-        <Button
-          variant="primary"
-          size="small"
-          onClick={() => setIsExpanded(!isExpanded)}
-        >
+        <Button  component={Link} to={`/single-product/${_id}`} sx={{ textDecoration: 'none' }}>
           See More
         </Button>
       </CardActions>
@@ -62,9 +62,9 @@ const Product = ({
         in={isExpanded}
         timeout="auto"
         unmountOnExit
-        sx={{
-          color: theme.palette.neutral[300],
-        }}
+        // sx={{
+        //   color: theme.palette.neutral[300],
+        // }}
       >
         <CardContent>
           <Typography>id: {_id}</Typography>
@@ -82,13 +82,14 @@ const Product = ({
 };
 
 const Products = () => {
-  // const { data, isLoading } = useGetProductsQuery();
+  const { result, error, loading } = useFetch('/products')
+  console.log(result)
   const isNonMobile = useMediaQuery("(min-width: 1000px)");
 
   return (
     <Box m="1.5rem 2.5rem">
       <Header title="PRODUCTS" subtitle="See your list of products." />
-      {data || !isLoading ? (
+      {result || !loading ? (
         <Box
           mt="20px"
           display="grid"
@@ -100,29 +101,33 @@ const Products = () => {
             "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
           }}
         >
-          {data.map(
+          {result.map(
             ({
               _id,
-              name,
-              description,
+              productName,
+              address2,
               price,
-              rating,
+              reviews,
               category,
+              description,
               supply,
               stat,
-            }) => (
-              <Product
-                key={_id}
-                _id={_id}
-                name={name}
-                description={description}
-                price={price}
-                rating={rating}
-                category={category}
-                supply={supply}
-                stat={stat}
-              />
-            )
+            }) => {
+              const avgRating = calcultateRating(reviews);
+              return (
+                <Product
+                  key={_id}
+                  _id={_id}
+                  name={productName}
+                  description={description}
+                  price={price}
+                  rating={avgRating}
+                  category={category}
+                  supply={supply}
+                  stat={stat}
+                />
+              );
+            }
           )}
         </Box>
       ) : (

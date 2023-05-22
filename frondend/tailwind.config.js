@@ -22,5 +22,15 @@ module.exports = {
       // => @media (min-width: 1536px) { ... }
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          // Set the base color to none
+          DAISY_UI_BASE_COLOR: 'transparent',
+        },
+      },
+    ],
+  },
 }
