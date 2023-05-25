@@ -10,11 +10,14 @@ export const authServiceInterface = (service:AuthServiceReturn) => {
 
   const generateToken = (payload:string) => service.generateToken(payload);
 
+  const decode = (payload:string) => service.tokenDecode(payload)
+
   return {
     encryptPassword,
     comparePassword,
     verifyPassword,
-    generateToken
+    generateToken,
+    decode
   };
 }
 

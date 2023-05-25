@@ -91,9 +91,9 @@ const FirstForm = ({ formValues, onChange, option, Doc, errors }) => {
             ) : error ? (
               <option>{error}</option>
             ) : (
-              categories.map((category) => (
-                <option key={category._id} value={category.firstName}>
-                  {category.firstName}
+              categories?.map((category) => (
+                <option key={category._id} value={category.title}>
+                  {category.title}
                 </option>
               ))
             )}

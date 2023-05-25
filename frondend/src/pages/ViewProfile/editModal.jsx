@@ -14,7 +14,7 @@ export default function EditModal({userDetails,isSetEditModel}) {
   const handleClick = async e => {
     e.preventDefault();
     if (Object.keys(errors).length === 0) {
-      axios.patch(`/edit-profile/${user._id}`, values).then((res) => {
+      axios.patch(`/user/profile/${user._id}`, values).then((res) => {
         dispatch(EditProfileUpdate(values))
         // navigate('/')
         isSetEditModel(false)

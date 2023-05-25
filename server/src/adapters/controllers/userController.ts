@@ -18,7 +18,7 @@ export const userController = (
 
   const profileImg = asyncHandler(async(req:Request, res:Response) => {
     const {userId} = req.params
-    const file = req.files as Express.Multer.File[];
+    const file: Express.Multer.File[] = req.file ? [req.file] : [];
     const updatedImg = await uploadNewProfileImg(userId,file,dbReposoitoryUser, s3Services)
     res.json({status:"success",message:"updated",data : updatedImg})
   })

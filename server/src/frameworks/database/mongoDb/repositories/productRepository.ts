@@ -1,4 +1,7 @@
+import { ProductDataInterface } from "../../../../types/productInterface";
 import Products from "../models/productModel";
+import Reports from "../models/reportModel";
+import Reviews from "../models/reviewModel";
 
 export const productRepositoryMongoDB = () => {
   const getAllProducts = async () => await Products.find();
@@ -39,6 +42,31 @@ export const productRepositoryMongoDB = () => {
     return { product: product, featuredProduct: featuredProduct };
   };
 
+  const addProduct = async(data:ProductDataInterface) => 
+    await Products.create(data)
+  
+  const findByField = async(filter:object) => await Products.find(filter).sort({ createdAt: -1 });
+
+  const editProduct = async(id:object,data:object) => await Products.updateOne(id,data)
+
+  const getFilteredProduct = async(searchCretiriya:object,skip:number) => {
+    console.log(skip)
+   const product = await Products.find(searchCretiriya)
+    .sort({featured: -1,createdAt: -1})
+    .populate({ path: 'reviews', model: Reviews })
+    .skip(skip).limit(3)
+    return product;
+  }
+
+  const findReview = async(proId:string,userId:string) => await Reviews.find({proId,userId})
+
+  const addReview = async(data:object) => await Reviews.create(data)
+
+  const findReport = async(proId:string,userId:string) => await Reports.find({proId,userId})
+
+  const addReport = async(data:object) => await Reports.create(data)
+
+
   return {
     getAllProducts,
     getProduct,
@@ -46,7 +74,15 @@ export const productRepositoryMongoDB = () => {
     getReportedProducts,
     getProductCount,
     getProductGraph,
-    getPieChart
+    getPieChart,
+    addProduct,
+    findByField,
+    editProduct,
+    getFilteredProduct,
+    findReview,
+    addReview,
+    findReport,
+    addReport
   };
 };
 

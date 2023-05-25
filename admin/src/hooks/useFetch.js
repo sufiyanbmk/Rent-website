@@ -11,12 +11,7 @@ const useFetch = (url) => {
       setLoading(true)
       try{
         const {data} = await axios.get(url);
-        console.log(data,'dddfsf')
-        if(!data.success){
-          setError(data.message)
-          return
-        }
-        setResult(data.data)
+        setResult(data)
       }catch(err){
         setError('Failed To Fetch')
         setLoading(false)

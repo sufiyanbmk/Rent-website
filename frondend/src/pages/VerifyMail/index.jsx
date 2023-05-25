@@ -4,11 +4,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from '../../Axios/axios'
 
 function VerifyEmail() {
+  
   const navigate = useNavigate();
-  const { token, email } = useParams();
+  const { userId, token } = useParams();
   const [ err, setError ] =useState('')
   useEffect(() => {
-    axios.put('/verify-registration', { token, email }).then((res) => {
+    axios.put('/auth/email-verified', { userId,token }).then((res) => {
       const timer = setTimeout(() => {
         navigate('/login')
       }, 5000);

@@ -1,8 +1,9 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import axios from '../Axios/axios'
 import { useNavigate } from "react-router-dom";
 import useLoginForm from '../hooks/useLoginForm';
+import {onSigninssubmit, recaptcha} from '../config/firebase'
 
 export default function Modal() {
   const [showModal, setShowModal] = React.useState(false);
@@ -18,19 +19,26 @@ export default function Modal() {
     e.preventDefault();   
     if(isOtp){
       try{
-        await axios.post('/otp-login',{ values }).then((res)=>{
-          if(res.data.status){
-            navigate(`/otp-login/${res.data.mobile}`)
-          }
-        }).catch((err)=>{
-          setErr(err.response.data)
+        onSigninssubmit(
+          '+91',
+          values.phone)
+          .then(() => {
+            navigate(`/otp-login/${values.phone}`)
+          })
+        // await axios.post('/auth/otp-login',{ values }).then((res)=>{
+        //   if(res.data.status){
+        //     navigate(`/otp-login/${res.data.mobile}`)
+        //   }
+        .catch((err)=>{
+          console.log(err)
+          setErr({message:"error occured ,try again later"})
         })
       }catch(err){
         console.log(err)
       }
     }else{
       try {
-        axios.post('/forgot-password', { values }).then((res) => {
+        axios.post('/auth/forgot-password', { values }).then((res) => {
           console.log(res.data.data)
           setMsg(res.data);
         }).catch((err) => {
@@ -42,11 +50,14 @@ export default function Modal() {
     }
     
   }
-  console.log(error.message)
   const { handleChange, values, errors } = useLoginForm()
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
+
+  useEffect(() => {
+    recaptcha()
+}, [])
   return (
     <>
       <button
@@ -124,6 +135,7 @@ export default function Modal() {
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
       ) : null}
+      <div id="recaptcha-container"></div>
     </>
   );
 }

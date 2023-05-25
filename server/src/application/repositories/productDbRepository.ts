@@ -1,4 +1,5 @@
 import { ProductRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/productRepository";
+import { ProductDataInterface } from "../../types/productInterface";
 
 export const productDbRepository = (repository:ReturnType<ProductRepositoryMongoDB>) => {
   const getAll = async () => await repository.getAllProducts()
@@ -15,6 +16,27 @@ export const productDbRepository = (repository:ReturnType<ProductRepositoryMongo
 
   const getPieChartData =async () => await repository.getPieChart()
 
+  const addProduct = async(data:ProductDataInterface) => await repository.addProduct(data)
+
+  const findByField = async(filter:Object) => await repository.findByField(filter)
+
+  const editProduct = async(id:object,data:object) => await repository.editProduct(id,data)
+
+  const getFilteredProduct = async(searchCretiriya:object,page:number) =>{
+    console.log(page,'page')
+    const skip = page * 3;
+    const products = await repository.getFilteredProduct(searchCretiriya,skip)
+    // console.log(products)
+    return products
+  }
+
+  const checkReview = async(proId:string,userId:string) => await repository.findReview(proId,userId)
+
+  const addNewReview = async(data:object) => await repository.addReview(data)
+
+  const checkReport = async(proId:string,userId:string) => await repository.findReport(proId,userId)
+
+  const addNewReport = async(data:object) => await repository.addReport(data)
 
   return{
     getAll,
@@ -23,7 +45,15 @@ export const productDbRepository = (repository:ReturnType<ProductRepositoryMongo
     reprots,
     getProductCount,
     getProductGraph,
-    getPieChartData
+    getPieChartData,
+    addProduct,
+    findByField,
+    editProduct,
+    getFilteredProduct,
+    checkReview,
+    addNewReview,
+    checkReport,
+    addNewReport
   } 
 }
 

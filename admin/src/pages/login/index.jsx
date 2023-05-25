@@ -19,15 +19,14 @@ function Login() {
     const admin = {
       email: email,
       password: password,
-      accessToken: 'hjjhj454454'
     }
 
-    axios.post('/login' ,{admin}).then((res)=>{
+    axios.post('/auth/admin-login' ,admin).then((res)=>{
         dispatch(login(admin))
         navigate('/dashboard')
     }).catch((err)=>{
       console.log(err);
-      setError(err.response.data.massage)
+      // setError(err.response.data.massage)
     })
     // Axios.post('/login', { admin }, {
     //   headers: { "Content-Type": "application/json" },

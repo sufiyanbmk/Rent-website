@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import calcultateRating from '../../utils/avgRating'
 
 const ProductList = forwardRef(({ data }, ref) => {
+  console.log(data.productName,'data')
   const avgRating = calcultateRating(data.reviews)
   const postBody = (
   <section className='py-8'>
@@ -30,7 +31,7 @@ const ProductList = forwardRef(({ data }, ref) => {
         <div className="w-full max-w-[22rem] rounded-lg overflow-hidden shadow-lg">
           <div className="relative h-52 overflow-hidden">
             <img
-              src={data.links[0]}
+              src={data.link[0]}
               alt="Product Image"
               className="w-full h-full object-cover object-center transition duration-300 transform hover:scale-105"
             />

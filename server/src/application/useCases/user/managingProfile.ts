@@ -23,6 +23,5 @@ export const profileEdit = async(
   userId : string,
   updatedField:object,
   dbRepositoryUser:ReturnType<UserDbInterface>
-) => {
-  // await dbRepositoryUser.updateDb(userId,updatedField)
-}
+) => 
+  await dbRepositoryUser.updateDb({userId},updatedField)

@@ -4,8 +4,8 @@ import { RENTED_PRODUCTS_FETCHED, RENTED_REMOVED_ITEM, RENTED_REMOVE_ITEM_ERROR 
 
 export const listRentedItem = (id) => async (dispatch) => {
   try {
-    await axios.get(`/product/rented-products/${id}`).then((res) => {
-      dispatch({ type: RENTED_PRODUCTS_FETCHED, payload: res.data.data });
+    await axios.get(`/products/rented-products/${id}`).then((res) => {
+      dispatch({ type: RENTED_PRODUCTS_FETCHED, payload: res.data });
     });
   } catch (err) {
     console.log(err);
@@ -14,7 +14,7 @@ export const listRentedItem = (id) => async (dispatch) => {
 
 export const removeFromRentedItem = (id) => async (dispatch) => {
   try {
-    await axios.delete(`/product/delete-product/${id}`).then((res)=>{
+    await axios.delete(`/products/rented-products/${id}`).then((res)=>{
       dispatch({
         type: RENTED_REMOVED_ITEM,
         payload: id,

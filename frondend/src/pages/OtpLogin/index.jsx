@@ -1,14 +1,15 @@
 /* eslint-disable */
 import React, { useState } from "react";
-import axios from '../../Axios/axios';
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { OtpLogin } from '../../redux/actions/authAction';
 import CryptoJS from 'crypto-js';
+import { sendOtpData } from "../../api/api";
+import toast from 'react-hot-toast';
 
 const otpLogin = () => {
   const {mobile } = useParams()
-  const [otp, setOtp] = useState(new Array(4).fill(""));
+  const [otp, setOtp] = useState(new Array(6).fill(""));
   const [otpErr,setOtpErr] = useState("")
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -28,19 +29,24 @@ const otpLogin = () => {
       element.nextSibling.focus();
     }
   };
+  const code = otp.join("")
   const handleSubmit = async(e)=>{
     e.preventDefault();
-    const encryptedMobile = encryptData(mobile);
-    const encryptedOtp = encryptData(otp.join(""));
-    await axios.post('/verify-otp', {encryptedMobile,encryptedOtp}).then((res) => {
-      if(res.data.status){
-        dispatch(OtpLogin(res.data.user))
-        navigate('/')
-      }else{
-        setOtpErr(res.data.msg)
-      }
-    })
-
+    window.confirmationResult
+    .confirm(code)
+    .then((result) => {
+        const user = { accessToken: result.user.accessToken } 
+        sendOtpData(user).then((res) => {
+          if(res.data.status === 'success'){
+            console.log(res.data.userDetails)
+            dispatch(OtpLogin(res.data.userDetails))
+            toast.success("successfully logged In")
+            navigate('/')
+          }
+        })
+      }).catch((err)=>{
+        toast.error("wrong Otp")
+      })
   }
 
   return (

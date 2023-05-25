@@ -23,8 +23,8 @@ export default function LoginPage() {
   const handleClick = async e => {
     e.preventDefault();
     if (Object.keys(errors).length === 0) {
-      axioss.post('/login', values).then((res) => {
-        dispatch(Login(res.data.data))
+      axioss.post('/auth/user-login', values).then((res) => {
+        dispatch(Login(res.data.userDetails))
         navigate('/')
       }).catch((err) => {
         console.log(err.response.data, 'err')
@@ -41,16 +41,18 @@ export default function LoginPage() {
     onSuccess: async respose => {
       const token = respose.access_token
       try {
-        const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
-          headers: {
-            "Authorization": `Bearer ${token}`
-          }
-        })
-        axioss.post('/sign-in-with-google', res.data).then((res) => {
-            dispatch(Login(res.data.data))
+        // const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+        //   headers: {
+        //     "Authorization": `Bearer ${token}`
+        //   }
+        // })
+        axioss.post('/auth/sign-in-with-google', {token}).then((res) => {
+          if(res.data.status === 'success'){
+            dispatch(Login(res.data.userDetails))
             navigate('/')
+          }
           }).catch((err) => {
-            setErr(err.response.data)
+            setErr({message:'Some error occured , try again later'})
           })
       }catch (error) {
         setErr({message:'Server is down,try again Later..'})

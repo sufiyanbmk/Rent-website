@@ -16,7 +16,6 @@ const ParentComponent = () => {
   const formLength = formList.length;
   const [page, setPage] = useState(0);
   const [images,setImage] = useState(null)
-  console.log(images,'images')
   const userInfo = useSelector((state) => state.userLogin)
   const userId = userInfo.authData._id
   const dispatch = useDispatch();
@@ -181,12 +180,11 @@ const editProduct = useSelector((state) => {
     e.preventDefault();
     const isFormValid = thirdValidateForm();
     if(isFormValid){
-      const formData = new FormData();
+    const formData = new FormData();
+    console.log(values,"values")
     formData.append("data", JSON.stringify(values));
     if(images !== null){
       images.forEach((image) => {
-        console.log('h--------------------------')
-        console.log(image,'image')
         formData.append("file", image);
       });
     }  
@@ -199,15 +197,17 @@ const editProduct = useSelector((state) => {
         },
       };
       if(productId){
-        res = await axios.put(`/product/edit-product/${productId}` , formData, config);
+        res = await axios.put(`/products/edit-product/${productId}` , formData, config);
       }else{
-        res = await axios.post('/product/add-product', formData, config);
-      }    
-      if (res.data.success) {
-        toast.success("SuccessFullY Added New Product")
+        res = await axios.post('/products/add-product', formData, config);
+      }   
+      console.log(res) 
+      if (res.data.status == 'success') {
+        toast.success("SuccessFull ")
         navigate('/rented-item');
       }
     } catch (err) {
+      console.log(err)
       toast.error('Error Occured Try again')
     }
     }else{
@@ -229,6 +229,7 @@ const editProduct = useSelector((state) => {
   }
 
   const handleFile = (e) => {
+    console.log(e,'eeeeeeeeee')
     setImage(e)
     thirdValidateForm()
   }

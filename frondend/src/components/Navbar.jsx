@@ -75,7 +75,7 @@ function Navbar() {
             <img type="button" className="w-10 h-10 rounded-full cursor-pointer" src={userInfo.Imglink ? userInfo.Imglink : image}  alt="User dropdown" onClick={handleDropdown} />
               <div className={`absolute right-0 mt-72 w-48 origin-top-right ${isdropdownVisible ? '' : 'hidden'} bg-white divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}>
                 <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                  <div>{userInfo.username}</div>
+                  <div>{userInfo.userName}</div>
                   <div className="font-medium truncate">{userInfo.email}</div>
                 </div>
                 <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">

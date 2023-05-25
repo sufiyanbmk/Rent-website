@@ -5,7 +5,7 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../component/Headers";
 import { useNavigate } from "react-router-dom";
-import BASE_URL from "utils/config";
+import { addCatagory } from "api/api";
 
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -13,14 +13,7 @@ const Form = () => {
   const handleFormSubmit = async(values) => {
     console.log(values);
     try {
-      const res = await fetch(`${BASE_URL}/addCatagory`, {
-        method: "post",
-        headers: {
-          "content-type": "application/json"
-        },
-        body: JSON.stringify(values)
-      })
-      const result = await res.json()
+      const res = await addCatagory(values)
       if (!res.ok){         
         alert(result.message)
         navigate('/addCatagory')
@@ -67,10 +60,10 @@ const Form = () => {
                 label="Catagory Name"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.firstName}
-                name="firstName"
-                error={!!touched.firstName && !!errors.firstName}
-                helperText={touched.firstName && errors.firstName}
+                value={values.title}
+                name="title"
+                error={!!touched.title && !!errors.title}
+                helperText={touched.title && errors.title}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
@@ -80,10 +73,10 @@ const Form = () => {
                 label="Discription"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.lastName}
-                name="lastName"
-                error={!!touched.lastName && !!errors.lastName}
-                helperText={touched.lastName && errors.lastName}
+                value={values.discription}
+                name="discription"
+                error={!!touched.discription && !!errors.discription}
+                helperText={touched.discription && errors.discription}
                 sx={{ gridColumn: "span 2" }}
               />
               
@@ -104,12 +97,12 @@ const phoneRegExp =
   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
-  firstName: yup.string().required("required"),
-  lastName: yup.string().required("required"),
+  title: yup.string().required("required"),
+  discription: yup.string().required("required"),
 });
 const initialValues = {
-  firstName: "",
-  lastName: "",
+  title: "",
+  discription: "",
 };
 
 export default Form;

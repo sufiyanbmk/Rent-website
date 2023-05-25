@@ -15,7 +15,7 @@ function ResetPassword() {
     e.preventDefault()
     try{
       if(Object.keys(errors).length === 0){
-        axios.put(`/reset-password/${id}/${token}`, { pass }).then(() => {
+        axios.put(`/auth/reset-password/${id}/${token}`, { pass }).then(() => {
           navigate('/login');
         }).catch((error) => {
           console.log(error)

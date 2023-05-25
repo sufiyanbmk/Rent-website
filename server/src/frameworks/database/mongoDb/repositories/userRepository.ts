@@ -10,7 +10,7 @@ export const userRepositoryMongoDB = () => {
   const addUser = async (user: {
     userName: string;
     email: string;
-    phone: number;
+    phone?: number;
     password?: string;
   }) => {
     return await User.create(user);
@@ -51,6 +51,10 @@ export const userRepositoryMongoDB = () => {
     return oldImg;
   };
 
+  const getById = async(userId: string) => await User.findById(userId);
+
+  const getByField = async(filter:object) => await User.findOne(filter)
+
   return {
     getUserByEmail,
     addUser,
@@ -61,6 +65,8 @@ export const userRepositoryMongoDB = () => {
     getCountof,
     getUserGraph,
     updateImg,
+    getById,
+    getByField
   };
 };
 

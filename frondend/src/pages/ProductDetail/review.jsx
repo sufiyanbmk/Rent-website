@@ -21,7 +21,7 @@ function Review({ id, reviews }) {
       const reviewObj = {
         userId: userInfo._id,
         username: userInfo.username,
-        proId: id,
+        productId: id,
         reviewText,
         rating,
       }

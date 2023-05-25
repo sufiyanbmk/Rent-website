@@ -21,8 +21,9 @@ import toast, { Toaster } from 'react-hot-toast';
 function productDetail() {
   const { id } = useParams()
   const dispatch = useDispatch()
-  const { data: data } = useFetchAxios(`/product/product-detail/${id}`)
-  const product = data.data
+  const { data } = useFetchAxios(`/products/product-detail/${id}`)
+  const product = data
+  console.log(product.user?.userName,"product")
   const [isShowMessage, setIsShowMessage] = useState(false)
   const { authData } = useSelector((state) => state.userLogin)
   const { conversations, current_conversation } = useSelector(
@@ -114,22 +115,22 @@ function productDetail() {
             <div className='mt-6 text-gray-700 text-lg'>Address: {product?.address},{product?.city},{product?.state}</div>
             <div className='mt-6 text-gray-700 text-lg'>Description: {product?.description}</div>
             <div className="flex gap-3">
-              {product?.documents.map((doc) => (
+              {/* {product?.documents.map((doc) => (
                 <div key={doc.id} className="bg-white p-4 rounded-lg shadow">
                   <p className="text-gray-500">{doc.text}</p>
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
 
-            {authData._id !== product?.user._id? 
+          {authData._id !== product?.userId? 
           <div className='flex-1 bg-white-100 w-full mb-8 lg:mb-0 border border-gray-300 rounded-lg px-6 py-8'>
             <div className='flex flex-col lg:flex-row items-center gap-x-4 mb-8'>
               <div className='w-20 h-20 p-1 border border-gray-300 rounded-full'>
-                <img className='object-cover w-full h-full rounded-full' src={product?.user.image} alt="user picture" />
+                <img className='object-cover w-full h-full rounded-full' src={product?.user?.image} alt="user picture" />
               </div>
               <div className='text-center lg:text-left'>
-                <div className='font-bold text-lg text-gray-900'>{product?.user.username}</div>
+                <div className='font-bold text-lg text-gray-900'>{product?.user?.userName}</div>
                 <Link to='' className='text-violet-500 text-sm' >View Profile</Link>
               </div>
             </div>
@@ -148,7 +149,7 @@ function productDetail() {
             </div>
             {/* </form> */}
           </div>
-:''}
+ :''}
         </div>
         <div>
           <Report id={id} />

@@ -23,7 +23,7 @@ function Routers() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/reset-Password/:id/:token" element={<ResetPassword />} />
-      <Route path="/verify-mail/:token/:email" element={<VerifyEmail />} />
+      <Route path="/verify-email/:userId/:token" element={<VerifyEmail />} />
       <Route path="/otp-login/:mobile" element={<OtpLogin />} />
       <Route element={<IsLogged />}>
         <Route path="/rent-form" element={<RentForm />} />

@@ -8,7 +8,7 @@ import useFetch from "hooks/useFetch";
 import axios from "../../axios/axios";
 
 const User = () => {
-  const { result, error, loading } = useFetch('/users')
+  const { result, error, loading } = useFetch('/admin/users')
   const blockUser = (email,block) => {
     axios.put('/block-user', { email,block }).then(() => {
 
@@ -24,7 +24,7 @@ const User = () => {
   const columns = [
     { field: "no", headerName: "NO" },
     {
-      field: "username",
+      field: "userName",
       headerName: "user Name",
       flex: 1,
       cellClassName: "name-column--cell",
@@ -49,8 +49,6 @@ const User = () => {
         )}
     },
   ];
-
-  
 
   return (
     <Box m="20px">

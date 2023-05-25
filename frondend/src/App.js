@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import './App.css';
+import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from './redux/store';
@@ -14,6 +15,7 @@ function App() {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <Layout />
+        <Toaster />
       </PersistGate>
     </Provider>
   );

@@ -37,11 +37,11 @@ function rentedItems() {
           >
             <Actions proId={product._id} error={error} />
             <div className='w-full h-64 overflow-hidden'>
-              <img
+              {/* <img
                 className='w-full h-full object-center object-cover'
-                src={product.links[0]}
+                src={product?.links[0]}
                 alt='product image'
-              />
+              /> */}
             </div>
             <div className='px-6 py-4'>
               <div className='mb-2'>

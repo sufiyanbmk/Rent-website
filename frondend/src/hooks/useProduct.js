@@ -20,22 +20,24 @@ const usePosts = (pageNum = 1, url, values, isFilter, check) => {
     const { signal } = controller;
     url(values, pageNum, { signal })
       .then((data) => {
-        const products = data.data.data;
+        const products = data.data;
+        console.log(products,'dddddddddd')
         // console.log(products,'produsctsssssssssssssssssssssssssssssss')
-        // console.log(results,'resultsssssssssssssssssss')
         if (isFilter) {
-          // console.log(filteredResults,"filter");
-          // console.log(products,"filter2");
+          // setResults([])
+          console.log(products,'resultssssssssssssssssssssssssssddddddddds')
           if(check && isStart){
+            console.log(products,"filter2");
             setFilteredResults([...products]);
             setIsStart(true)
           }else{
+            console.log(products,"filterrrrrrrrrr");
             setFilteredResults([...filteredResults, ...products]);
           }
           setHasNextPage(Boolean(products.length));
         } else {
-          // console.log("isproduct")
           setResults([...results, ...products]);
+          console.log(results,'productssssssssssssswithresults')
           setHasNextPage(Boolean(products.length));
         }
         setIsLoading(false);
@@ -49,6 +51,7 @@ const usePosts = (pageNum = 1, url, values, isFilter, check) => {
 
     return () => controller.abort();
   }, [pageNum, url, values]);
+  console.log(filteredResults,'filtered')
   return {
     isLoading,
     isError,

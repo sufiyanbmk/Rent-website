@@ -19,6 +19,20 @@ const configKeys = {
   nodeEnv: process.env.NODE_ENV as string,
 
   googleAuthClient: process.env.GOOGLE_AUTH_CLIENT as string,
+
+  OAuth2_CLIENT_ID: process.env.oAuth2_CLIENT_ID as string,
+
+  OAuth2_CLIENT_SECRECT: process.env.oAuth2_CLIENT_SECRECT as string,
+
+  OAuth2_RIDERECT_URI: process.env.oAuth2_RIDERECT_URI as string,
+
+  OAuth2_REFRESH_TOKEN: process.env.oAuth2_REFRESH_TOKEN as string,
+
+  STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY as string,
+
+  STRIPE_SECERET_KEY:process.env.STRIPE_SECERET_KEY as string,
+
+
 };
 
 export default configKeys;

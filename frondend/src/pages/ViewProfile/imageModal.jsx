@@ -31,9 +31,9 @@ export default function ImageChangeModal({ showModal, setShowModal, id }) {
         'Content-Type': 'multipart/form-data'
       },
     };
-    await axios.put(`/uploading-profile-img/${id}`, formData, config).then((res) => {
+    await axios.put(`/user/profile/${id}`, formData, config).then((res) => {
       dispatch(UpdateProfileimg(res.data.data))
-      toast.success('successfully Updated')
+      toast.success('successfully Updated Img')
       setTimeout(() => {   
         setShowModal(false)
       }, 2000);

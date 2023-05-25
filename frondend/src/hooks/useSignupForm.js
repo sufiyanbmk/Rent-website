@@ -9,7 +9,7 @@ function useSignupForm() {
     //A function to validate each input values
 
     switch (name) {
-        case 'username':
+        case 'userName':
             if(value.length <= 4){
                 // we will set the error state
 

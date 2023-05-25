@@ -11,7 +11,7 @@ import DeleteModal from '../../component/ConfirmModal';
 import toast, { Toaster } from 'react-hot-toast';
 
 const Catagory = () => {
-  const { result, error, loading } = useFetch('/catagory')
+  const { result, error, loading } = useFetch('/admin/catagory')
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const handleDelete = (id) => {
     setShowDeleteModal(true);
@@ -19,19 +19,19 @@ const Catagory = () => {
     // Refresh the data in the table
   }
   const rows = result;
-  const rowsWithNo = rows.map((row, index) => ({ ...row, no: index + 1 }));
+  const rowsWithNo = rows?.map((row, index) => ({ ...row, no: index + 1 }));
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
     { field: "no", headerName: "NO" },
     {
-      field: "firstName",
+      field: "title",
       headerName: "Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "lastName",
+      field: "discription",
       headerName: "Description",
       flex: 1,
     },
@@ -48,9 +48,6 @@ const Catagory = () => {
       }
     },
   ];
-
-
-
 
   return (
     <Box m="20px">

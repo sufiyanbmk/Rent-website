@@ -57,7 +57,7 @@ function Profile({isSetEditModel,isSetDeleteModel,isSetImageModel}) {
         type="button"
         onClick={() => isSetDeleteModel(true)}
       >
-        DELETE USER
+        DELETE Account
       </button>
       </div>
     </div>

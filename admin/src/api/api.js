@@ -20,3 +20,7 @@ export function userGraph(){
 export function pieChartProduct(){
   return axios.get('/pie-chart')
 }
+
+export function addCatagory(values){
+  return axios.post('/admin/catagory',values)
+}

@@ -14,6 +14,7 @@ const Modal = ({ id }) => {
     console.log(reportType)
     const reportObj = {
       userId: userInfo._id,
+      productId:id,
       username: userInfo.username,
       report: reportType,
     }

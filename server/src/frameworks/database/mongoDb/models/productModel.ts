@@ -2,7 +2,11 @@ import mongoose, { Schema, model } from "mongoose";
 
 const productSchema = new Schema(
   {
-    title:{
+    userId:{
+      type:String,
+      required:[true,"there is no userid"]
+    },
+    productName:{
       type:String,
       required:[true,"please add a title"]
     },
@@ -17,17 +21,17 @@ const productSchema = new Schema(
     city:String,
     state:String,
     documents:Array,
-    file:Array,
+    image:Array,
     reviews:[
       {
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Review'
+        ref:'Reviews'
       }
     ],
     reprots:[
       {
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Report'
+        ref:'Reports'
       }
     ],
     featured:{

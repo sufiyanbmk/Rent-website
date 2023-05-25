@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import jwt_decode from 'jwt-decode'
 import configKeys from '../../config';
 
 export const authService=()=>{
@@ -24,11 +25,16 @@ export const authService=()=>{
         return jwt.verify(token, configKeys.jwtSecret)
     }
 
+    const tokenDecode = (token:string) => {
+        return jwt_decode(token)
+    }
+
     return {
         encryptPassword,
         comparePassword,
         generateToken,
-        verifyToken
+        verifyToken,
+        tokenDecode
     }
 }
 

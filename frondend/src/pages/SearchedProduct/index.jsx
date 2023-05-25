@@ -26,28 +26,32 @@ function searchedProduct() {
     results,
     hasNextPage
   } = useProduct(pageNum, url, values, isFilter, isCheck)
+  console.log(results,'results')
+
   useEffect(() => {
     setValues({ state, catagory })
+    alert('okkay')
   }, [])
   useEffect(() => {
     setProduct(results)
   }, [results])
 
   const handleSearch = e => {
-    const searchTerm = e.target.value;
-    if (searchTerm.length === 0) {
+    const searchTerm = e.target.value;  
+    if (searchTerm.length === 0 ) {
+      alert('hiii')
       setPageNum(0)
       return setIsFilter(false)
     }
     setUrl(() => searchByName)
-    setValues(searchTerm)
+    setValues({state,catagory,name:searchTerm})
     setIsFilter(true)
   }
   const handleOnchange = e => {
     const searchTerm = e;
     setIsFilter(true)
     setUrl(() => searchByCity)
-    setValues(searchTerm)
+    setValues({state,catagory,name:searchTerm})
     setIsCheck(true)
   }
 
@@ -58,7 +62,7 @@ function searchedProduct() {
     const searchTerm = {min,max}
     setIsFilter(true)
     setUrl(() => searchByPrice)
-    setValues(searchTerm)
+    setValues({state,catagory,name:searchTerm})
     setIsCheck(true)
   }
   const intObserver = useRef()

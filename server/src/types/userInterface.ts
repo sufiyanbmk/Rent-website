@@ -12,8 +12,8 @@ export interface UserInterface {
   token?:string;
 }
 
-export interface UserReturnInterface {
-  id:ObjectId | string,
+export interface UserReturnInterface { 
+  id:ObjectId | string | any,
   userName:string,
   email:string,
   profileImage?:string,
@@ -26,4 +26,9 @@ export interface CreateUserInterface{
   email: string;
   password?: string;
   isGoogleUser?:boolean
+}
+
+export interface Verificationpayload {
+  email: string;
+  _id: any;
 }

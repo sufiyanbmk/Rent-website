@@ -6,7 +6,7 @@ export const getCatagory = () => async (dispatch) =>{
   try {
     dispatch({ type: GET_CATEGORIES_REQUEST });
     await axios.get('/admin/catagory').then((res) => {
-       dispatch({ type: GET_CATEGORIES_SUCCESS, payload: res.data.data });
+       dispatch({ type: GET_CATEGORIES_SUCCESS, payload: res.data });
         });
   } catch (error) {
     dispatch({

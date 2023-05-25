@@ -2,7 +2,7 @@ import { UserRepositoryMongoDB } from "../../frameworks/database/mongoDb/reposit
 
 export const userDbRepository=(repository:ReturnType<UserRepositoryMongoDB>)=>{
 
-  const addUser = async (user:{userName:string,email:string,phone:number,password?:string})=>await repository.addUser(user)
+  const addUser = async (user:{userName:string,email:string,phone?:number,password?:string})=>await repository.addUser(user)
 
   const getAllUsers = async() => await repository.getAllUsers()
 
@@ -18,6 +18,10 @@ export const userDbRepository=(repository:ReturnType<UserRepositoryMongoDB>)=>{
 
   const updateImg = async(userId:string,profileImg:string) => await repository.updateImg(userId,profileImg)
 
+  const getById = async(userId:string) => await repository.getById(userId)
+
+  const getByField = async(filter:object) => await repository.getByField(filter) 
+
   return {
     getUserByEmail,
     addUser,
@@ -26,7 +30,9 @@ export const userDbRepository=(repository:ReturnType<UserRepositoryMongoDB>)=>{
     getUserCount,
     getCountOf,
     getUserGraph,
-    updateImg
+    updateImg,
+    getById,
+    getByField
   }
 }
 

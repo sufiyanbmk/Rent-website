@@ -6,24 +6,26 @@ import { Mail } from "../../types/mailOption";
 export const mailService = () => {
   const sendMail = async (mailOption: Mail) => {
     const oAuth2Client = new google.auth.OAuth2(
-      configKeys.oAuth2_CLIENT_ID,
-      configKeys.oAuth2_CLIENT_SECRECT,
-      configKeys.oAuth2_RIDERECT_URI
+      configKeys.OAuth2_CLIENT_ID,
+      configKeys.OAuth2_CLIENT_SECRECT,
+      configKeys.OAuth2_RIDERECT_URI
     );
     oAuth2Client.setCredentials({
-      refresh_token: process.env.oAuth2_REFRESH_TOKEN,
+      refresh_token: configKeys.OAuth2_REFRESH_TOKEN,
     });
     const accessToken = await oAuth2Client.getAccessToken();
+    console.log(accessToken)
     const transport = nodemailer.createTransport({
       service: "gmail",
       auth: {
         type: "OAuth2",
-        user: "adarsht00001@gmail.com",
-        clientId: process.env.oAuth2_CLIENT_ID,
-        clientSecret: process.env.oAuth2_CLIENT_SECRECT,
-        refreshToken: process.env.oAuth2_REFRESH_TOKEN,
+        user: "sufiyanbmk01@gmail.com",
+        clientId: configKeys.OAuth2_CLIENT_ID,
+        clientSecret: configKeys.OAuth2_CLIENT_SECRECT,
+        refreshToken: configKeys.OAuth2_REFRESH_TOKEN,
         accessToken: accessToken,
       },
+
     });
     await transport.sendMail(mailOption);
     return;

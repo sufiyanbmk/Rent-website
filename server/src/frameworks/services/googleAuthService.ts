@@ -1,25 +1,29 @@
-import { OAuth2Client } from 'google-auth-library'
+import { google } from "googleapis";
 import configKeys from '../../config';
-const client = new OAuth2Client(configKeys.GOOGLE_AUTH_CLIENT);
+
 
 export const googleAuthService = () => {
 
     const verify = async (token: string) => {
         const user={
-            firstName:"",
-            lastName:"",
+            userName:"",
             email:"",
-            isGoogleUser:true
+            isGoogleUser:true,
+            isverified:true
+
         }
-        const ticket = await client.verifyIdToken({
-            idToken: token,
-            audience: configKeys.GOOGLE_AUTH_CLIENT,
+        const oauth2Client = new google.auth.OAuth2();
+        oauth2Client.setCredentials({ access_token: token });
+      
+        const userinfo = google.oauth2({
+          auth: oauth2Client,
+          version: 'v2'
         });
-        const payload = ticket.getPayload();
-        if(payload?.given_name&&payload.family_name&&payload.email){
-            user.firstName = payload.given_name
-            user.lastName = payload.family_name
-            user.email = payload.email
+        const res = await userinfo.userinfo.get();
+        const userDetails = res.data;
+        if(userDetails?.given_name&&userDetails.family_name&&userDetails.email){
+            user.userName = userDetails.given_name
+            user.email = userDetails.email
         }
         return user
     }

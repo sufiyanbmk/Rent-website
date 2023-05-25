@@ -50,7 +50,7 @@ function Selector(props) {
             className='placeholder:text-gray-700 p-2 outline-none'
           />
         </div>
-        {countries.map((country) => (
+        {countries?.map((country) => (
           <li
             key={type==='country'?country.lastName:country.state_id}
             className={`p-2 text-sm hover:bg-sky-600 hover:text-white

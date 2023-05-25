@@ -1,4 +1,4 @@
-import { MailServiceReturn } from "../../framework/services/mailServices";
+import { MailServiceReturn } from "../../frameworks/services/mailService"; 
 import { Mail } from "../../types/mailOption";
 
 export const mailServiceInterface = (service: MailServiceReturn) => {

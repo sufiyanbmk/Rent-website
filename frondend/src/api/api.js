@@ -1,29 +1,45 @@
 /* eslint-disable */
 import Axios from '../Axios/axios'
 
+export function sendOtpData(data){
+  return Axios.post('/auth/otp-login',data)
+}
+
 // product 
-export function  viewSearchedProduct (values, page) {
-  // console.log(values,'api values')
+export async function  viewSearchedProduct (values, page) {
   const params = {
     state: values?.state,
-    category: values?.catagory,
+    catagory: values?.catagory,
     page: page
   };
-  // console.log(params,'valuess')
-  const result = Axios.post('/product/search-product', params);
+  const result = await Axios.post('/products/searched-product', params);
   return result;
 }
 
-export function searchByName(values,page){
-  return Axios.get(`/product/search-by-name?name=${values}&page=${page}`);
+export async function searchByName(values,page){
+  const state = values.state
+  const catagory = values.catagory
+  const name = values.name
+  const result = await Axios.get(`/products/search-by-name?state=${state}&catagory=${catagory}&name=${name}&page=${page}`);
+  // console.log(result,'resulttaxios')
+  return result 
 }
 
 export function searchByCity(values,page){
-  return Axios.get(`/product/search-by-city?city=${values.name}&page=${page}`);
+  const state = values.state
+  const catagory = values.catagory
+  const city = values.name.name
+  page = 0
+  // alert(city)
+  return Axios.get(`/products/search-by-city?state=${state}&catagory=${catagory}&city=${city}&page=${page}`);
 }
 
 export function searchByPrice(values,page){
-  return Axios.get(`/product/search-by-price?min=${values.min}&max=${values.max}&page=${page}`);
+  const state = values.state
+  const catagory = values.catagory
+  const min = values.name.min
+  const max = values.name.max
+  return Axios.get(`/products/search-by-price?state=${state}&catagory=${catagory}&min=${min}&max=${max}&page=${page}`);
 }
 
 //featured 

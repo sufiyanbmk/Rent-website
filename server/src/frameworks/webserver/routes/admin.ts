@@ -23,7 +23,10 @@ const adminRouter = () => {
     catagoryRepositoryMongoDb
   );
 
-  router.route("/users").get(controller.getAllUsers).put(controller.blockUser);
+  router
+    .route("/users")
+    .get(controller.getAllUsers)
+    .put(controller.blockUser);
 
   router
     .route("/catagory")

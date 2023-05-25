@@ -18,7 +18,7 @@ function ReportPost() {
   const [isReportShowing, setIsReportShowing] = useState(false);
   const navigate = useNavigate();
   const [deletepost, setDeletepost] = useState(false);
-  const { result, error, loading } = useFetch('/reported-product')
+  const { result, error, loading } = useFetch('/admin/reported-product')
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleDelete = (productId) => {
