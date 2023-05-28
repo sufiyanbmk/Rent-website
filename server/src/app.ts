@@ -6,9 +6,24 @@ import expressConfig from './frameworks/webserver/express';
 import errorHandlingMidlleware from './frameworks/webserver/middlewares/errorHandlingMiddleware';
 import AppError from './utils/appError';
 import routes from './frameworks/webserver/routes/';
+import { Server } from 'socket.io';
+import configKeys from './config'
+import { authService } from './frameworks/services/authService';
+import socketConfig from './frameworks/websocket/socket';
 
 const app:Application = express();
 const server = http.createServer(app)
+
+//socket
+
+const io = new Server(server,{
+    cors:{
+        origin:configKeys.ORGIN_PORT,
+        methods:["GET","POST"]
+    }
+});
+
+socketConfig(io,authService())
 
 //connecting mongoDb
 connectDB();

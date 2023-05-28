@@ -19,11 +19,11 @@ function Messagebox() {
   const { room_id } = useSelector((state) => state.conversation)
   useEffect(() => {
     const current = conversations?.find((el) => el?.id === room_id);
-    // console.log(current,'cusrrentttsdfdsdfsfsdsdfssdfsdfsdff')
+    // console.log(current,'cusrrentttsdfdsdfsfsdsdfssdfsdfdfsdfsdff')
     socket?.emit("get_messages", { conversation_id: current?.id }, (data) => {
       // console.log(data,'ttttttttttttttttttttttttti')
       // data => list of messages
-      dispatch(FetchCurrentMessages({ messages: data , user_id:authData._id}));
+      dispatch(FetchCurrentMessages({ messages: data , user_id:authData.id}));
     });
 
     dispatch(SetCurrentConversation(current));

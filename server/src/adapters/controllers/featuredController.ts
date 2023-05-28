@@ -26,7 +26,7 @@ export const featuredController = (
     })  
 
     const stripePayment = asyncHandler(async(req:Request,res:Response) =>{
-        const paymentIntent = await createPayment(stripeServices)
+        const paymentIntent :any = await createPayment(stripeServices)
         res.json({status:'success',message:"payment dond",
         clientSecret: paymentIntent.client_secret,paymentId:paymentIntent.id
       })
@@ -46,6 +46,7 @@ export const featuredController = (
 
     const getFeaturedOnlyProduct = asyncHandler(async(req:Request,res:Response) => {
         const product = await getAllFeaturedProduct(DbRepositoryProduct,s3Services)
+        res.json(product)
     })
 
 

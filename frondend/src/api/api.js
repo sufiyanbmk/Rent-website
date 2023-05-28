@@ -42,6 +42,14 @@ export function searchByPrice(values,page){
   return Axios.get(`/products/search-by-price?state=${state}&catagory=${catagory}&min=${min}&max=${max}&page=${page}`);
 }
 
+export function sendReport(reportObj){
+  return Axios.post(`/products/report`,reportObj)
+}
+
+export function sendReview(reviewObj){
+  return Axios.post(`/products/review`, reviewObj)
+}
+
 //featured 
 
 export function getPublishKey(){

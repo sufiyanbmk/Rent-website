@@ -35,7 +35,7 @@ export const SelectConversation = ({ room_id }) => ({
 
 export const FetchCurrentMessages = ({messages,user_id}) => ({
   type:FETCH_CURRENT_MESSAGES,
-  payload:{messages:messages.messages,user_id}
+  payload:{messages:messages?.messages,user_id}
 })
 
 export const SetCurrentConversation = (current_conversation) => ({

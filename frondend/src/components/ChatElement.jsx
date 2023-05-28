@@ -9,7 +9,7 @@ function ChatElement({ img, name, msg, time, unread, online, id }) {
   const selectedChatId = room_id?.toString();
   const isSelected = !!selectedChatId && selectedChatId === id.toString();
   function truncateText(text, maxLength) {
-    if (text.length > maxLength) {
+    if (text?.length > maxLength) {
       return text.slice(0, maxLength - 3) + '...';
     } else {
       return text;

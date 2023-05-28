@@ -23,7 +23,6 @@ function productDetail() {
   const dispatch = useDispatch()
   const { data } = useFetchAxios(`/products/product-detail/${id}`)
   const product = data
-  console.log(product.user?.userName,"product")
   const [isShowMessage, setIsShowMessage] = useState(false)
   const { authData } = useSelector((state) => state.userLogin)
   const { conversations, current_conversation } = useSelector(
@@ -34,11 +33,10 @@ function productDetail() {
     socket?.off("start_chat");
     socket?.off("new_message");
   }
-  // alert(socket?.connected)
   useEffect(() => {
     console.log(socket, 'sokee')
     if (!socket) {
-      connectSocket(authData._id)
+      connectSocket(authData.token)
       console.log(socket, 'sdsdfssfddsfdsdfdsfssdfdffdfddsfssdfsfsdfdsfssfdfsfs')
     }
     socket?.on("new_message", (data) => {
@@ -93,7 +91,7 @@ function productDetail() {
       toast.error('Please Login')
       return
     }
-    socket?.emit("start_conversation", { to: product?.user._id, from: authData._id })
+    socket?.emit("start_conversation", { to: product?.user._id, from: authData.id })
   }
   return (
     <section className='px-4 mt-10 py-10 lg:px-16 lg:py-28'>
@@ -122,8 +120,7 @@ function productDetail() {
               ))} */}
             </div>
           </div>
-
-          {authData._id !== product?.userId? 
+          {authData.id !== product.userId? 
           <div className='flex-1 bg-white-100 w-full mb-8 lg:mb-0 border border-gray-300 rounded-lg px-6 py-8'>
             <div className='flex flex-col lg:flex-row items-center gap-x-4 mb-8'>
               <div className='w-20 h-20 p-1 border border-gray-300 rounded-full'>

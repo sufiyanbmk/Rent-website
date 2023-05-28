@@ -27,7 +27,7 @@ const featuredRouter = () => {
 
     router.patch('/update-feature',  controller.updateToFeature)
 
-    router.get('/home-featured', controller.getFeaturedOnlyProduct)
+    router.get('/home-product', controller.getFeaturedOnlyProduct)
 
 
     return router

@@ -2,6 +2,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const configKeys = {
+
+  ORGIN_PORT : process.env.ORGIN_PORT as string,
+
   AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME as string,
 
   AWS_BUCKET_REGION: process.env.AWS_BUCKET_REGION as string,

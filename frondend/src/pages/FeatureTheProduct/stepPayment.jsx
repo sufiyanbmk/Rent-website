@@ -5,6 +5,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./checkOutForm";
 import { loadStripe } from "@stripe/stripe-js";
 import { getPublishKey, stripePost } from '../../api/api'
+import toast,{ Toaster } from "react-hot-toast";
 
 function Payment() {
   const [stripePromise, setStripePromise] = useState(null);
@@ -13,8 +14,8 @@ function Payment() {
 
 
   useEffect(() => {
-    getPublishKey().then(async (r) => {
-      const { publishableKey } = await r.data;
+    getPublishKey().then(async (res) => {
+      const { publishableKey } = await res.data;
       setStripePromise(loadStripe(publishableKey));
     });
   }, []);
@@ -24,7 +25,9 @@ function Payment() {
       const { clientSecret, paymentId } = await result.data;
       setPaymentId(paymentId)
       setClientSecret(clientSecret);
-    });
+    }).catch((err) =>{
+      toast.error('error')
+    })
   }, []);
   
 

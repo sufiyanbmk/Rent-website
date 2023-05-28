@@ -1,8 +1,10 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react";
+import { sendReport } from "../../api/api";
 import axios from '../../Axios/axios';
 import { useSelector } from 'react-redux';
 import toast ,{Toaster} from 'react-hot-toast';
+
 
 const Modal = ({ id }) => {
   const [showModal, setShowModal] = useState(false);
@@ -11,27 +13,23 @@ const Modal = ({ id }) => {
   const LoggedInUser = useSelector((state) => state.userLogin)
   const userInfo = LoggedInUser.authData
   const handleReport = async (reportType) => {
-    console.log(reportType)
     const reportObj = {
-      userId: userInfo._id,
+      userId: userInfo.id,
       productId:id,
-      username: userInfo.username,
+      username: userInfo.userName,
       report: reportType,
     }
     try {
-      const {data} = await axios.post(`/report/${id}`, reportObj)
+      const {data} = await sendReport(reportObj)
       console.log(data)
-      if(data.success){
+      if(data.status === "success"){
         toast.success('Reported SuccessFully')
       }else{
         toast.error('You Already Reported')
       }
-      setTimeout(() => {
-        setShowModal(false)
-      }, 2000);
+      setShowModal(false)
     } catch (err) {
       toast.error('Error Occured')
-      console.log(err)
     }
   }
 return (
@@ -93,7 +91,6 @@ return (
         </div>
       </>
     ) : null}
-    <Toaster />
   </>
 );
 };

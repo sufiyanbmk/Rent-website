@@ -6,7 +6,7 @@ import Reviews from "../models/reviewModel";
 export const productRepositoryMongoDB = () => {
   const getAllProducts = async () => await Products.find();
 
-  const getProduct = async (proId: string) => await Products.findById(proId);
+  const getProduct = async (proId: string) => await Products.findById(proId).populate({ path: 'reviews', model: 'Reviews' });
 
   const deleteProduct = async (proId: string) =>
     await Products.findByIdAndDelete(proId);
@@ -50,7 +50,6 @@ export const productRepositoryMongoDB = () => {
   const editProduct = async(id:object,data:object) => await Products.updateOne(id,data)
 
   const getFilteredProduct = async(searchCretiriya:object,skip:number) => {
-    console.log(skip)
    const product = await Products.find(searchCretiriya)
     .sort({featured: -1,createdAt: -1})
     .populate({ path: 'reviews', model: Reviews })
@@ -65,6 +64,8 @@ export const productRepositoryMongoDB = () => {
   const findReport = async(proId:string,userId:string) => await Reports.find({proId,userId})
 
   const addReport = async(data:object) => await Reports.create(data)
+
+  const findByIdAndUpdate = async(id:string,data:object) => await Products.findByIdAndUpdate(id,data)
 
 
   return {
@@ -82,7 +83,8 @@ export const productRepositoryMongoDB = () => {
     findReview,
     addReview,
     findReport,
-    addReport
+    addReport,
+    findByIdAndUpdate
   };
 };
 

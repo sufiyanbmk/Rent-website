@@ -10,6 +10,7 @@ export interface UserInterface {
   imgLink?:string;
   isGoogleUser:boolean;
   token?:string;
+  socket_id?:string;
 }
 
 export interface UserReturnInterface { 
@@ -18,7 +19,8 @@ export interface UserReturnInterface {
   email:string,
   profileImage?:string,
   imgLink?:string,
-  token?:string
+  token?:string,
+  socket_id?:string;
 }
 
 export interface CreateUserInterface{

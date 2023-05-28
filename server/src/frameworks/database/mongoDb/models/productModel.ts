@@ -28,7 +28,7 @@ const productSchema = new Schema(
         ref:'Reviews'
       }
     ],
-    reprots:[
+    reports:[
       {
         type:mongoose.Schema.Types.ObjectId,
         ref:'Reports'

@@ -88,16 +88,14 @@ const productController = (
     })
 
     const createReview = asyncHandler(async(req:Request,res:Response) => {
-        const {proId} = req.params
         const data :ReviewInterface = req.body
-        await addReview(proId,data,DbRepositoryProduct)
+        await addReview(data,DbRepositoryProduct)
         res.json({status:"success",message:"added successfully"})
     })
 
     const createReport = asyncHandler(async(req:Request,res:Response)=>{
-        const {proId} = req.params
         const data : ReportInterface = req.body
-        await addReport(proId,data,DbRepositoryProduct)
+        await addReport(data,DbRepositoryProduct)
         res.json({status:"success",message:"added successfully"})
     })
 

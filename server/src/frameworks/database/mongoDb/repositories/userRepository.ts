@@ -55,6 +55,8 @@ export const userRepositoryMongoDB = () => {
 
   const getByField = async(filter:object) => await User.findOne(filter)
 
+  const findByOneAndUpdate = async(userId:string,filter:object) => await User.findByIdAndUpdate(userId,filter)
+
   return {
     getUserByEmail,
     addUser,
@@ -66,7 +68,8 @@ export const userRepositoryMongoDB = () => {
     getUserGraph,
     updateImg,
     getById,
-    getByField
+    getByField,
+    findByOneAndUpdate
   };
 };
 

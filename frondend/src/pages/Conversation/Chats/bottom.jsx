@@ -20,6 +20,7 @@ const ChatInput = ({ showEmojiPicker, setShowEmojiPicker, value, setValue }) => 
   const { current_conversation } = useSelector(
     (state) => state.conversation.direct_chat
   );
+  console.log(current_conversation,'current')
   const { authData } = useSelector((state) => state.userLogin)
   const [showFileInput, setShowFileInput] = useState(false);
   const dispatch = useDispatch()
@@ -28,7 +29,7 @@ const ChatInput = ({ showEmojiPicker, setShowEmojiPicker, value, setValue }) => 
     setValue(e.target.value);
     if (!socket) return;
 
-    if (!typing) {
+    if (!typing && current_conversation.user_id) {
       dispatch(typingStart(true))
       socket.emit("typing", { to: current_conversation.user_id });
     }
@@ -61,9 +62,9 @@ const ChatInput = ({ showEmojiPicker, setShowEmojiPicker, value, setValue }) => 
         size: file.size,
         fileBuffer,
       };
-      socket.emit("file_message",{message: fileData,
+      socket.emit("file_message",{message: file,
       conversation_id: room_id,
-      from: authData._id,
+      from: authData.id,
       to: current_conversation.user_id,
       type: "File",})
     setShowFileInput(false)
@@ -168,7 +169,7 @@ function Bottom() {
                 socket.emit("text_message", {
                   message: linkify(value),
                   conversation_id: room_id,
-                  from: authData._id,
+                  from: authData.id,
                   to: current_conversation.user_id,
                   type: containsUrl(value) ? "Link" : "Text",
                 });

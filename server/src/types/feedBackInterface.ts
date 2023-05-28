@@ -1,7 +1,7 @@
 
 export interface ReviewInterface{
     userId: string;
-    proId: string;
+    productId: string;
     username: string;
     reviewText: string;
     rating: number;

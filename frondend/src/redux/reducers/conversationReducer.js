@@ -103,6 +103,7 @@ const conversationReducer = (state = initialState, action) => {
       const newConversationUser = newConversation.participants.find(
         (elm) => elm._id.toString() !== action.payload.user_id
       );
+      const currentDate = new Date();
       const formattedTime = `${currentDate.getHours()}:${currentDate.getMinutes()}`;
       const newConversations = [
         ...state.direct_chat.conversations.filter(

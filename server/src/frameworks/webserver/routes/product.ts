@@ -26,7 +26,7 @@ const productRouter = () => {
 
     router.put('/edit-product/:id',upload.array("file"), controller.editproduct)
 
-    router.get('/product-detail',controller.getSingleProduct)
+    router.get('/product-detail/:id',controller.getSingleProduct)
 
     router.post('/searched-product', controller.getSearchedProduct)
 
@@ -36,9 +36,9 @@ const productRouter = () => {
 
     router.get('/search-by-price', controller.getProductByPrice)
   
-    router.post('/:proId', controller.createReview)
+    router.post('/review', controller.createReview)
 
-    router.post('/:proId', controller.createReport )
+    router.post('/report', controller.createReport )
 
     return router;
 }

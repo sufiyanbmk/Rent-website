@@ -1,10 +1,11 @@
 import { StripeServiceInterface } from "../../services/stripeServiceInterface";
 import { ProductDbInterface } from "../../repositories/productDbRepository";
 import { S3serviceInterface } from "../../services/s3ServiceInterface";
+import { addSignedUrl } from "./managingUrl";
 
 export const createPayment = async(
     stripeServices:ReturnType<StripeServiceInterface>
-) => await stripeServices.add(10)
+) => await stripeServices.add(1999)
 
 export const abadonPayment =async(
     paymentId:string,
@@ -26,5 +27,7 @@ export const getAllFeaturedProduct = async(
     dbRepositoryProduct: ReturnType<ProductDbInterface>,
     s3Services: ReturnType<S3serviceInterface>
 ) => {
-    const products = await dbRepositoryProduct.findByField({ featured:{ $exists: true, $ne: [] } })
+    const products:any = await dbRepositoryProduct.findByField({ featured:{ $exists: true, $ne: [] } })
+    const productsWithUrl = await addSignedUrl(products,s3Services)
+    return productsWithUrl
 }

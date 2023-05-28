@@ -1,85 +1,90 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
-import { BiChevronDown } from 'react-icons/bi';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { Fragment, useState } from "react";
+import { Combobox, Transition } from "@headlessui/react";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
-function Selector(props) {
-  const {type,url,callback}= props
-  const [text,settext]=useState('')
-  const [countries, setCountries] = useState([]);
-  const [inputValue, setInputValue] = useState('');
-  const [selected, setSelected] = useState('');
-  const [open, setOpen] = useState(false);
-  
-  useEffect(() => {
-    fetch(url)
-    .then((res) => res.json())
-    .then((data) => {
-      {type==="country"?setCountries(data.data):setCountries(data.states)}
-      {settext(type==='country'?"Select Catagory":"Select Location")}
-      });
-  }, []);
+function Selector({ data, property, selected, setSelected }) {
+  const [query, setQuery] = useState("");
+  const filtered =
+  query === ""
+  ? data
+  : data.filter((item) =>
+      item[property]
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .includes(query.toLowerCase().replace(/\s+/g, ""))
+    );
+
   return (
-    <div className="md:w-72 font-medium md:h-80">
-      <div
-        onClick={() => setOpen(!open)}
-        className={`bg-white w-full p-2 flex items-center justify-between rounded ${
-          !selected && 'text-gray-700'
-        }`}
-      >
-        {selected
-          ? selected?.length > 25
-            ? selected?.substring(0, 25) + '...'
-            : selected
-            :text}
-         
-        <BiChevronDown size={20} className={`${open && 'rotate-180'}`} />
-      </div>
-      <ul
-        className={`bg-white mt-2 overflow-y-auto ${
-          open ? 'max-h-60' : 'max-h-0'
-        } `}
-      >
-        <div className="flex items-center px-2 sticky top-0 bg-white">
-          <AiOutlineSearch size={18} className="text-gray-700" />
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value.toLowerCase())}
-            placeholder={type==='country'?"Enter the Catagory":"Enter the State"}
-            className='placeholder:text-gray-700 p-2 outline-none'
-          />
-        </div>
-        {countries?.map((country) => (
-          <li
-            key={type==='country'?country.lastName:country.state_id}
-            className={`p-2 text-sm hover:bg-sky-600 hover:text-white
-            ${
-              type==="country"?country.lastName?.toLowerCase() === selected?.toLowerCase() &&
-            'bg-sky-600 text-white':country.state_name.toLowerCase() === selected?.toLowerCase() && 'bg-sky-600 text-white'
-            }
-            ${
-              type==="country"?country?.lastName?.toLowerCase().startsWith(inputValue)
-                ? 'block'
-                : 'hidden':country.state_name?.toLowerCase().startsWith(inputValue)
-                ? 'block': 'hidden'
-            }`}
-            onClick={() => {
-              if (country?.lastName?.toLowerCase() !== selected.toLowerCase()) {
-                type==="country"?setSelected(country?.lastName):setSelected(country.state_name)               
-                setOpen(false);
-                callback(type==="country"?country?.lastName:country.state_name)
-                setInputValue();
-              }
-            }}
+    <div className="w-72 z-0">
+      <Combobox  onChange={setSelected}>
+        <div className="relative mt-1">
+          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+            <Combobox.Input
+              className="w-full outline-none border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
+              placeholder="Please select"
+              displayValue={(value) =>  value}
+              onChange={(event) => setQuery(event.target.value)}
+            />
+            <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+              <ChevronUpDownIcon
+                className="h-5 w-5 text-gray-400 hover:text-gray-500"
+                aria-hidden="true"
+              />
+            </Combobox.Button>
+          </div>
+          <Transition
+            as={Fragment}
+            leave="transition ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+            afterLeave={() => setQuery("")}
           >
-            {type==="country"?country.firstName:country.state_name}
-           </li>
-          // <li>{type==="country"?country.lastName:country.state_name}</li>
-        ))}
-      </ul>
+            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              {filtered?.length === 0 && query !== "" ? (
+                <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+                  Nothing found.
+                </div>
+              ) : (
+                filtered?.map((value) => (
+                  <Combobox.Option
+                    key={value._id}
+                    className={({ active }) =>
+                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                        active ? "bg-teal-600 text-white" : "text-gray-900"
+                      }`
+                    }
+                    value={value[property]}
+                    >
+                    {({ selected, active }) => (
+                      <>
+                        <span
+                          className={`block truncate ${
+                            selected ? "font-medium" : "font-normal"
+                          }`}
+                        >
+                          {value[property]}
+                        </span>
+                        {selected ? (
+                          <span
+                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                              active ? "text-white" : "text-teal-600"
+                            }`}
+                          >
+                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                          </span>
+                        ) : ''}
+                      </>
+                    )}
+                  </Combobox.Option>
+                ))
+              )}
+            </Combobox.Options>
+          </Transition>
+        </div>
+      </Combobox>
     </div>
   );
-};
+}
 
 export default Selector;

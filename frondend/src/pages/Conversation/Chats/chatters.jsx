@@ -18,13 +18,16 @@ function Chatters() {
   const navigate = useNavigate()
   const {authData} = useSelector((state) => state.userLogin)
   const {conversations} = useSelector((state) => state.conversation?.direct_chat);
-  const user_id = authData._id
+  const user_id = authData.id
   useEffect(() => {
-    // console.log(socket,'sdfsfusdffadfsdsdfsdfedsdfsdf')
-    socket?.emit("get_direct_conversations", { user_id }, (data) => {
-      dispatch(FetchDirectConversations({ conversations: data,user_id }));
-    });
-  }, [socket]);
+    console.log(socket,'socket')
+    setTimeout(() => {     
+      socket?.emit("get_direct_conversations", (data) => {
+        console.log(data,'data')
+        dispatch(FetchDirectConversations({ conversations: data,user_id }));
+      });
+    }, 2000);
+  },[]);
   return (
     <>
   <div className="relative h-screen dark:bg-gray-900 shadow-md">

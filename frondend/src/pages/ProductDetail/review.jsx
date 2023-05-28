@@ -2,6 +2,7 @@
 import { useRef, useState,useEffect } from 'react'
 import { AiFillStar } from 'react-icons/ai'
 import { useSelector } from 'react-redux';
+import { sendReview } from '../../api/api';
 import axios from '../../Axios/axios';
 import Star from '../../components/Star';
 import user from '../../assets/images/user.png'
@@ -11,31 +12,33 @@ function Review({ id, reviews }) {
   const LoggedInUser = useSelector((state) => state.userLogin)
   const userInfo = LoggedInUser.authData
   const reviewMsgRef = useRef();
-  const [rating, setRating] = useState(null);
+  const [rating, setRating] = useState(0);
   const [err, setErr] = useState(null);
   const [reloadReviews, setReloadReviews] = useState(false);
+  const handleStarClick = (selectedRating) => {
+    setRating(selectedRating);
+  };
   const handleSubmit = async e => {
     e.preventDefault();
     const reviewText = reviewMsgRef.current.value;
     try {
       const reviewObj = {
-        userId: userInfo._id,
-        username: userInfo.username,
+        userId: userInfo.id,
+        username: userInfo.userName,
         productId: id,
         reviewText,
         rating,
       }
-      const {data} = await axios.post(`/review/${id}`, reviewObj)
-      if(data.success){
+      const {data} = await sendReview(reviewObj)
+      console.log(data)
+      if(data.status === "success"){
         toast.success('Reported SuccessFully')
         setReloadReviews(true);
       }else{
-        toast.error('You Already Reported')
+        toast.error('You Already Reviewed')
       }
-      console.log(res)
-
     } catch (err) {
-      toast.error('You Already Reported')
+      toast.error('Error occured,try again')
       setErr(err.response.data)
     }
   }
@@ -52,11 +55,13 @@ function Review({ id, reviews }) {
     {err && <h3 className='text-red-500'>{err.message}</h3>}
     <form onSubmit={handleSubmit}>
       <div className='flex align-items-center gap-4 mb-4 cursor-pointer'>
-        <AiFillStar className='text-yellow-500 cursor-pointer' onClick={() => setRating(1)} />
-        <AiFillStar className='text-yellow-500 cursor-pointer' onClick={() => setRating(2)} />
-        <AiFillStar className='text-yellow-500 cursor-pointer' onClick={() => setRating(3)} />
-        <AiFillStar className='text-yellow-500 cursor-pointer' onClick={() => setRating(4)} />
-        <AiFillStar className='text-yellow-500 cursor-pointer' onClick={() => setRating(5)} />
+      {[1, 2, 3, 4, 5].map((index) => (
+            <AiFillStar
+              key={index}
+              className={`text-yellow-500 cursor-pointer ${index <= rating ? 'bg-yellow-200' : ''}`}
+              onClick={() => handleStarClick(index)}
+            />
+            ))}
       </div>
       <div className='flex items-center justify-between w-full p-2 rounded-2xl border border-yellow-100'>
         <input className='w-full py-2 border-0 focus:outline-none' type='text' ref={reviewMsgRef} placeholder='Share your thoughts' required />
@@ -77,7 +82,6 @@ function Review({ id, reviews }) {
         </div>
       ))}
     </div>
-    <Toaster />
   </div>
   )
 }

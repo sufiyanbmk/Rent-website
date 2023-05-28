@@ -105,27 +105,25 @@ export const filterProduct = async(
 }
 
 export const addReview = async(
-    proId:string,
     data:ReviewInterface,
     dbRepositoryProduct: ReturnType<ProductDbInterface>,
 ) => {
-    const userId = data.userId
-    const existUser = await dbRepositoryProduct.checkReview(proId,userId)
+    const {userId,productId}:{userId:string,productId:string} = data
+    const existUser = await dbRepositoryProduct.checkReview(productId,userId)
     if(existUser.length > 0)
      throw new AppError("this review is already exist", HttpStatus.CONFLICT)
     const newReview = await dbRepositoryProduct.addNewReview(data)
-    await dbRepositoryProduct.editProduct({proId},{ $push:{reviews:newReview._id} })
+    await dbRepositoryProduct.updateById(productId,{ $push:{reviews:newReview._id} })
 }
 
 export const addReport = async(
-    proId:string,
     data:ReportInterface,
     dbRepositoryProduct: ReturnType<ProductDbInterface>,
 ) => {
-    const userId = data.userId
-    const existUser = await dbRepositoryProduct.checkReport(proId,userId)
-    if(existUser.length > 0)
+    const {userId,productId}:{userId:string,productId:string} = data
+    const existUser = await dbRepositoryProduct.checkReport(productId,userId)
+    if(existUser.length > 10)
      throw new AppError("this review is already exist", HttpStatus.CONFLICT)
     const newReport = await dbRepositoryProduct.addNewReport(data)
-    await dbRepositoryProduct.editProduct({proId},{$push:{reports:newReport._id}})
+    await dbRepositoryProduct.updateById(productId,{$push:{reports:newReport._id}})
 }

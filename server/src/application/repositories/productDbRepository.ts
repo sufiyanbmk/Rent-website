@@ -38,6 +38,11 @@ export const productDbRepository = (repository:ReturnType<ProductRepositoryMongo
 
   const addNewReport = async(data:object) => await repository.addReport(data)
 
+  const updateById = async(id:string,data:object) =>{
+    console.log(id,'l')
+    
+    return await repository.findByIdAndUpdate(id,data)
+  }
   return{
     getAll,
     getOneProduct,
@@ -53,7 +58,8 @@ export const productDbRepository = (repository:ReturnType<ProductRepositoryMongo
     checkReview,
     addNewReview,
     checkReport,
-    addNewReport
+    addNewReport,
+    updateById
   } 
 }
 

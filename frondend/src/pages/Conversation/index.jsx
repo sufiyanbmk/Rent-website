@@ -45,8 +45,8 @@ function Conversation() {
   useEffect(() => {
     console.log(socket, 'sokssee')
     if (!socket) {
-      connectSocket(authData._id)
-      console.log(socket, 'sdsdfssfddssdsdfffdsdfsdsdfdfdsfssdfdffdfddsfssdfsfsdfdsfssfdfsfs')
+      connectSocket(authData.token)
+      console.log(socket, 'sdfsijklj')
     }
 
     socket.on("audio_call_notification", (data) => {
@@ -59,7 +59,7 @@ function Conversation() {
 
     socket?.on("new_message", (data) => {
       const message = data.message;
-      // console.log(message, 'hllmessagsdfsdfe');
+      console.log(message, 'hllmessagsdsdfsdfsdfsfsdffsdfe');
       // check if msg we got is from currently selected conversation
       console.log(current_conversation, data.message.conversation_id, 'check')
       if (current_conversation?.id === data.message.conversation_id) {
@@ -76,7 +76,8 @@ function Conversation() {
       }
     });
 
-    socket?.on("start_chat", (data) => {
+    socket.on("start_chat", (data) => {
+      alert(data)
       console.log(data, 'start chat');
       // add / update to conversation list
       const existing_conversation = conversations.find(

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { RiSearch2Line } from 'react-icons/ri';
-import Selector from "./selector";
+import Selector from "../../components/Selector";
 import indianCities from 'indian-cities-json';
 import useFilter from '../../hooks/useFilter';
 import { searchByName } from '../../api/api';
@@ -41,7 +41,7 @@ function Filter({ handleSearch, handleCity, handlePriceSubmit }) {
 
       <div>
         <p className="text-teal-800 font-semibold mb-2">City:</p>
-        <Selector data={cityData} selected={city} setSelected={handleCity} />
+        <Selector data={cityData} property={"name"} selected={city} setSelected={handleCity} />
       </div>
       <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-between lg:items-center max-w-[1170px] mx-auto bg-white lg:bg-transparent lg:backdrop-blur rounded-lg shadow-md lg:shadow-none">
         <div className="flex flex-col justify-center items-center lg:items-start">
@@ -49,7 +49,6 @@ function Filter({ handleSearch, handleCity, handlePriceSubmit }) {
           <form onSubmit={handlePriceSubmit} className="flex justify-center lg:justify-start">
             <div className="flex flex-col lg:flex-row lg:items-center">
               <label className="text-gray-600 lg:mr-2">
-                Min:
                 <input className="bg-gray-200 rounded-lg py-1 px-2 lg:mx-2" name="min" type="number" value={priceRange.min} onChange={handlePriceRange} />
               </label>
               <label className="text-gray-600 lg:mr-2">
