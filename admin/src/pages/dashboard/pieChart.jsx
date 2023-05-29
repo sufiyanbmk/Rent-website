@@ -14,9 +14,8 @@ export function PieChart() {
   useEffect(() => {
     pieChartProduct()
       .then((res) => {
-        console.log(res.data)
-        setDetails(res.data?.data)
-        setProductCount(res.data?.data.product);
+        setDetails(res.data.product)
+        setProductCount(res.data.featuredProduct);
         setFeaturedProductCount(res.data?.data.featuredProduct)
       })
       .catch((err) => console.log(err));

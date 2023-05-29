@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default axios.create({
-  baseURL: 'http://localhost:7000/api',
+  baseURL: 'http://api.rentit.fun/api',
   headers: {
     'Content-Type': 'application/json',
     withCredentials: true,
@@ -9,7 +9,7 @@ export default axios.create({
 });
 
 export const axiosPrivate = axios.create({
-  baseURL: 'http://localhost:7000/api',
+  baseURL: 'http://api.rentit.fun/api',
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });

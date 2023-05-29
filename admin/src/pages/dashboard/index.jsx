@@ -10,7 +10,7 @@ import Charts from './charts';
 
 function Dashboard() {
   // const [data, setData] = useState({});
-  const {result,loading,error} = useFetch('/get-dashboard-data')
+  const {result,loading,error} = useFetch('/admin/dashboard-data')
   console.log(result,'data')
   return (
     <>
