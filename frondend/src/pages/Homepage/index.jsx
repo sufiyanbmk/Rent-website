@@ -36,7 +36,7 @@ function Home() {
       <div className="flex flex-col md:flex-row md:ml-20">
         <Selector data = {statesJson} property = {"name"} selected ={state} setSelected ={handleState} />
         <Selector data={categories} selected={catagory} property = {"title"} setSelected={handleCatagory}/>
-        <Button className="bg-blue-500 h-12 md:ml-12 w-24 ml-32"><Link to={`/search-product/${state}/${catagory}`}>Search</Link></Button>
+        <Button className="bg-red-500 h-12 md:ml-12 w-24 ml-32"><Link to={`/search-product/${state}/${catagory}`}>Search</Link></Button>
       </div>
       <FeaturedProduct />
       <WorkingStep />
