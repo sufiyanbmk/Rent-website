@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from '../pages/Homepage';
 import LoginPage from '../pages/login';
 import Signup from '../pages/signup';
-import ResetPassword from '../pages/ResetPassword';
+// import ResetPassword from '../pages/ResetPassword';
 import VerifyEmail from '../pages/VerifyMail';
 import OtpLogin from '../pages/OtpLogin';
 import RentForm from '../pages/RentForm';
@@ -22,7 +22,7 @@ function Routers() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/reset-Password/:id/:token" element={<ResetPassword />} />
+      {/* <Route path="/reset-Password/:id/:token" element={<ResetPassword />} /> */}
       <Route path="/verify-email/:userId/:token" element={<VerifyEmail />} />
       <Route path="/otp-login/:mobile" element={<OtpLogin />} />
       <Route element={<IsLogged />}>
