@@ -31,5 +31,5 @@ jobs:
           SOURCE: "frondend/build/"
           REMOTE_HOST: ${{ secrets.HOST }}
           REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: "/home/ubuntu/admin"
+          TARGET: "/home/ubuntu/frondend"
           EXCLUDE: "/dist/, /node_modules/"
