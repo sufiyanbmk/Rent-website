@@ -6,7 +6,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./admin
+    working-directory: ./frondend
 
 jobs:
   build:
@@ -28,7 +28,7 @@ jobs:
       env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-rlgoDzvc -i --delete"
-          SOURCE: "admin/build/"
+          SOURCE: "frondend/build/"
           REMOTE_HOST: ${{ secrets.HOST }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: "/home/ubuntu/admin"
