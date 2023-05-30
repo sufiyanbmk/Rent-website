@@ -1,23 +1,36 @@
 /* eslint-disable */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Typography, useTheme, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { Link } from "react-router-dom";
 import Header from "../../component/Headers";
 import useFetch from "hooks/useFetch";
-import { AiFillDelete } from 'react-icons/ai';
-import DeleteModal from '../../component/ConfirmModal';
-import toast, { Toaster } from 'react-hot-toast';
+import { AiFillDelete } from "react-icons/ai";
+import DeleteModal from "../../component/ConfirmModal";
+import toast, { Toaster } from "react-hot-toast";
+import { deleteCatagory } from "api/api";
 
 const Catagory = () => {
-  const { result, error, loading } = useFetch('/admin/catagory')
+  const { result, error, loading, refetch } = useFetch("/admin/catagory");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId,setDeltetId] = useState('')
   const handleDelete = (id) => {
     setShowDeleteModal(true);
-    // Make a delete request to the server with the user ID
-    // Refresh the data in the table
+    setDeltetId(id)
+  };
+  const handleDeleteModalConfirm =() => {
+    deleteCatagory(deleteId).then((res)=>{
+      setShowDeleteModal(false)
+      toast.success("successfully deleted")
+      refetch()
+    }).catch((err) => {
+      toast.error("error occured")
+    })
   }
+  useEffect(()=>{
+    loading
+  },[])
   const rows = result;
   const rowsWithNo = rows?.map((row, index) => ({ ...row, no: index + 1 }));
   const theme = useTheme();
@@ -31,7 +44,7 @@ const Catagory = () => {
       cellClassName: "name-column--cell",
     },
     {
-      field: "discription",
+      field: "description",
       headerName: "Description",
       flex: 1,
     },
@@ -41,18 +54,37 @@ const Catagory = () => {
       flex: 1,
       renderCell: (params) => {
         return (
-          <Button variant="contained" color="error" onClick={() => handleDelete(params.row._id)}>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => handleDelete(params.row._id)}
+          >
             <AiFillDelete />
           </Button>
-        )
-      }
+        );
+      },
     },
   ];
 
   return (
     <Box m="20px">
       <Header title="Catagory" subtitle="Catagory For The Product" />
-      <Button variant="contained" color="success"><Link to="/addCatagory">ADD Catagory</Link></Button>
+      <Button
+        variant="contained"
+        color="success"
+        sx={{
+          bgcolor: "#4caf50",
+          color: "#fff",
+          "&:hover": { bgcolor: "#45a049" },
+        }}
+      >
+        <Link
+          to="/addCatagory"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          ADD Category
+        </Link>
+      </Button>
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -82,12 +114,17 @@ const Catagory = () => {
           },
         }}
       >
-        <DataGrid getRowId={(row) => row._id} rows={rowsWithNo} columns={columns} />
+        <DataGrid
+          getRowId={(row) => row._id}
+          rows={rowsWithNo}
+          columns={columns}
+        />
       </Box>
       {showDeleteModal && (
         <DeleteModal
           onConfirm={() => handleDeleteModalConfirm(rows._id)}
-          type='delete'
+          type="delete"
+          onClose = {() =>setShowDeleteModal(false)}
         />
       )}
     </Box>

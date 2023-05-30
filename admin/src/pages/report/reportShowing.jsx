@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 
 
 function ReportShowing({singleProReport}) {
-  console.log(singleProReport)
   const [post, setPosts] = useState([]);
   const navigate = useNavigate();
   const [deletepost, setDeletepost] = useState(false);
@@ -27,7 +26,7 @@ function ReportShowing({singleProReport}) {
         <TableBody>
           {singleProReport?.map((row, i) => (
             <TableRow
-              key={row.id}
+              key={i}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">

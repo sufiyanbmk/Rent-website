@@ -1,84 +1,60 @@
 /* eslint-disable */
 import { Grid, Paper, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
 import { FiUsers } from 'react-icons/fi';
 import { FaUsersSlash } from 'react-icons/fa';
 import { MdVerified, MdOutlinePostAdd } from 'react-icons/md';
-import axios from '../../axios/axios';
 import useFetch from '../../hooks/useFetch';
 import Charts from './charts';
+import Card from 'component/card';
 
 function Dashboard() {
-  // const [data, setData] = useState({});
   const {result,loading,error} = useFetch('/admin/dashboard-data')
-  console.log(result,'data')
   return (
     <>
-      <Grid container spacing={10} columns={16} alignItems="center" justifyContent="center" p={2}>
-        <Grid item xs={8} md={3}>
-          <Paper
-            elevation={10}
-            sx={{
-              display: 'flex',
-              width: '15rem',
-              height: '10rem',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <div>
-              <FiUsers size={40} />
-            </div>
-            <div style={{ textAlign: 'center', padding: '10%' }}>
-              <Typography variant="h6" color="red">Total Users</Typography>
-              <Typography variant="h6" color="red">{result?.usercount}</Typography>
-            </div>
-          </Paper>
-        </Grid>
-        <Grid item xs={8} md={3}>
-          <Paper
-            elevation={10}
-            sx={{
-              display: 'flex',
-              width: '15rem',
-              height: '10rem',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <div>
-              <FaUsersSlash size={40} />
-            </div>
-            <div style={{ textAlign: 'center', padding: '10%' }}>
-              <Typography variant="h6" color="red">Blocked Users</Typography>
-              <Typography variant="h6" color="red">{result?.blockedCount}</Typography>
-            </div>
-          </Paper>
-        </Grid>
-        <Grid item xs={8} md={3}>
-          <Paper
-            elevation={10}
-            sx={{
-              display: 'flex',
-              width: '15rem',
-              height: '10rem',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <div>
-              <MdVerified size={40} />
-            </div>
-            <div style={{ textAlign: 'center', padding: '10%' }}>
-              <Typography variant="h6" color="red">Verified Users</Typography>
-              <Typography variant="h6" color="red">{result?.verifiedCount}</Typography>
-            </div>
-          </Paper>
-        </Grid>
+    <Grid
+      container
+      spacing={10}
+      alignItems="center"
+      justifyContent="center"
+      p={2}
+      sx={{
+        flexDirection: {
+          xs: "column",
+          sm: "row",
+          md: "row",
+          lg: "row",
+        },
+      }}
+    >
+        <Card icon={<FiUsers size={40}/>} title={"Total user"} value={result?.userCount}/>
+        <Card icon={<FaUsersSlash size={40} />} title={"Blocked User"} value={result?.blockedCount} /> 
+        <Card icon={<MdVerified size={40}  />} title={"Verified Users"} value={result?.verifiedCount} /> 
+        <Card icon={<MdOutlinePostAdd size={40}  />} title={"Total Products"} value={result?.postCount} /> 
       </Grid>
-      <Grid container spacing={4} columns={16} alignItems="center" justifyContent="center" p={2}>
-        <Charts />
-      </Grid>
+      <Grid
+      container
+      spacing={4}
+      columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}
+      alignItems="center"
+      justifyContent="center"
+      p={2}
+      sx={{
+        "@media (max-width: 600px)": {
+          columns: 4,
+        },
+        "@media (min-width: 601px) and (max-width: 960px)": {
+          columns: 8,
+        },
+        "@media (min-width: 961px) and (max-width: 1280px)": {
+          columns: 12,
+        },
+        "@media (min-width: 1281px)": {
+          columns: 16,
+        },
+      }}
+    >
+      <Charts />
+    </Grid>
     </>
   );
 }

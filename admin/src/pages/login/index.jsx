@@ -1,7 +1,7 @@
 /* eslint-disable */
 import {Box, Typography, TextField, Button, Grid, Stack,} from '@mui/material';
 import React, { useState } from 'react';
-import axios from '../../axios/axios.js'
+import { loginAdmin } from 'api/api.js';
 import { useNavigate } from "react-router-dom";
 import { login } from '../../features/userSlice'
 import { useDispatch } from "react-redux";
@@ -10,55 +10,25 @@ function Login() {
   const navigate = useNavigate()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
-  const [error, setError] = useState()
+  const [error, setError] = useState(false)
   const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
     const admin = {
-      email: email,
-      password: password,
+      email,
+      password,
     }
 
-    axios.post('/auth/admin-login' ,admin).then((res)=>{
+    loginAdmin(admin).then((res)=>{
         dispatch(login(admin))
         navigate('/dashboard')
     }).catch((err)=>{
-      console.log(err);
-      // setError(err.response.data.massage)
+      setError(true)
     })
-    // Axios.post('/login', { admin }, {
-    //   headers: { "Content-Type": "application/json" },
-    //   withCredentials: true,
-    // }).then((response) => {
-    //  
-    //   if(response.status === 401){
-    //     console.log('ifff')
-    //     throw new Error
-    //   }
-    // }).catch((err) => {
-    //   console.log(err)
-    //   setError('incorrect username or password')
-    // })
+
   }
-  // function redirect(e) {
-  //   e.preventDefault()
-  //   const admin={
-  //     email: email,
-  //     password: password,
-  //     accessToken:'hjjhj454454'
-  //   }
-  //   Axios.post('/adminlogin', { admin }, {
-  //     headers: { "Content-Type": "application/json" },
-  //     withCredentials: true,
-  //   }).then((response) => {
-  //     dispatch(adminlogin(admin)) 
-  //     navigate('/adminhome')
-  //   }).catch(() => {
-  //     setError('incorrect username or password')
-  //   })
-  // }
 
   return (
     <Grid
@@ -85,7 +55,7 @@ function Login() {
           <form onSubmit={(e) => handleSubmit(e)}>
             <Typography variant="h5" color="initial">
               Admin Login
-            {error?<p style={{color:"red"}}>{error}</p>:null}
+            {error&&<p style={{color:"red"}}>wrong username or password</p>}
             </Typography>
             <Grid
               container

@@ -6,8 +6,8 @@ import { useParams } from 'react-router';
 
 function SingleProduct() {
   const {id} = useParams()
-  const {result,error,loading } = useFetch(`/single-product/${id}`)
-console.log(result.link)
+  const {result,error,loading } = useFetch(`/products/product-detail/${id}`)
+console.log(result)
 const [isModalOpen, setIsModalOpen] = useState(false)
 const [open, setOpen] = useState(false);
 const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -33,15 +33,15 @@ const handlePrevImage = () => {
   return (
     <Box className='searchItem' sx={{padding:"20px",backgroundColor:"#edebeb"}}>
        <Box>
-        {/* {result?.link?.map((imageUrl, index) => ( */}
+        {result?.link?.map((imageUrl, index) => (
           <img
-            // key={index}
-            src={result.link[0]}
+            key={index}
+            src={imageUrl}
             alt="sadsad"
             className="searchItemImg"
             onClick={() => handleImageClick(index)}
           />
-        {/* ))} */}
+        ))}
       </Box>
       <Modal open={isModalOpen} onClose={handleCloseModal} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', maxWidth: "100vw", maxHeight: "100vh",overflow:'scroll'}}>
         <Box sx={{ maxWidth: "60%", maxHeight: "60%" }}>

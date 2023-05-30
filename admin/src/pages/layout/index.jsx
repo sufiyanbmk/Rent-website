@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, useMediaQuery } from '@mui/material';
 import { Outlet } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Navbar from '../../global/Navbar';
 // import Sidebar from '../../global/Sidebar';
 import Sidebar from '../../global/Sidebarr';
@@ -21,6 +22,7 @@ function Layout() {
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />
+        <Toaster />
         <Outlet />
       </Box>
     </Box>

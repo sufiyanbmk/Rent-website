@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, IconButton } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
@@ -10,15 +10,15 @@ import { Menu as MenuIcon } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { remove } from '../features/userSlice';
+import LogoutModal from '../component/ConfirmModal';
 
 function Navbar({ isSidebarOpen, setIsSidebarOpen }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showModal, setShowModal] = useState(false);
   function logout() {
-    if (window.confirm('Are you sure you want to Logout?')) {
-      navigate('/login');
-      dispatch(remove());
-    }
+    navigate('/login');
+    dispatch(remove());
   }
 
   return (
@@ -28,7 +28,7 @@ function Navbar({ isSidebarOpen, setIsSidebarOpen }) {
       </IconButton>
       {/* SEARCH BAR */}
       <Box
-        display="flex"
+        display={{ xs: 'none', sm: 'flex' }}
         backgroundColor="#727681"
         borderRadius="3px"
       >
@@ -49,10 +49,17 @@ function Navbar({ isSidebarOpen, setIsSidebarOpen }) {
         <IconButton>
           <PersonOutlinedIcon />
         </IconButton>
-        <IconButton onClick={() => logout()}>
+        <IconButton onClick={() => setShowModal(true)}>
           <LogoutIcon />
         </IconButton>
       </Box>
+      {showModal && (
+        <LogoutModal
+          onConfirm={() => logout()}
+          type="Logout"
+          onClose={() => setShowModal(false)}
+        />
+      )}
     </Box>
   );
 }

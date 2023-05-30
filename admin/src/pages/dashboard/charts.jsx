@@ -6,14 +6,20 @@ import { PieChart } from './pieChart';
 
 function Charts() {
   return (
-    <Box display="flex flex-row" p={10} gap={5} justifyContent="space-between">
-      <Paper sx={{ width: '600px' }}>
+    <Box
+      display="flex"
+      flexWrap="wrap"
+      p={10}
+      gap={5}
+      justifyContent="space-between"
+    >
+      <Paper sx={{ width: { xs: '100%', sm: 'calc(50% - 20px)' } }}>
         <UserGraph />
       </Paper>
-      <Paper sx={{ width: '600px' }}>
+      <Paper sx={{ width: { xs: '100%', sm: 'calc(50% - 20px)' } }}>
         <ProductGraph />
       </Paper>
-      <Paper sx={{ width: '600px' }}>
+      <Paper sx={{ width: { xs: '100%', sm: 'calc(50% - 20px)' } }}>
         <PieChart />
       </Paper>
     </Box>

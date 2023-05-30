@@ -18,7 +18,7 @@ function ReportPost() {
   const [isReportShowing, setIsReportShowing] = useState(false);
   const navigate = useNavigate();
   const [deletepost, setDeletepost] = useState(false);
-  const { result, error, loading } = useFetch('/admin/reported-product')
+  const { result, error, loading, refetch } = useFetch('/admin/reported-product')
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleDelete = (productId) => {
@@ -57,7 +57,7 @@ function ReportPost() {
             <TableBody>
               {result?.map((row, i) => (
                 <TableRow
-                  key={row._id}
+                  key={i}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
@@ -81,6 +81,7 @@ function ReportPost() {
                     <DeleteModal
                       onConfirm={() => handleDeleteModalConfirm(row._id)}
                       type='delete'
+                      onClose={() => setShowDeleteModal(false)}
                     />
                   )}
                 </TableRow>

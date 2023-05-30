@@ -6,24 +6,18 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../component/Headers";
 import { useNavigate } from "react-router-dom";
 import { addCatagory } from "api/api";
+import toast from 'react-hot-toast'
 
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const navigate = useNavigate();
   const handleFormSubmit = async(values) => {
-    console.log(values);
     try {
       const res = await addCatagory(values)
-      if (!res.ok){         
-        alert(result.message)
-        navigate('/addCatagory')
-        return
-      } 
-      console.log(result.data)
+      toast.success("successfully added")
       navigate('/catagory')
     } catch (err) {
-      console.log(err)
-      // dispatch({ type: 'LOGIN_FAILED', payload: err.message })
+      toast.error('Name is already exist')
     }
   };
 
@@ -74,7 +68,7 @@ const Form = () => {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.discription}
-                name="discription"
+                name="description"
                 error={!!touched.discription && !!errors.discription}
                 helperText={touched.discription && errors.discription}
                 sx={{ gridColumn: "span 2" }}
@@ -98,11 +92,11 @@ const phoneRegExp =
 
 const checkoutSchema = yup.object().shape({
   title: yup.string().required("required"),
-  discription: yup.string().required("required"),
+  description: yup.string().required("required"),
 });
 const initialValues = {
   title: "",
-  discription: "",
+  description: "",
 };
 
 export default Form;

@@ -2,18 +2,19 @@
 import { Box, Typography, useTheme, Button, Switch} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { Link } from "react-router-dom";
 import Header from "../../component/Headers";
 import useFetch from "hooks/useFetch";
 import axios from "../../axios/axios";
+import { blockandUnblock } from "api/api";
+import toast from 'react-hot-toast';
 
 const User = () => {
   const { result, error, loading } = useFetch('/admin/users')
   const blockUser = (email,block) => {
-    axios.put('/block-user', { email,block }).then(() => {
-
+    blockandUnblock(email,block).then(() => {
+      toast.success("successFull")
     }).catch((err) => {
-      console.log(err);
+      toast.error("error occured ,try again later")
     });
   };
   

@@ -83,7 +83,6 @@ const Product = ({
 
 const Products = () => {
   const { result, error, loading } = useFetch('/admin/products')
-  console.log(result)
   const isNonMobile = useMediaQuery("(min-width: 1000px)");
 
   return (

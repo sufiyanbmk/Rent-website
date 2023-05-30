@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -18,8 +18,8 @@ function PostGraph() {
     productChart()
       .then((res) => {
         const counts = {};
-        res?.data.data?.forEach((user) => {
-          const date = new Date(user.createdAt).toLocaleDateString();
+        res?.data.forEach((user) => {
+          const date = new Date(user._id).toLocaleDateString();
           counts[date] = counts[date] ? counts[date] + 1 : 1;
         });
         setUserCount(counts);

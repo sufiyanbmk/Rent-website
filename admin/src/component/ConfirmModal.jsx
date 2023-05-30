@@ -10,12 +10,12 @@ import {
 } from "@mui/material";
 import { AiFillDelete } from 'react-icons/ai'
 
-export default function Modal({ onConfirm, type }) {
+export default function Modal({ onConfirm, type, onClose}) {
   const [open, setOpen] = useState(true);
 
   const handleClose = () => {
     setOpen(false);
-    onConfirm(false)
+    onClose(false)
   };
 
   const handleDelete = () => {
@@ -41,7 +41,7 @@ export default function Modal({ onConfirm, type }) {
             startIcon={<AiFillDelete />}
             onClick={handleDelete}
           >
-            Delete
+            {type}
           </Button>
           <Button onClick={handleClose} color="primary">
             Cancel

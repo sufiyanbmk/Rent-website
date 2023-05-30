@@ -8,15 +8,12 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 export function PieChart() {
-  const [productCount, setProductCount] = useState([]);
-  const [featuredProductCount, setFeaturedProductCount] = useState([]);
   const [details,setDetails]=useState({})
   useEffect(() => {
     pieChartProduct()
       .then((res) => {
-        setDetails(res.data.product)
-        setProductCount(res.data.featuredProduct);
-        setFeaturedProductCount(res.data?.data.featuredProduct)
+        console.log(res)
+        setDetails(res.data)
       })
       .catch((err) => console.log(err));
   }, []);
