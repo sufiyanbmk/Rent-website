@@ -1,4 +1,5 @@
 /* eslint-disable */
+import TimeAgo from 'react-timeago'
 const TextMsg = ({el}) =>{
   return(
     <div className={`chat ${el.incoming ? "chat-start" : "chat-end"}`} >
@@ -9,7 +10,7 @@ const TextMsg = ({el}) =>{
     </div> */}
     <div className="chat-header">
       
-      <time className="text-xs opacity-50">12:45</time>
+      <time className="text-xs opacity-50"><TimeAgo date ={el.time}/></time>
     </div>
     <div className={`chat-bubble ${el.incoming?"bg-red-200 text-black":"bg-yellow-300 text-black"}`}>{el?.message}</div>
     <div className="chat-footer opacity-50">

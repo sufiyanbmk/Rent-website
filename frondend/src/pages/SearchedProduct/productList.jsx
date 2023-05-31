@@ -45,7 +45,7 @@ const ProductList = forwardRef(({ data }, ref) => {
               </div>
               <div className="flex-grow p-4 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-2">
-                  <h2 className="text-2xl font-semibold text-gray-800">
+                  <h2 className="text-2xl font-semibold text-gray-800 uppercase">
                     {data.productName}
                   </h2>
                   {data?.featured.length >= 1 && (

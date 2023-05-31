@@ -4,6 +4,8 @@ import axios from '../Axios/axios'
 import { useNavigate } from "react-router-dom";
 import useLoginForm from '../hooks/useLoginForm';
 import {onSigninssubmit, recaptcha} from '../config/firebase'
+import { forgotPassword } from "../api/api";
+import toast from 'react-hot-toast'
 
 export default function Modal() {
   const [showModal, setShowModal] = React.useState(false);
@@ -38,8 +40,8 @@ export default function Modal() {
       }
     }else{
       try {
-        axios.post('/auth/forgot-password', { values }).then((res) => {
-          console.log(res.data.data)
+        forgotPassword(values).then((res) => {
+          console.log(res.data)
           setMsg(res.data);
         }).catch((err) => {
           setErr({message:"server is down ,try again Later"})

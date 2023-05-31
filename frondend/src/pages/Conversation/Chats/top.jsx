@@ -8,6 +8,7 @@ function Top() {
   const dispatch = useDispatch()
   const { current_conversation } = useSelector((state) => state.conversation.direct_chat);
   const { authData } = useSelector((state) => state.userLogin)
+
   return (
     <>
       <div className="p-2 w-full bg-white dark:bg-gray-800 shadow-md">
@@ -29,7 +30,7 @@ function Top() {
             {/* <button onClick={() => dispatch(StartVideoCall(current_conversation.user_id))}>
               <VideoCamera />
             </button> */}
-            <button onClick={() => dispatch(StartAudioCall({ to: current_conversation.user_id, from: authData._id }))}>
+            <button onClick={() => dispatch(StartAudioCall({ to: current_conversation.user_id, from: authData.id }))}>
               <Phone />
             </button>
             <div className="border-r border-gray-400 h-4"></div>

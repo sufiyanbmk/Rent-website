@@ -17,7 +17,7 @@ const ParentComponent = () => {
   const [page, setPage] = useState(0);
   const [images,setImage] = useState(null)
   const userInfo = useSelector((state) => state.userLogin)
-  const userId = userInfo.authData._id
+  const userId = userInfo.authData.id
   const dispatch = useDispatch();
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
@@ -108,15 +108,15 @@ const editProduct = useSelector((state) => {
     initialValues = {
       productName: editProduct.productName,
       price: editProduct.price,
-      catagory: editProduct.category,
+      catagory: editProduct.catagory,
       documents: editProduct.documents,
       description: editProduct.description,
       city: editProduct.city,
       address: editProduct.address,
       state: editProduct.state,
       terms: "",
-      link:editProduct.links, 
-      image:editProduct.file
+      link:editProduct.link, 
+      image:editProduct.image
     };
   }else{
     initialValues = {
@@ -229,7 +229,6 @@ const editProduct = useSelector((state) => {
   }
 
   const handleFile = (e) => {
-    console.log(e,'eeeeeeeeee')
     setImage(e)
     thirdValidateForm()
   }

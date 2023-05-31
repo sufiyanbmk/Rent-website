@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { OtpLogin } from '../../redux/actions/authAction';
+import { Login } from '../../redux/actions/authAction';
 import CryptoJS from 'crypto-js';
 import { sendOtpData } from "../../api/api";
 import toast from 'react-hot-toast';
@@ -39,7 +39,7 @@ const otpLogin = () => {
         sendOtpData(user).then((res) => {
           if(res.data.status === 'success'){
             console.log(res.data.userDetails)
-            dispatch(OtpLogin(res.data.userDetails))
+            dispatch(Login(res.data.userDetails))
             toast.success("successfully logged In")
             navigate('/')
           }

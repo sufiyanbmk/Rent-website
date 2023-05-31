@@ -4,10 +4,11 @@ import { USER_LOGIN, LOGOUT, SIGNIN_WITH_OTP, UPDATE_PROFILE_IMG, EDITED_PROFILE
 const authReducer = (state = {authData:null},{type,payload}) => {
   switch ( type ){
     case USER_LOGIN:
-      localStorage.setItem('profile',JSON.stringify({ ...payload}))
+      const token  = payload.token
+      localStorage.setItem('access_token',token)
       return {...state,authData:payload, loading: false, errors: null};
     case LOGOUT:
-      localStorage.removeItem("profile")
+      localStorage.removeItem("access_token")
       return { ...state, authData: null}
     case SIGNIN_WITH_OTP:
       localStorage.setItem('profile',JSON.stringify({ ...payload}))
@@ -17,12 +18,11 @@ const authReducer = (state = {authData:null},{type,payload}) => {
         ...state,
         authData: {
           ...state.authData,
-          Imglink: payload
+          profileImage: payload
         }
       }
     case EDITED_PROFILE:
       const updatedUser = { ...state.authData, ...payload };
-      console.log(updatedUser)
       return { authData: updatedUser, error: null };
       default: 
         return state;

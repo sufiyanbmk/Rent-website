@@ -4,7 +4,7 @@ import MessageShowing from "../../components/MessageShowing"
 
 export default function ChatWithSocket() {
   return (
-    <div className="artboard phone-1 border border-green-400 flex flex-col">
+    <div className=" flex flex-col">
       <MessageShowing />
         <Bottom />
     </div>

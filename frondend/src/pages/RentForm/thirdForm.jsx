@@ -6,15 +6,12 @@ import addFileIcon from '../../assets/images/addFileIcon.svg';
 
 const ThirdForm = ({ onChange, formValues, image, errors }) => {
   const [files, setFiles] = useState([]);
-  console.log(formValues.link)
 
   const handleUpload = (acceptedFiles) => {
-    console.log(acceptedFiles.length, 'accept ------------------')
     const file = acceptedFiles[0]
     setFiles(
       acceptedFiles.map((file) => Object.assign(file, { preview: URL.createObjectURL(file) }))
     );
-    console.log(files,'sdfsdfdssss')
     
   };
   useEffect(()=>{
@@ -110,7 +107,7 @@ const ThirdForm = ({ onChange, formValues, image, errors }) => {
             className="block text-gray-700 px-3 mt-2  text-sm font-bold mb-2"
             htmlFor="Terms"
           >
-            I agree all the Terms &amp; condition
+           I agree all the Terms &amp; condition
           </label>
           {errors.terms && <p className='text-red-700'>{errors.terms}</p>}
         </div>

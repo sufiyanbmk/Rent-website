@@ -20,7 +20,6 @@ const ChatInput = ({ showEmojiPicker, setShowEmojiPicker, value, setValue }) => 
   const { current_conversation } = useSelector(
     (state) => state.conversation.direct_chat
   );
-  console.log(current_conversation,'current')
   const { authData } = useSelector((state) => state.userLogin)
   const [showFileInput, setShowFileInput] = useState(false);
   const dispatch = useDispatch()

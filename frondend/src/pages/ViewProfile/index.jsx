@@ -21,7 +21,7 @@ function ViewProfile() {
       <Profile isSetEditModel={isSetEditModel} isSetDeleteModel= {isSetDeleteModel} isSetImageModel={isSetImageModel}/>
       {isEditModel?<EditModal userDetails={userDetails} isSetEditModel={isSetEditModel} />:''}
       {isDeleteModel?<DeleteModal onConfirm={()=>handleDeleteUser()} onClose = {() => isSetDeleteModel(false)}/>:''}
-      {isImageModel?<ImageCropModel showModal={isImageModel} setShowModal={isSetImageModel} id={userDetails.authData._id}/>:''}
+      {isImageModel?<ImageCropModel showModal={isImageModel} setShowModal={isSetImageModel} id={userDetails.authData.id}/>:''}
     </div>
   )
 }

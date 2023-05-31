@@ -20,7 +20,7 @@ function Profile({isSetEditModel,isSetDeleteModel,isSetImageModel}) {
     <div className="hover:scale-110 transition-all duration-500 bg-white rounded-xl shadow-2xl p-8 md:p-16 flex flex-col items-center">
       <div>
         {/* {isImagecrop && <ImageChangeModal showModal={isImagecrop} setShowModal={isSetImagecrop} id={userDetails.authData._id} />} */}
-        <img src={userDetails.authData.Imglink ? userDetails.authData.Imglink : image} alt="image" className="h-16 md:h-24 ring-2 ring-offset-2 rounded-full cursor-pointer" onClick={()=>isSetImageModel(true)} />
+        <img src={userDetails.authData?.profileImage ? userDetails.authData.profileImage : image} alt="image" className="h-16 md:h-24 ring-2 ring-offset-2 rounded-full cursor-pointer" onClick={()=>isSetImageModel(true)} />
         <div className={`absolute ${isdropdownVisible ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`}>
           <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
             <li>

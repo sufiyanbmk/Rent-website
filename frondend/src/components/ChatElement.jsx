@@ -2,6 +2,8 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { SelectConversation } from '../redux/actions/conversation'
+import image from '../assets/images/profileAvator.jpg';
+import TimeAgo from 'react-timeago'
 
 function ChatElement({ img, name, msg, time, unread, online, id }) {
   const dispatch = useDispatch();
@@ -27,18 +29,18 @@ function ChatElement({ img, name, msg, time, unread, online, id }) {
           {online ? (
             <div className="avatar online">
               <div className="w-12 rounded-full">
-                <img src={img} />
+                <img src={img || image} />
               </div>
             </div>
           ) : (
             <div className="avatar offline">
               <div className="w-12 rounded-full">
-                <img src={img} />
+                <img src={img || image} />
               </div>
             </div>
           )}
           <div className="flex flex-col">
-            <p variant="subtitle2">{name}</p>
+            <p variant="subtitle2" className='text-black'>{name}</p>
             <p variant="caption">
           {truncateText(msg, 20)}
         </p>
@@ -48,11 +50,11 @@ function ChatElement({ img, name, msg, time, unread, online, id }) {
           <p
             sx={{ fontWeight: 600 }}
             variant="caption"
-            className="whitespace-nowrap"
+            className="whitespace-nowrap text-black"
           >
-            {time}
+          <TimeAgo date={time} />
           </p>
-          <div className="badge badge-primary">{unread}</div>
+          {/* <div className="badge badge-primary">{unread}</div> */}
         </div>
       </div>
     </div>

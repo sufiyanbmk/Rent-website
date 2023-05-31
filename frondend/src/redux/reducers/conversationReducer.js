@@ -9,14 +9,14 @@ import {
   FETCH_CURRENT_MESSAGES,
   SET_CURRENT_CONVERSATION,
   TYPING_STATUS,
-  CLEAR
+  CLEAR,
 } from "../constants/actionTypes";
 
 const initialState = {
   tab: 0,
   chat_type: null,
   room_id: null,
-  typing:false,
+  typing: false,
   direct_chat: {
     conversations: [],
     current_conversation: null,
@@ -24,7 +24,6 @@ const initialState = {
   },
   group_chat: {},
 };
-
 
 const conversationReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -38,15 +37,16 @@ const conversationReducer = (state = initialState, action) => {
         const user = el.participants.find(
           (elm) => elm._id.toString() !== action.payload.user_id
         );
+        const lastMessage = el.messages?.slice(-1)[0];
 
         return {
           id: el._id,
           user_id: user?._id,
-          name: `${user?.username}`,
+          name: `${user?.userName}`,
           online: user?.status === "Online",
           img: user?.profileImage,
-          msg: el.messages?.slice(-1)[0]?.text,
-          time: "9:36",
+          msg: lastMessage?.text,
+          time: lastMessage.created_at,
           unread: 0,
           about: user?.about,
         };
@@ -59,24 +59,22 @@ const conversationReducer = (state = initialState, action) => {
         },
       };
     case SELECT_CONVERSATION:
-      console.log(action.payload,'select')
       return {
         ...state,
         chat_type: "individual",
         room_id: action.payload,
       };
     case UPDATE_DIRECT_CONVERSATION:
-      console.log(action.payload)
-      const thisConversation = action.payload.conversation
-      console.log(thisConversation)
+      const thisConversation = action.payload.conversation;
+      console.log(thisConversation);
       const updatedConversations = state.direct_chat.conversations.map(
         (conversation) => {
-          console.log(thisConversation._id._id)
           if (conversation.id !== thisConversation._id) {
             return conversation;
           }
           const user = thisConversation.participants.find(
-            (participant) => participant._id.toString() !== action.payload.user_id
+            (participant) =>
+              participant._id.toString() !== action.payload.user_id
           );
 
           return {
@@ -146,6 +144,7 @@ const conversationReducer = (state = initialState, action) => {
         type: "msg",
         subtype: el.type,
         message: el.text,
+        time:el.created_at,
         incoming: el.to === action.payload.user_id,
         outgoing: el.from === action.payload?.user_id,
       }));
@@ -165,11 +164,10 @@ const conversationReducer = (state = initialState, action) => {
         },
       };
     case TYPING_STATUS:
-      
-      return{
+      return {
         ...state,
-        typing:action.payload
-      }
+        typing: action.payload,
+      };
     case CLEAR:
       return direct_chat.conversation;
     default:

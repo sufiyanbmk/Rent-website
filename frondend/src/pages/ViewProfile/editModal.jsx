@@ -67,10 +67,10 @@ export default function EditModal({userDetails,isSetEditModel}) {
                         {isPassword ? 
                         <input className="p-2 rounded-lg bg-gray-700 mt-2 ml-6 focus:border-blue-500 focus:bg-gray-800 focus:outline-none" type='password' name='password' required onChange={handleChange} />
                         : 
-                        <input className="rounded-lg bg-gray-700 mt-2 p-2 ml-6 focus:border-blue-500 focus:bg-gray-800 focus:outline-none" type="text" required name='username' defaultValue={user.username} onChange={handleChange} />
+                        <input className="rounded-lg bg-gray-700 mt-2 p-2 ml-6 focus:border-blue-500 focus:bg-gray-800 focus:outline-none" type="text" required name='username' defaultValue={user.userName} onChange={handleChange} />
                         }
                       </label>
-                      {errors.username && <p className='text-red-700'>{errors.username}</p>}
+                      {errors.userName && <p className='text-red-700'>{errors.userName}</p>}
                     </div>
                     <div className="flex flex-col text-gray-400 py-2">
                       <label htmlFor="email">
@@ -79,14 +79,7 @@ export default function EditModal({userDetails,isSetEditModel}) {
                       </label>
                       {errors.email && <p className='text-red-700'>{errors.email}</p>}
                     </div>
-                    <div className="flex flex-col text-gray-400 py-2">
-                      <label htmlFor="email">
-                        Phone
-                        <input className="rounded-lg bg-gray-700 mt-2 p-2 ml-12 focus:border-blue-500 focus:bg-gray-800 focus:outline-none" type="number" name='phone' required onChange={handleChange} defaultValue={user.phone} />
-                      </label>
-                      {errors.phone && <p className='text-red-700'>{errors.phone}</p>}
-                    </div>
-                    <button className="text-white bg-blue-500">submit</button>
+                    <button className="text-white bg-blue-500 ml-48 mt-7 px-4 py-2 rounded-lg shadow-md">Submit</button>
                   </form>
 
                 </div>

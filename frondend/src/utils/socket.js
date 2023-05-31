@@ -9,7 +9,6 @@ const connectSocket = (token) => {
   });
 
   socket.on('disconnect', function() {
-    alert('disconnected')
     socket.emit("end", 'offline');
   });
 

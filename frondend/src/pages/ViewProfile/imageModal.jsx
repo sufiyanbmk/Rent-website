@@ -6,6 +6,7 @@ import dataURLtoFile from "../../utils/dataURLtoFile";
 import { useDispatch } from 'react-redux';
 import { UpdateProfileimg } from '../../redux/actions/authAction';
 import toast, { Toaster } from 'react-hot-toast';
+import { profileImg } from "../../api/api";
 
 export default function ImageChangeModal({ showModal, setShowModal, id }) {
   const [preview, setPreview] = useState(false);
@@ -26,12 +27,7 @@ export default function ImageChangeModal({ showModal, setShowModal, id }) {
     const convertedUrltoFile = dataURLtoFile(preview,'cropped-image.jpeg')
     const formData = new FormData();
     formData.append('image', convertedUrltoFile);
-    const config = {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
-    };
-    await axios.put(`/user/profile/${id}`, formData, config).then((res) => {
+    profileImg(id,formData).then((res) => {
       dispatch(UpdateProfileimg(res.data.data))
       toast.success('successfully Updated Img')
       setTimeout(() => {   

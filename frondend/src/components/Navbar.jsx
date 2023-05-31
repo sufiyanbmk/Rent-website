@@ -72,7 +72,7 @@ function Navbar() {
           <Button className="bg-blue-700 ml-8"><Link to="/rent-form">RENT FORM</Link></Button>
           {userInfo ? (
             <>
-            <img type="button" className="w-10 h-10 rounded-full cursor-pointer" src={userInfo.Imglink ? userInfo.Imglink : image}  alt="User dropdown" onClick={handleDropdown} />
+            <img type="button" className="w-10 h-10 ml-2 rounded-full cursor-pointer" src={userInfo.profileImage ? userInfo.profileImage : image}  alt="User dropdown" onClick={handleDropdown} />
               <div className={`absolute right-0 mt-72 w-48 origin-top-right ${isdropdownVisible ? '' : 'hidden'} bg-white divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}>
                 <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
                   <div>{userInfo.userName}</div>

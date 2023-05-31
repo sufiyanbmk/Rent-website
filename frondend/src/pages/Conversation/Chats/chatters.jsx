@@ -20,10 +20,8 @@ function Chatters() {
   const {conversations} = useSelector((state) => state.conversation?.direct_chat);
   const user_id = authData.id
   useEffect(() => {
-    console.log(socket,'socket')
     setTimeout(() => {     
       socket?.emit("get_direct_conversations", (data) => {
-        console.log(data,'data')
         dispatch(FetchDirectConversations({ conversations: data,user_id }));
       });
     }, 2000);
@@ -44,7 +42,7 @@ function Chatters() {
             }}
             className="p-1 rounded-full bg-blue-500 text-white focus:outline-none"
           >
-            BACK TO HOME PAGE
+            Exit From Message
           </button>
         </div>
       </div>

@@ -90,7 +90,7 @@ export default function LoginPage() {
           Don&#39;t have an account?
           <span className='text-blue-700 p-2'><Link to="/signup">Create Account</Link></span>
         </p>
-        <button className='inline-flex md:ml-60 w-72 items-center px-9 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150' onClick={login} ><FcGoogle /><span className='ml-2'>continue with google</span></button>
+        <button className='inline-flex ml-10 md:ml-60 w-72 items-center px-9 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150' onClick={login} ><FcGoogle /><span className='ml-2'>continue with google</span></button>
         <div className='p-8'>
           <Modal />
         </div>

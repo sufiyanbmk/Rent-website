@@ -11,7 +11,7 @@ import MessageShowing from '../../../components/MessageShowing'
 function Messagebox() {
   const scrollRef = useRef();
   const dispatch = useDispatch();
-  const { conversations, current_messages } = useSelector(
+  const { conversations, current_messages, current_conversation } = useSelector(
     (state) => state.conversation?.direct_chat
   );
   // console.log(current_messages,'currennt')
@@ -22,6 +22,7 @@ function Messagebox() {
     // console.log(current,'cusrrentttsdfdsdfsfsdsdfssdfsdfdfsdfsdff')
     socket?.emit("get_messages", { conversation_id: current?.id }, (data) => {
       // console.log(data,'ttttttttttttttttttttttttti')
+      // if(current_conversation._id !== )
       // data => list of messages
       dispatch(FetchCurrentMessages({ messages: data , user_id:authData.id}));
     });

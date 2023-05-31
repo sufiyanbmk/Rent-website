@@ -21,6 +21,7 @@ import Chats from './Chats'
 import { socket, connectSocket } from '../../utils/socket';
 import Call from './Call'
 import CallNotification from './Call/callNoltification';
+import toast from 'react-hot-toast'
 
 function Conversation() {
   const dispatch = useDispatch();
@@ -35,6 +36,9 @@ function Conversation() {
   const handleCloseAudioDialog = () => {
     dispatch(UpdateAudioCallDialog({ state: false }));
   };
+  const handleNotification = (id) => {
+    dispatch(SelectConversation({ room_id: id }));
+  }
   function removeSocketEventListeners() {
     socket?.off("start_chat");
     socket?.off("new_message");
@@ -43,14 +47,11 @@ function Conversation() {
   }
   // alert(socket?.connected )
   useEffect(() => {
-    console.log(socket, 'sokssee')
     if (!socket) {
       connectSocket(authData.token)
-      console.log(socket, 'sdfsijklj')
     }
 
     socket.on("audio_call_notification", (data) => {
-      // TODO => dispatch an action to add this in call_queue
       dispatch(PushToAudioCallQueue(data));
     });
 
@@ -59,9 +60,6 @@ function Conversation() {
 
     socket?.on("new_message", (data) => {
       const message = data.message;
-      console.log(message, 'hllmessagsdsdfsdfsdfsfsdffsdfe');
-      // check if msg we got is from currently selected conversation
-      console.log(current_conversation, data.message.conversation_id, 'check')
       if (current_conversation?.id === data.message.conversation_id) {
         dispatch(
           AddDirectMessage({
@@ -69,10 +67,25 @@ function Conversation() {
             type: "msg",
             subtype: message.type,
             message: message.text,
-            incoming: message.to === authData._id,
-            outgoing: message.from === authData._id,
+            time:message.created_at,
+            incoming: message.to === authData.id,
+            outgoing: message.from === authData.id,
           })
         );
+      }else{
+        if(message.type === "Text"){
+          toast((t) => (
+            <div className="bg-blue-500 text-white p-4 rounded-lg w-16">
+            <b>{message.text}</b>
+            <button onClick={() => handleNotification(data.message.conversation_id)} className="ml-2 bg-white text-blue-500 px-2 py-1 rounded">
+              Show Message
+            </button>
+            <button onClick={() => toast.dismiss(t.id)} className="ml-2 bg-white text-red-500 px-2 py-1 rounded">
+              Show Message
+            </button>
+          </div>
+          ));
+        }
       }
     });
 

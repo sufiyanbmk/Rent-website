@@ -6,25 +6,30 @@ function useFetchAxios(url) {
   const [data,setData] = useState([]);
   const [error,setError] = useState(null);
   const [isLoading,isSetLoading] = useState(false)
-  useEffect(()=> {
-    const fetchData = async()=>{
-      isSetLoading(true)
-      try {
-        const res = await axios.get(url);
-        setData(res.data)
-        isSetLoading(false)
-      } catch (err) {
-        setError(err.message)
-        isSetLoading(false)
-      }
+  const fetchData = async()=>{
+    isSetLoading(true)
+    try {
+      const res = await axios.get(url);
+      setData(res.data)
+      isSetLoading(false)
+    } catch (err) {
+      setError(err.message)
+      isSetLoading(false)
     }
+  }
+  useEffect(()=> {
     fetchData()
   },[url])
+
+  const refetch =()=>{
+    fetchData()
+  }
 
   return {
     data,
     error,
-    isLoading
+    isLoading,
+    refetch
   }
 }
 

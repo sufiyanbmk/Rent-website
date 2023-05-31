@@ -8,13 +8,12 @@ import Star from '../../components/Star';
 import user from '../../assets/images/user.png'
 import toast ,{Toaster} from 'react-hot-toast';
 
-function Review({ id, reviews }) {
+function Review({ id, reviews,refetch }) {
   const LoggedInUser = useSelector((state) => state.userLogin)
   const userInfo = LoggedInUser.authData
   const reviewMsgRef = useRef();
   const [rating, setRating] = useState(0);
   const [err, setErr] = useState(null);
-  const [reloadReviews, setReloadReviews] = useState(false);
   const handleStarClick = (selectedRating) => {
     setRating(selectedRating);
   };
@@ -32,8 +31,8 @@ function Review({ id, reviews }) {
       const {data} = await sendReview(reviewObj)
       console.log(data)
       if(data.status === "success"){
-        toast.success('Reported SuccessFully')
-        setReloadReviews(true);
+        toast.success('Reviewed SuccessFully')
+        refetch()
       }else{
         toast.error('You Already Reviewed')
       }
@@ -42,12 +41,6 @@ function Review({ id, reviews }) {
       setErr(err.response.data)
     }
   }
-  useEffect(() => {
-    if (reloadReviews) {
-      // load the reviews again here
-      setReloadReviews(false); // set the state to false to prevent infinite loop
-    }
-  }, [reloadReviews]);
 
   return (
     <div className='mt-4 rounded-lg p-8 border border-gray-300'>

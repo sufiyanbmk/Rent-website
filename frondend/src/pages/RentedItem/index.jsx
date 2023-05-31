@@ -11,12 +11,11 @@ import Actions from './actions';
 import { FaStar } from "react-icons/fa";
 
 function rentedItems() {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+  const userInfo = useSelector((state) => state.userLogin)
   const { rentedItems, error } = useSelector((state) => state.rentedItem);
   console.log(rentedItems)
   const dispatch = useDispatch();
-
-  const userId = user._id
+  const userId = userInfo.id
   useEffect(() => {
     dispatch(listRentedItem(userId))
   }, [dispatch]);
@@ -37,11 +36,11 @@ function rentedItems() {
           >
             <Actions proId={product._id} error={error} />
             <div className='w-full h-64 overflow-hidden'>
-              {/* <img
+              <img
                 className='w-full h-full object-center object-cover'
-                src={product?.links[0]}
+                src={product?.link[0]}
                 alt='product image'
-              /> */}
+              />
             </div>
             <div className='px-6 py-4'>
               <div className='mb-2'>
@@ -58,7 +57,7 @@ function rentedItems() {
                 </span>
                 
                 <span className='text-sm text-gray-900 dark:text-white'>
-                  {product.category}
+                  {product.catagory}
                 </span>
               </div>
               {product?.featured.length >= 1 ? <span className="badge badge-lg">FEATURED</span>:''}

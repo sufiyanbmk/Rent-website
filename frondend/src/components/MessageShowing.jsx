@@ -22,7 +22,7 @@ export default function MessageShowing() {
     socket?.emit("get_messages", { conversation_id: current?.id }, (data) => {
       // console.log(data,'ttttttttttttttttttttttttti')
       // data => list of messages
-      dispatch(FetchCurrentMessages({ messages: data , user_id:authData._id}));
+      dispatch(FetchCurrentMessages({ messages: data , user_id:authData.id}));
     });
 
     dispatch(SetCurrentConversation(current));

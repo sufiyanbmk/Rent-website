@@ -5,6 +5,10 @@ export function sendOtpData(data){
   return Axios.post('/auth/otp-login',data)
 }
 
+export function forgotPassword(values){
+  return Axios.post('/auth/forgot-password', { values })
+}
+
 // product 
 export async function  viewSearchedProduct (values, page) {
   const params = {
@@ -73,5 +77,17 @@ export function startAudioCall(to,from){
 }
 
 export function generateZegoToken({userID,roomID}){
+  console.log(userID,roomID)
   return Axios.post('/call/generate-zego-token',{ userId: userID, room_id: roomID,})
+}
+
+//users
+
+export function profileImg(id,formData){
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+  };
+  return Axios.put(`/user/profile/${id}`,formData,config)
 }
