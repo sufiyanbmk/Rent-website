@@ -4,7 +4,8 @@ import io from "socket.io-client";
 let socket;
 
 const connectSocket = (token) => {
-  socket = io("http://localhost:7000", {
+  socket = io("https://api.rentit.fun", {
+    path:'/api/socket.io/',
     query: {token},
   });
 
