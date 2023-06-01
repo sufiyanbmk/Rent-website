@@ -15,7 +15,7 @@ const otpLogin = () => {
   const dispatch = useDispatch()
   const seceretkey = process.env.REACT_APP_OTP_SECERET_KEY;
   const encryptData = (data) => {
-    const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), seceretkey).toString();
+    const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), 'my-secret-key').toString();
     return ciphertext;
   }
 

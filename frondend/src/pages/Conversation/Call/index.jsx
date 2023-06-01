@@ -12,8 +12,8 @@ function callDialog({ open, handleClose }) {
   const [call_details] = useSelector((state) => state.call.call_queue);
   const {incoming} = useSelector((state) => state.call);
   const audioStreamRef = useRef(null);
-  const appID = process.env.REACT_APP_ZEGO_CLOUD_APPID * 1
-  const server = process.env.REACT_APP_ZEGO_CLOUD_SERVER_URL
+  const appID = 271562548 * 1
+  const server = "wss://webliveroom271562548-api.coolzcloud.com/ws"
   const roomID = call_details?.roomID;
   const userID = call_details?.userID;
   const userName = call_details?.userName;
