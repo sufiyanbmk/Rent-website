@@ -45,7 +45,7 @@ export default function MessageShowing() {
         "
         > */}
           {/* <ul className="space-y-2"> */}
-            {current_messages.map((el, idx) => {
+            {current_messages?.map((el, idx) => {
               switch (el.type) {
                 case "divider":
                   return (
