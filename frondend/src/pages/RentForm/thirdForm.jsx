@@ -77,7 +77,6 @@ const ThirdForm = ({ onChange, formValues, image, errors }) => {
           </div>
 
           <div className="filesAccepted">
-            {errors.image && <p className='text-red-700'>{errors.image}</p>}
             {
               acceptedFiles[0] ? <p className='text-green-500 text-2xl'>🙂 Files accepted </p> : ''
             }

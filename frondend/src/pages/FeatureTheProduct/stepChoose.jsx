@@ -63,9 +63,7 @@ export default function StepChoose() {
                   </span>
                   <span>
                     <span className="text-xl font-bold text-gray-500">$</span>
-                    <span className="text-xl font-bold text-gray-900 -ml-1">{plan.price}</span>
-                    <span className="text-xl font-semibold text-gray-500">/</span>
-                    <span className="text-lg font-semibold text-gray-500">mo</span>
+                    <span className="text-xl font-bold text-gray-900 ml-1">{plan.price}</span>
                   </span>
                   <input
                     type="radio"

@@ -27,6 +27,7 @@ const Modal = ({ id }) => {
       }else{
         toast.error('You Already Reported')
       }
+      setform(false)
       setShowModal(false)
     } catch (err) {
       toast.error('Error Occured')

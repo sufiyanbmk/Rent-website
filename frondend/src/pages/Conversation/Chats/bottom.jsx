@@ -61,6 +61,7 @@ const ChatInput = ({ showEmojiPicker, setShowEmojiPicker, value, setValue }) => 
         size: file.size,
         fileBuffer,
       };
+      console.log('hiiiii')
       socket.emit("file_message",{message: file,
       conversation_id: room_id,
       from: authData.id,
@@ -153,7 +154,7 @@ function Bottom() {
               setShowEmojiPicker={setShowEmojiPicker}
             />
             {showEmojiPicker && (
-               <div className="absolute">
+               <div className="absolute md:mb-96">
                <Picker
                  className="dark:bg-gray-900 z-10"
                  onEmojiClick={handleEmojiClick}

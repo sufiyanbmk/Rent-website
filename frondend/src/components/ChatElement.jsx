@@ -19,7 +19,7 @@ function ChatElement({ img, name, msg, time, unread, online, id }) {
   }
   return (
     <div
-      className={`w-full p-2 rounded-md ${isSelected ? 'bg-white' : ''} `}
+      className={`w-full p-2 rounded-md ${isSelected ? 'bg-white' : 'bg-gray-100'} `}
       onClick={() => {
         dispatch(SelectConversation({ room_id: id }));
       }}

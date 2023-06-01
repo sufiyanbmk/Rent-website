@@ -58,7 +58,7 @@ function Review({ id, reviews,refetch }) {
       </div>
       <div className='flex items-center justify-between w-full p-2 rounded-2xl border border-yellow-100'>
         <input className='w-full py-2 border-0 focus:outline-none' type='text' ref={reviewMsgRef} placeholder='Share your thoughts' required />
-        <button className='bg-blue-800 text-white w-full max-w-xs rounded-lg' type='submit'>Submit</button>
+        <button className='bg-blue-800 text-white w-40 max-w-xs rounded-lg' type='submit'>Submit</button>
       </div>
     </form>
     {/* review map  */}

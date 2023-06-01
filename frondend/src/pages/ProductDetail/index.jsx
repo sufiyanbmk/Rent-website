@@ -22,7 +22,9 @@ import Skeleton from "./skeleton";
 function productDetail() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { data,isLoading,error,refetch } = useFetchAxios(`/products/product-detail/${id}`);
+  const { data, isLoading, error, refetch } = useFetchAxios(
+    `/products/product-detail/${id}`
+  );
   const product = data;
   const [isShowMessage, setIsShowMessage] = useState(false);
   const { authData } = useSelector((state) => state.userLogin);
@@ -129,19 +131,14 @@ function productDetail() {
             </h2>
             {review ? <Star stars={avgRating} reviews={review.length} /> : ""}
           </div>
-          <div className="mb-4 lg:mb-0 flex gap-x-2 text-sm justify-center lg:justify-start">
-            <div className=" text-black px-3 py-1 rounded-full">Catagory:</div>
-            <div className="bg-green-500 text-white px-3 py-1 rounded-full">
-              {product?.catagory}
-            </div>
-          </div>
-          <div className="text-3xl font-semibold text-violet-600 text-center lg:text-left">
-            Price:${product?.price}
-          </div>
         </div>
-        <div className="flex flex-col lg:flex-row item-start gap-8 lg:flex">
+        <div className="flex flex-col lg:flex-row item-start md:px-48 gap-8 lg:flex">
           <div className="w-3/5 py-6">
             {product?.link ? <MultipleImage imagesUrl={product?.link} /> : ""}
+            <div className="mt-6 text-gray-700 text-lg">
+              Catagory: {product?.catagory}
+            </div>
+
             <div className="mt-6 text-gray-700 text-lg">
               Address: {product?.address},{product?.city},{product?.state}
             </div>
@@ -156,8 +153,14 @@ function productDetail() {
               ))} */}
             </div>
           </div>
+          <div className="flex flex-col">
+            <div className="card md:w-96 bg-gray-400 text-primary-content">
+              <div className="card-body">
+                <h2 className="card-title text-black">Price:${product?.price}/Day</h2>
+              </div>
+            </div>
           {authData.id !== product.userId ? (
-            <div className="flex-1 bg-white-100 mt-6 lg:mb-0 border w-2/5 h-3/4  border-gray-300 dark:bg-gray-700 rounded-lg px-6 py-8">
+            <div className="flex-1 bg-white-100 mt-6 lg:mb-0 border h-3/4  border-gray-300 dark:bg-gray-600 rounded-lg px-6 py-8">
               <div className="flex flex-col lg:flex-row items-center gap-x-4 mb-8">
                 <div className="w-20 h-20 p-1 border border-gray-300 rounded-full">
                   <img
@@ -184,30 +187,30 @@ function productDetail() {
               {isShowMessage ? <ChatWithSocket /> : ""}
 
               {/* {isShowMessage ? ( */}
-              
-              
-                <div className="flex flex-col lg:flex-row gap-y-4 lg:gap-x-2">
-                  <button
-                    onClick={handleChat}
-                    className="bg-blue-700 hover:bg-blue-900 rounded text-white p-4 text-sm w-full lg:w-auto transition"
-                  >
-                    {isShowMessage?"Back":"Send Message"}
-                  </button>
-                  <button className="bg-black text-white hover:border-violet-500 hover:text-violet-500 rounded p-4 text-sm w-full lg:w-auto transition">
-                    Call
-                  </button>
-                </div>
-              
+
+              <div className="flex flex-col lg:flex-row gap-y-4 lg:gap-x-2">
+                <button
+                  onClick={handleChat}
+                  className="bg-blue-700 hover:bg-blue-900 rounded text-white p-4 text-sm w-full lg:w-auto transition"
+                >
+                  {isShowMessage ? "Back" : "Send Message"}
+                </button>
+                <button className="bg-black text-white hover:border-violet-500 hover:text-violet-500 rounded p-4 text-sm w-full lg:w-auto transition">
+                  Call
+                </button>
+              </div>
+
               {/* </form> */}
             </div>
           ) : (
             ""
           )}
+          </div>
         </div>
         <div>
           <Report id={id} />
         </div>
-        <Review id={id} reviews={product?.reviews} refetch ={refetch}/>
+        <Review id={id} reviews={product?.reviews} refetch={refetch} />
       </div>
       <Toaster />
     </section>

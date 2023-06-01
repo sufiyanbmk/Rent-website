@@ -84,7 +84,7 @@ export default function MessageShowing() {
                   return <></>;
               }
             })}
-          {typing? 'typing ...' : ''}
+          {typing ? 'typing ...' : ''}
 
         {/* </div> */}
       </div>

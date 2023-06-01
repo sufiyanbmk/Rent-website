@@ -27,13 +27,24 @@ const ProductList = forwardRef(({ data }, ref) => {
             </h1>
           ) : (
             <div className="w-full max-w-[26rem] rounded-lg overflow-hidden shadow-lg flex flex-col">
-              <div className="relative flex-shrink-0 h-52 overflow-hidden">
-                <img
+              <div className="relative  h-52 overflow-hidden">
+                <div className="w-full md:w-5/5 carousel rounded-box">
+                  {data.link.map((link, index) => (
+                    <div key={index} className="carousel-item w-full">
+                      <img
+                        src={link}
+                        className="w-full h-auto"
+                        alt="Tailwind CSS Carousel component"
+                      />
+                    </div>
+                  ))}
+                </div>
+                {/* <img
                   src={data.link[0]}
                   alt="Product Image"
                   className="w-full h-full object-cover object-center transition duration-300 transform hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
+                /> */}
+                {/* <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div> */}
                 <IconButton
                   size="sm"
                   color="red"
