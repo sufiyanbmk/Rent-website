@@ -12,9 +12,8 @@ import { FaStar } from "react-icons/fa";
 
 function rentedItems() {
   const { authData } = useSelector((state) => state.userLogin)
-  alert(authData.id)
   const { rentedItems, error } = useSelector((state) => state.rentedItem);
-  console.log(rentedItems)
+
   const dispatch = useDispatch();
   const userId = authData.id
   
