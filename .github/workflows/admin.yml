@@ -2,7 +2,7 @@ name: ReactApp
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "dev" ]
 
 defaults:
   run:
