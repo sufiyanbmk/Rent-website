@@ -35,7 +35,7 @@ function searchedProduct() {
 
   useEffect(() => {
     setValues({ state, catagory });
-    alert("okkay");
+  
   }, []);
   useEffect(() => {
     setProduct(results);
@@ -44,7 +44,6 @@ function searchedProduct() {
   const handleSearch = (e) => {
     const searchTerm = e.target.value;
     if (searchTerm.length === 0) {
-      alert("hiii");
       setPageNum(0);
       return setIsFilter(false);
     }

@@ -19,7 +19,6 @@ const audioCallReducer = (state = initialState , action) => {
         incoming : false
       }
     case PUSH_TO_AUDIO_CALL_QUEUE: {
-      alert('hiii')
         // console.log(action.payload)
       if (state.call_queue.length === 0) {    
           state.call_queue.push(action.payload.call);
@@ -37,7 +36,7 @@ const audioCallReducer = (state = initialState , action) => {
         return { ...state };
       }
     case UPDATE_CALL_DIALOG:
-      alert('action,',action.payload.state)
+   
       return{
         ...state,
         open_audio_dialog : action.payload,

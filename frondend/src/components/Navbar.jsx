@@ -32,7 +32,7 @@ function Navbar() {
   }
   const logout = () => {
     dispatch(Logout());
-    dispatch(clearRedux())
+    // dispatch(clearRedux())
     dispatch(ClearRentedItem())
     setUser(null);
     navigate('/')

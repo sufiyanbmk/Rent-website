@@ -25,7 +25,7 @@ const Form = () => {
       })
       const result = await res.json()
       if (!res.sucess){         
-        alert(result.message)
+ 
         navigate('/products')
         return
       } 

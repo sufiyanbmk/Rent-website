@@ -45,7 +45,6 @@ function Conversation() {
     socket?.off("typing");
     socket?.off("stop typing");
   }
-  // alert(socket?.connected )
   useEffect(() => {
     if (!socket) {
       connectSocket(authData.token)
@@ -90,7 +89,7 @@ function Conversation() {
     });
 
     socket.on("start_chat", (data) => {
-      alert(data)
+
       console.log(data, 'start chat');
       // add / update to conversation list
       const existing_conversation = conversations.find(

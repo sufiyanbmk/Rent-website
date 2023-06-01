@@ -12,7 +12,7 @@ function useFetch(url) {
         const res = await fetch(url)
         if(!res.ok){
           setError('failed to fetch')
-          alert('Error occured')
+   
         }
         const rresult = await res.json()
         setData(result.data)
