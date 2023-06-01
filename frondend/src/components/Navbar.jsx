@@ -8,6 +8,8 @@ import logo from '../assets/images/logo.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { Menu, Transition } from '@headlessui/react'
 import { Logout } from '../redux/actions/authAction';
+import {clearRedux} from '../redux/actions/conversation'
+import {ClearRentedItem} from '../redux/actions/rentedItems'
 import image from '../assets/images/profileAvator.jpg';
 
 function Navbar() {
@@ -30,6 +32,8 @@ function Navbar() {
   }
   const logout = () => {
     dispatch(Logout());
+    dispatch(clearRedux())
+    dispatch(ClearRentedItem())
     setUser(null);
     navigate('/')
   };

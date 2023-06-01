@@ -1,6 +1,6 @@
 /* eslint-disable */
 import axios from "../../Axios/axios";
-import { RENTED_PRODUCTS_FETCHED, RENTED_REMOVED_ITEM, RENTED_REMOVE_ITEM_ERROR } from "../constants/actionTypes";
+import { RENTED_PRODUCTS_FETCHED, RENTED_REMOVED_ITEM, RENTED_REMOVE_ITEM_ERROR, CLEAR_RENTED_ITEAM } from "../constants/actionTypes";
 
 export const listRentedItem = (id) => async (dispatch) => {
   try {
@@ -28,3 +28,7 @@ export const removeFromRentedItem = (id) => async (dispatch) => {
     throw err;
   }
 };
+
+export const ClearRentedItem = () => ({
+  type:CLEAR_RENTED_ITEAM
+})

@@ -169,7 +169,7 @@ const conversationReducer = (state = initialState, action) => {
         typing: action.payload,
       };
     case CLEAR:
-      return direct_chat.conversation;
+      return initialState;
     default:
       return state;
   }

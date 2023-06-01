@@ -11,11 +11,13 @@ import Actions from './actions';
 import { FaStar } from "react-icons/fa";
 
 function rentedItems() {
-  const userInfo = useSelector((state) => state.userLogin)
+  const { authData } = useSelector((state) => state.userLogin)
+  alert(authData.id)
   const { rentedItems, error } = useSelector((state) => state.rentedItem);
   console.log(rentedItems)
   const dispatch = useDispatch();
-  const userId = userInfo.id
+  const userId = authData.id
+  
   useEffect(() => {
     dispatch(listRentedItem(userId))
   }, [dispatch]);
