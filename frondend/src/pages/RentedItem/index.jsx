@@ -34,7 +34,7 @@ function rentedItems() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {rentedItems?.map((product, index) => {
             if (product.userId === authData.id) {
-              <div
+              return(<div
                 key={product._id}
                 className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl dark:bg-gray-800 dark:border-gray-700"
               >
@@ -80,7 +80,7 @@ function rentedItems() {
                     </button>
                   </div>
                 </div>
-              </div>;
+              </div>);
             }
           })}
         </div>
